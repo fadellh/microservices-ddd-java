@@ -4,18 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d293844d-7748-4a4e-b711-0613d207449e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/order-service/order-application/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/order-service/order-container/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/order-service/order-container/src/main/java/com/mwc/order/service/domain/BeanConfiguration.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/order-service/order-container/src/main/java/com/mwc/order/service/domain/OrderServiceApplication.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/order-service/order-container/src/main/resources/application.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/order-service/order-domain/order-domain-application-service/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/order-service/order-domain/order-domain-application-service/src/test/java/com/mwc/AppTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/order-service/order-domain/order-domain-core/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/order-service/order-domain/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/order-service/pom.xml" afterDir="false" />
+    <list default="true" id="d293844d-7748-4a4e-b711-0613d207449e" name="Changes" comment="resolves order service arch template #2">
+      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-application/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-container/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-container/src/main/resources/application.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-dataaccess/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-application-service/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-core/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-domain/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/inventory-service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
@@ -35,21 +33,21 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "fadellh"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;fadellh&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/fadellh/microservices-java.git",
-    "accountId": "44f0b75f-e288-4156-b73e-62c10ee624d9"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/fadellh/microservices-java.git&quot;,
+    &quot;accountId&quot;: &quot;44f0b75f-e288-4156-b73e-62c10ee624d9&quot;
   }
-}]]></component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 7
-}]]></component>
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
   <component name="ProjectId" id="2qFJWjajaUSp1CS0nvHrjGeC7VH" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -61,6 +59,8 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor": "Run",
+    "Maven.inventory-service [clean].executor": "Run",
+    "Maven.inventory-service [install].executor": "Run",
     "Maven.mwc-java [clean].executor": "Run",
     "Maven.mwc-java [install].executor": "Run",
     "Maven.mwc-java [validate].executor": "Run",
@@ -68,8 +68,12 @@
     "Maven.order-service [clean].executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "main",
-    "kotlin-language-version-configured": "true"
+    "git-widget-placeholder": "inventory-arch",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/fadellukmanhakim/fadel/mwc-java",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0"
   }
 }]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -81,6 +85,19 @@
       <option name="presentableId" value="Default" />
       <updated>1734252426783</updated>
     </task>
+    <task id="LOCAL-00001" summary="resolves order service arch template #2">
+      <option name="closed" value="true" />
+      <created>1734260121680</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1734260121680</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="resolves order service arch template #2" />
+    <option name="LAST_COMMIT_MESSAGE" value="resolves order service arch template #2" />
   </component>
 </project>

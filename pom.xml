@@ -11,6 +11,7 @@
   <url>http://maven.apache.org</url>
   <modules>
     <module>order-service</module>
+    <module>inventory-service</module>
   </modules>
 
   <properties>
