@@ -5,16 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d293844d-7748-4a4e-b711-0613d207449e" name="Changes" comment="resolves order service arch template #2">
-      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-application/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-container/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-container/src/main/resources/application.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-dataaccess/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-application-service/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-core/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-domain/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/inventory-service/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/common/common-domain/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/common/common-domain/src/main/java/com/mwc/domain/entity/AggregateRoot.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/common/common-domain/src/main/java/com/mwc/domain/entity/BaseEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/common/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
@@ -68,7 +63,7 @@
     "Maven.order-service [clean].executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "inventory-arch",
+    "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/Users/fadellukmanhakim/fadel/mwc-java",
     "project.structure.last.edited": "Modules",
