@@ -1,0 +1,27 @@
+server:
+  port: 8080
+
+logging:
+  level:
+    com.mwc: DEBUG
+
+spring:
+  jpa:
+    open-in-view: false
+    show-sql: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=order,customer,product&binaryTransfer=true&reWriteBatchedInserts=true&stringtype=unspecified
+    username: fadellh
+    password: password
+    driver-class-name: org.postgresql.Driver
+    schema-locations: classpath:init-schema.sql,classpath:user-schema.sql,classpath:product-schema.sql
+  sql:
+    init:
+      platform: postgres
+      mode: never
+      schema-locations: classpath:init-schema.sql,classpath:user-schema.sql,classpath:product-schema.sql
+      data-locations: classpath:product-data.sql,classpath:user-data.sql
