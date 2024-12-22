@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d293844d-7748-4a4e-b711-0613d207449e" name="Changes" comment="resolve #8: create api preview order">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="d293844d-7748-4a4e-b711-0613d207449e" name="Changes" comment="add git ignore" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -132,14 +129,23 @@
       <option name="project" value="LOCAL" />
       <updated>1734776928678</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="add git ignore">
+      <option name="closed" value="true" />
+      <created>1734838043175</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1734838043175</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="resolves order service arch template #2" />
     <MESSAGE value="add common domain" />
     <MESSAGE value="resolve #8: create api preview order" />
-    <option name="LAST_COMMIT_MESSAGE" value="resolve #8: create api preview order" />
+    <MESSAGE value="add git ignore" />
+    <option name="LAST_COMMIT_MESSAGE" value="add git ignore" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/mwc_java$OrderServiceApplication.ic" NAME="OrderServiceApplication Coverage Results" MODIFIED="1734664478864" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
