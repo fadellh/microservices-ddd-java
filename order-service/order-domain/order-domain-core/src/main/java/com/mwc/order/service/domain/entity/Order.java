@@ -10,10 +10,12 @@ import java.util.List;
 import java.util.UUID;
 
 public class Order extends AggregateRoot<OrderId> {
+
     private final CustomerId customerId;
     private final StreetAddress deliveryAddress;
-    private final Money price;
-    private final List<OrderItem> items;
+    private final WarehouseId warehouseId;
+    private Money price;
+    private List<OrderItem> items;
 
     private OrderStatus orderStatus;
     private List<String> failureMessages;
@@ -33,7 +35,16 @@ public class Order extends AggregateRoot<OrderId> {
     }
 
     public BigDecimal calculateItemsTotalAmount() {
-        return items.stream().map(orderItem -> orderItem.getSubTotal().getAmount()).reduce(BigDecimal.ZERO, BigDecimal::add);
+        return items.stream()
+                .map(orderItem -> {
+                    BigDecimal subTotal = orderItem.getSubTotal().getAmount();
+                    return subTotal != null ? subTotal : BigDecimal.ZERO;
+                })
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    public void initiateOrder() {
+        orderStatus = OrderStatus.AWAITING_PAYMENT;
     }
 
     public void pay() {
@@ -76,7 +87,7 @@ public class Order extends AggregateRoot<OrderId> {
     }
 
     private void validateInitialOrder() {
-        if (orderStatus != null || getId() != null) {
+        if (orderStatus == null || getId() == null) {
             throw new OrderDomainException("Order is not in correct state for initialization!");
         }
     }
@@ -113,9 +124,18 @@ public class Order extends AggregateRoot<OrderId> {
         }
     }
 
+    public void setItems(List<OrderItem> items) {
+        this.items = items;
+    }
+
+    public void setPrice(Money price) {
+        this.price = price;
+    }
+
     private Order(Builder builder) {
         super.setId(builder.orderId);
         customerId = builder.customerId;
+        warehouseId = builder.warehouseId;
         deliveryAddress = builder.deliveryAddress;
         price = builder.price;
         items = builder.items;
@@ -129,6 +149,10 @@ public class Order extends AggregateRoot<OrderId> {
 
     public CustomerId getCustomerId() {
         return customerId;
+    }
+
+    public WarehouseId getWarehouseId() {
+        return warehouseId;
     }
 
 
@@ -156,6 +180,7 @@ public class Order extends AggregateRoot<OrderId> {
     public static final class Builder {
         private OrderId orderId;
         private CustomerId customerId;
+        private WarehouseId warehouseId;
         private StreetAddress deliveryAddress;
         private Money price;
         private List<OrderItem> items;
@@ -175,6 +200,10 @@ public class Order extends AggregateRoot<OrderId> {
             return this;
         }
 
+        public Builder warehouseId(WarehouseId val) {
+            warehouseId = val;
+            return this;
+        }
 
         public Builder deliveryAddress(StreetAddress val) {
             deliveryAddress = val;

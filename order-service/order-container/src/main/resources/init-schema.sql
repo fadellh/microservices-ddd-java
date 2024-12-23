@@ -5,7 +5,7 @@ CREATE SCHEMA "order";
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 DROP TYPE IF EXISTS order_status;
-CREATE TYPE order_status AS ENUM ('PENDING', 'PAID', 'APPROVED', 'CANCELLED', 'CANCELLING');
+CREATE TYPE order_status AS ENUM ('AWAITING_PAYMENT', 'REVIEW_PAYMENT', 'APPROVED', 'CANCELLED', 'CANCEL_PENDING');
 
 DROP TABLE IF EXISTS "order".orders CASCADE;
 
@@ -13,9 +13,12 @@ CREATE TABLE "order".orders
 (
     id uuid NOT NULL,
     customer_id uuid NOT NULL,
-    price numeric(10,2) NOT NULL,
+    warehouse_id uuid NOT NULL,
     order_status order_status NOT NULL,
     failure_messages character varying COLLATE pg_catalog."default",
+    customer_address character varying COLLATE pg_catalog."default",
+    shipping_cost numeric(10,2),
+    total_amount numeric(10,2),
     CONSTRAINT orders_pkey PRIMARY KEY (id)
 );
 
@@ -48,6 +51,8 @@ CREATE TABLE "order".order_address
     street character varying COLLATE pg_catalog."default" NOT NULL,
     postal_code character varying COLLATE pg_catalog."default" NOT NULL,
     city character varying COLLATE pg_catalog."default" NOT NULL,
+    latitude double precision,
+    longitude double precision,
     CONSTRAINT order_address_pkey PRIMARY KEY (id, order_id)
 );
 

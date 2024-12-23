@@ -1,12 +1,9 @@
 package com.mwc.order.service.domain.mapper;
 
-import com.mwc.domain.valueobject.CustomerId;
-import com.mwc.domain.valueobject.Money;
-import com.mwc.domain.valueobject.ProductId;
-import com.mwc.order.service.domain.dto.create.OrderAddress;
-import com.mwc.order.service.domain.dto.create.PreviewOrderCommand;
-import com.mwc.order.service.domain.dto.create.PreviewOrderResponse;
+import com.mwc.domain.valueobject.*;
+import com.mwc.order.service.domain.dto.create.*;
 import com.mwc.order.service.domain.entity.*;
+import com.mwc.order.service.domain.entity.OrderItem;
 import com.mwc.order.service.domain.valueobject.StreetAddress;
 import org.springframework.stereotype.Component;
 
@@ -21,23 +18,23 @@ public class OrderDataMapper {
 
     public Order previewOrderCommandToOrder(PreviewOrderCommand previewOrderCommand) {
         return Order.builder()
-                    .customerId(new CustomerId(previewOrderCommand.getCustomerId()))
-                    .items(orderItemsToOrderItemEntities(previewOrderCommand.getItems()))
-                    .deliveryAddress(orderAddressToStreetAddress(previewOrderCommand.getAddress()))
-                    .build();
+                .customerId(new CustomerId(previewOrderCommand.getCustomerId()))
+                .items(orderItemsToOrderItemEntities(previewOrderCommand.getItems()))
+                .deliveryAddress(orderAddressToStreetAddress(previewOrderCommand.getAddress()))
+                .build();
     }
 
-private List<OrderItem> orderItemsToOrderItemEntities(
-        @NotNull List<com.mwc.order.service.domain.dto.create.OrderItem> orderItems) {
-    return orderItems.stream()
-            .map(orderItem ->
-                    OrderItem.builder()
-                            .product(new Product(new ProductId(orderItem.getProductId())))
-                            .price(new Money(orderItem.getPrice()))
-                            .quantity(orderItem.getQuantity())
-                            .subTotal(new Money(orderItem.getSubTotal()))
-                            .build()).collect(Collectors.toList());
-}
+    private List<OrderItem> orderItemsToOrderItemEntities(
+            @NotNull List<com.mwc.order.service.domain.dto.create.OrderItem> orderItems) {
+        return orderItems.stream()
+                .map(orderItem ->
+                        OrderItem.builder()
+                                .product(new Product(new ProductId(orderItem.getProductId())))
+                                .price(new Money(orderItem.getPrice()))
+                                .quantity(orderItem.getQuantity())
+                                .subTotal(new Money(orderItem.getSubTotal()))
+                                .build()).collect(Collectors.toList());
+    }
 
     public PreviewOrderResponse orderToPreviewOrderResponse(Order order, BigDecimal totalAmount, BigDecimal shippingCost, BigDecimal discount) {
         return PreviewOrderResponse.builder()
@@ -64,4 +61,22 @@ private List<OrderItem> orderItemsToOrderItemEntities(
                 orderAddress.getCity()
         );
     }
+
+    public Order createOrderCommandToOrder(CreateOrderCommand createOrderCommand) {
+        return Order.builder()
+                .orderId(new OrderId(UUID.randomUUID()))
+                .customerId(new CustomerId(createOrderCommand.getCustomerId()))
+                .warehouseId(new WarehouseId(createOrderCommand.getWarehouseId()))
+                .items(orderItemsToOrderItemEntities(createOrderCommand.getItems()))
+                .deliveryAddress(orderAddressToStreetAddress(createOrderCommand.getAddress()))
+                .build();
+    }
+
+    public CreateOrderResponse orderToCreateOrderResponse(Order order) {
+        return CreateOrderResponse.builder()
+                .orderStatus(order.getOrderStatus())
+                .message("Order created successfully")
+                .build();
+    }
+
 }
