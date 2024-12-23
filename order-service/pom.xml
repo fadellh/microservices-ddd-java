@@ -12,6 +12,7 @@
         <module>order-container</module>
         <module>order-application</module>
         <module>order-dataaccess</module>
+        <module>order-messaging</module>
     </modules>
 
     <artifactId>order-service</artifactId>

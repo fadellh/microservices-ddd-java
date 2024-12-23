@@ -20,6 +20,7 @@
     <module>order-service</module>
     <module>inventory-service</module>
     <module>common</module>
+    <module>infrastructure</module>
   </modules>
 
   <properties>
@@ -28,6 +29,7 @@
     <maven.compiler.target>17</maven.compiler.target>
     <spring.boot.maven.plugin.version>3.3.5</spring.boot.maven.plugin.version>
     <spring.boot.dependecies.version>3.3.5</spring.boot.dependecies.version>
+    <avro.version>1.12.0</avro.version>
   </properties>
 
   <dependencyManagement>

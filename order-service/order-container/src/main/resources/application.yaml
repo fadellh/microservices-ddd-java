@@ -6,6 +6,11 @@ logging:
     com.mwc: DEBUG
 
 spring:
+  # Tell Spring to include the "secrets" profile by default
+  # so it merges application-secrets.yml properties if present.
+  profiles:
+    include: secrets
+
   jpa:
     open-in-view: false
     show-sql: true
@@ -13,10 +18,9 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres?currentSchema=order,customer,product,warehouse&binaryTransfer=true&reWriteBatchedInserts=true&stringtype=unspecified
-    username: fadellh
-    password: password
     driver-class-name: org.postgresql.Driver
     schema-locations: classpath:init-schema.sql,classpath:user-schema.sql,classpath:product-schema.sql
   sql:
@@ -31,3 +35,50 @@ spring:
 #      mode: never
 #      schema-locations: classpath:init-schema.sql,classpath:user-schema.sql,classpath:product-schema.sql
 #      data-locations: classpath:product-data.sql,classpath:user-data.sql
+
+order-service:
+  orderCreateTopicName: order-create-request
+  orderCreateResponseTopicName: order-create-response
+
+# ----------------------------------------------------------------
+# KAFKA CONFIG FOR CONFLUENT CLOUD
+# ----------------------------------------------------------------
+kafka-config:
+  bootstrap-servers: pkc-ew3qg.asia-southeast2.gcp.confluent.cloud:9092
+  schema-registry-url-key: schema.registry.url
+  schema-registry-url: https://psrc-epk8y.australia-southeast1.gcp.confluent.cloud
+  num-of-partitions: 3
+  replication-factor: 3
+  security-protocol: SASL_SSL
+  sasl-mechanism: PLAIN
+  # The SASL JAAS config goes in application-secrets.yml
+
+# Producer configs
+kafka-producer-config:
+  key-serializer-class: org.apache.kafka.common.serialization.StringSerializer
+  value-serializer-class: io.confluent.kafka.serializers.KafkaAvroSerializer
+  compression-type: snappy
+  acks: all
+  batch-size: 16384
+  batch-size-boost-factor: 100
+  linger-ms: 5
+  request-timeout-ms: 60000
+  retry-count: 5
+
+# Consumer configs
+kafka-consumer-config:
+  key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+  value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+  auto-offset-reset: earliest
+  specific-avro-reader-key: specific.avro.reader
+  specific-avro-reader: true
+  batch-listener: true
+  auto-startup: true
+  concurrency-level: 3
+  session-timeout-ms: 10000
+  heartbeat-interval-ms: 3000
+  max-poll-interval-ms: 300000
+  max-poll-records: 500
+  max-partition-fetch-bytes-default: 1048576
+  max-partition-fetch-bytes-boost-factor: 1
+  poll-timeout-ms: 150
