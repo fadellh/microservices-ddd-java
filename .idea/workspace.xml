@@ -4,7 +4,52 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d293844d-7748-4a4e-b711-0613d207449e" name="Changes" comment="add git ignore" />
+    <list default="true" id="d293844d-7748-4a4e-b711-0613d207449e" name="Changes" comment="add git ignore">
+      <change afterPath="$PROJECT_DIR$/common/common-domain/src/main/java/com/mwc/domain/DomainConstants.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/common/common-domain/src/main/java/com/mwc/domain/valueobject/InventoryId.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/common/common-domain/src/main/java/com/mwc/domain/valueobject/WarehouseId.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-core/src/main/java/com/mwc/inventory/service/domain/InventoryDomainService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-core/src/main/java/com/mwc/inventory/service/domain/InventoryDomainServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-core/src/main/java/com/mwc/inventory/service/domain/entity/Inventory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-core/src/main/java/com/mwc/inventory/service/domain/entity/Product.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-core/src/main/java/com/mwc/inventory/service/domain/entity/Warehouse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-core/src/main/java/com/mwc/inventory/service/domain/event/InventoryEvent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-core/src/main/java/com/mwc/inventory/service/domain/event/StockUpdatedEvent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-core/src/main/java/com/mwc/inventory/service/domain/exception/NegativeQuantityException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-core/src/main/java/com/mwc/inventory/service/domain/exception/WarehouseDomainException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-core/src/main/java/com/mwc/inventory/service/domain/valueobject/Location.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-core/src/main/java/com/mwc/inventory/service/domain/valueobject/WarehouseStatus.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-service/order-container/src/main/resources/warehouse-data.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-service/order-container/src/main/resources/warehouse-schema.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-service/order-dataaccess/src/main/java/com/mwc/order/service/dataaccess/warehouse/adapter/WarehouseRepositoryImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-service/order-dataaccess/src/main/java/com/mwc/order/service/dataaccess/warehouse/entity/WarehouseEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-service/order-dataaccess/src/main/java/com/mwc/order/service/dataaccess/warehouse/mapper/WarehouseDataAccessMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-service/order-dataaccess/src/main/java/com/mwc/order/service/dataaccess/warehouse/repository/WarehouseJpaRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-service/order-domain/order-domain-application-service/src/main/java/com/mwc/order/service/domain/ports/output/message/publisher/NoOpOrderCreatedMessagePublisher.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-service/order-domain/order-domain-application-service/src/main/java/com/mwc/order/service/domain/ports/output/message/publisher/OrderCreatedMessagePublisher.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-service/order-domain/order-domain-application-service/src/main/java/com/mwc/order/service/domain/ports/output/repository/OrderRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-service/order-domain/order-domain-application-service/src/main/java/com/mwc/order/service/domain/ports/output/repository/WarehouseRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-service/order-domain/order-domain-core/src/main/java/com/mwc/order/service/domain/entity/Warehouse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-core/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-core/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order-service/order-container/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/order-service/order-container/src/main/resources/application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order-service/order-container/src/main/resources/init-schema.sql" beforeDir="false" afterPath="$PROJECT_DIR$/order-service/order-container/src/main/resources/init-schema.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order-service/order-dataaccess/src/main/java/com/mwc/order/service/dataaccess/order/adapater/OrderRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/order-service/order-dataaccess/src/main/java/com/mwc/order/service/dataaccess/order/adapater/OrderRepositoryImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order-service/order-dataaccess/src/main/java/com/mwc/order/service/dataaccess/order/entity/OrderAddressEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/order-service/order-dataaccess/src/main/java/com/mwc/order/service/dataaccess/order/entity/OrderAddressEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order-service/order-dataaccess/src/main/java/com/mwc/order/service/dataaccess/order/entity/OrderEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/order-service/order-dataaccess/src/main/java/com/mwc/order/service/dataaccess/order/entity/OrderEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order-service/order-dataaccess/src/main/java/com/mwc/order/service/dataaccess/order/mapper/OrderDataAccessMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/order-service/order-dataaccess/src/main/java/com/mwc/order/service/dataaccess/order/mapper/OrderDataAccessMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order-service/order-dataaccess/src/main/java/com/mwc/order/service/dataaccess/order/repository/OrderJpaRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/order-service/order-dataaccess/src/main/java/com/mwc/order/service/dataaccess/order/repository/OrderJpaRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order-service/order-domain/order-domain-application-service/src/main/java/com/mwc/order/service/domain/OrderApplicationServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/order-service/order-domain/order-domain-application-service/src/main/java/com/mwc/order/service/domain/OrderApplicationServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order-service/order-domain/order-domain-application-service/src/main/java/com/mwc/order/service/domain/OrderCreateCommandHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/order-service/order-domain/order-domain-application-service/src/main/java/com/mwc/order/service/domain/OrderCreateCommandHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order-service/order-domain/order-domain-application-service/src/main/java/com/mwc/order/service/domain/OrderCreateHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/order-service/order-domain/order-domain-application-service/src/main/java/com/mwc/order/service/domain/OrderCreateHelper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order-service/order-domain/order-domain-application-service/src/main/java/com/mwc/order/service/domain/dto/create/CreateOrderCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/order-service/order-domain/order-domain-application-service/src/main/java/com/mwc/order/service/domain/dto/create/CreateOrderCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order-service/order-domain/order-domain-application-service/src/main/java/com/mwc/order/service/domain/mapper/OrderDataMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/order-service/order-domain/order-domain-application-service/src/main/java/com/mwc/order/service/domain/mapper/OrderDataMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order-service/order-domain/order-domain-core/src/main/java/com/mwc/order/service/domain/OrderDomainService.java" beforeDir="false" afterPath="$PROJECT_DIR$/order-service/order-domain/order-domain-core/src/main/java/com/mwc/order/service/domain/OrderDomainService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order-service/order-domain/order-domain-core/src/main/java/com/mwc/order/service/domain/OrderDomainServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/order-service/order-domain/order-domain-core/src/main/java/com/mwc/order/service/domain/OrderDomainServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order-service/order-domain/order-domain-core/src/main/java/com/mwc/order/service/domain/entity/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/order-service/order-domain/order-domain-core/src/main/java/com/mwc/order/service/domain/entity/Order.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order-service/order-domain/order-domain-core/src/main/java/com/mwc/order/service/domain/entity/OrderItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/order-service/order-domain/order-domain-core/src/main/java/com/mwc/order/service/domain/entity/OrderItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order-service/order-domain/order-domain-core/src/main/java/com/mwc/order/service/domain/valueobject/OrderItemId.java" beforeDir="false" afterPath="$PROJECT_DIR$/order-service/order-domain/order-domain-core/src/main/java/com/mwc/order/service/domain/valueobject/OrderItemId.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -13,14 +58,19 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Exception" />
         <option value="Enum" />
+        <option value="Exception" />
         <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="preview-order" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -46,31 +96,31 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.OrderServiceApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.inventory-service [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.inventory-service [install].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.mwc-java [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.mwc-java [install].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.mwc-java [validate].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.order-container [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.order-container [install].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.order-domain-application-service [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.order-service [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.order-service [install].executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;preview-order&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/fadellukmanhakim/fadel/mwc-java&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.OrderServiceApplication.executor": "Run",
+    "Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor": "Run",
+    "Maven.inventory-service [clean].executor": "Run",
+    "Maven.inventory-service [install].executor": "Run",
+    "Maven.mwc-java [clean].executor": "Run",
+    "Maven.mwc-java [install].executor": "Run",
+    "Maven.mwc-java [validate].executor": "Run",
+    "Maven.order-container [clean].executor": "Run",
+    "Maven.order-container [install].executor": "Run",
+    "Maven.order-domain-application-service [clean].executor": "Run",
+    "Maven.order-service [clean].executor": "Run",
+    "Maven.order-service [install].executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "create-order",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/fadellukmanhakim/fadel/mwc-java",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "com.github.copilot.settings.ApplicationConfigurable"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.mwc.order.service.domain" />
@@ -146,6 +196,47 @@
     <MESSAGE value="resolve #8: create api preview order" />
     <MESSAGE value="add git ignore" />
     <option name="LAST_COMMIT_MESSAGE" value="add git ignore" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/order-service/order-domain/order-domain-application-service/src/main/java/com/mwc/order/service/domain/OrderCreateHelper.java</url>
+          <line>70</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/order-service/order-domain/order-domain-core/src/main/java/com/mwc/order/service/domain/OrderDomainServiceImpl.java</url>
+          <line>23</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/order-service/order-domain/order-domain-core/src/main/java/com/mwc/order/service/domain/OrderDomainServiceImpl.java</url>
+          <line>28</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/order-service/order-domain/order-domain-core/src/main/java/com/mwc/order/service/domain/entity/Order.java</url>
+          <line>31</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/order-service/order-domain/order-domain-core/src/main/java/com/mwc/order/service/domain/entity/Order.java</url>
+          <line>33</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/order-service/order-domain/order-domain-core/src/main/java/com/mwc/order/service/domain/entity/Order.java</url>
+          <line>32</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/order-service/order-domain/order-domain-core/src/main/java/com/mwc/order/service/domain/entity/Order.java</url>
+          <line>89</line>
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/mwc_java$OrderServiceApplication.ic" NAME="OrderServiceApplication Coverage Results" MODIFIED="1734664478864" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">

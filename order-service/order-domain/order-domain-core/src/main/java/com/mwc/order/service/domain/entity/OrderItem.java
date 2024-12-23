@@ -1,15 +1,16 @@
 package com.mwc.order.service.domain.entity;
 
 import com.mwc.domain.entity.BaseEntity;
-import com.mwc.domain.valueobject.*;
-import com.mwc.order.service.domain.valueobject.*;
+import com.mwc.domain.valueobject.Money;
+import com.mwc.domain.valueobject.OrderId;
+import com.mwc.order.service.domain.valueobject.OrderItemId;
 
 public class OrderItem extends BaseEntity<OrderItemId> {
     private OrderId orderId;
     private final Product product;
     private final int quantity;
     private final Money price;
-    private final Money subTotal;
+    private Money subTotal;
 
     void initializeOrderItem(OrderId orderId, OrderItemId orderItemId) {
         this.orderId = orderId;
@@ -20,6 +21,10 @@ public class OrderItem extends BaseEntity<OrderItemId> {
         return price.isGreaterThanZero() &&
                 price.equals(product.getPrice()) &&
                 price.multiply(quantity).equals(subTotal);
+    }
+
+    public void calculateSubTotal() {
+        this.subTotal = price.multiply(quantity);
     }
 
     private OrderItem(Builder builder) {
@@ -33,7 +38,6 @@ public class OrderItem extends BaseEntity<OrderItemId> {
     public static Builder builder() {
         return new Builder();
     }
-
 
     public OrderId getOrderId() {
         return orderId;

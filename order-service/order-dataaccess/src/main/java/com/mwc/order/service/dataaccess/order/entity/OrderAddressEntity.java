@@ -3,40 +3,27 @@ package com.mwc.order.service.dataaccess.order.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Objects;
 import java.util.UUID;
 
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "order_address")
+@Builder
 @Entity
+@Table(name = "order_address")
 public class OrderAddressEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "ORDER_ID")
-    private OrderEntity order;
-
-    private String street;
-    private String postalCode;
     private String city;
-    private String latitude;
-    private String longitude;
+    private Double latitude;
+    private Double longitude;
+    private String postalCode;
+    private String street;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        OrderAddressEntity that = (OrderAddressEntity) o;
-        return id.equals(that.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private OrderEntity order;
 }

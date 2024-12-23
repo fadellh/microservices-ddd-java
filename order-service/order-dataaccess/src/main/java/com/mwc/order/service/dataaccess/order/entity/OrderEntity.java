@@ -18,9 +18,14 @@ import java.util.UUID;
 @Entity
 public class OrderEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
+
     private UUID customerId;
-    private BigDecimal price;
+    private String customerAddress;
+    private UUID warehouseId;
+    private BigDecimal totalAmount;
+    private BigDecimal shippingCost; // Add this field
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
     private String failureMessages;

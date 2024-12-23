@@ -16,6 +16,8 @@ public class CreateOrderCommand {
     @NotNull
     private final UUID customerId;
     @NotNull
+    private final UUID warehouseId;
+    @NotNull
     private final List<OrderItem> items;
     @NotNull
     private final OrderAddress address;
