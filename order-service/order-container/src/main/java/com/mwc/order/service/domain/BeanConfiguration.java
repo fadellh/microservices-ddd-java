@@ -1,7 +1,11 @@
 package com.mwc.order.service.domain;
 
+
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+
 @Configuration
 public class BeanConfiguration {
 
@@ -9,4 +13,5 @@ public class BeanConfiguration {
     public OrderDomainService orderDomainService() {
         return new OrderDomainServiceImpl();
     }
+
 }

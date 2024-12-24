@@ -1,4 +1,5 @@
-INSERT INTO warehouse.warehouses (id, name) VALUES
-(uuid_generate_v4(), 'Warehouse 1'),
-(uuid_generate_v4(), 'Warehouse 2'),
-(uuid_generate_v4(), 'Warehouse 3');
+INSERT INTO warehouse.warehouses (id, name)
+VALUES
+('11111111-1111-1111-1111-111111111111', 'Warehouse 1'),
+('11111111-1111-1111-1111-222222222222', 'Warehouse 2'),
+('11111111-1111-1111-1111-333333333333', 'Warehouse 3');
