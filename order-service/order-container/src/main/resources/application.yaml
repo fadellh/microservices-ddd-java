@@ -6,11 +6,9 @@ logging:
     com.mwc: DEBUG
 
 spring:
-  # Tell Spring to include the "secrets" profile by default
-  # so it merges application-secrets.yml properties if present.
+  # Always include the "secrets" profile so we also load `application-secrets.yml`
   profiles:
     include: secrets
-
   jpa:
     open-in-view: false
     show-sql: true
@@ -28,20 +26,14 @@ spring:
       platform: postgres
       mode: always
       schema-locations: classpath:init-schema.sql
-#      data-locations: classpath:warehouse-data.sql
-#  sql:
-#    init:
-#      platform: postgres
-#      mode: never
-#      schema-locations: classpath:init-schema.sql,classpath:user-schema.sql,classpath:product-schema.sql
-#      data-locations: classpath:product-data.sql,classpath:user-data.sql
 
+# Example application-level config
 order-service:
   orderCreateTopicName: order-create-request
   orderCreateResponseTopicName: order-create-response
 
 # ----------------------------------------------------------------
-# KAFKA CONFIG FOR CONFLUENT CLOUD
+# KAFKA CONFIG FOR CONFLUENT CLOUD (common or default)
 # ----------------------------------------------------------------
 kafka-config:
   bootstrap-servers: pkc-ew3qg.asia-southeast2.gcp.confluent.cloud:9092
@@ -51,7 +43,6 @@ kafka-config:
   replication-factor: 3
   security-protocol: SASL_SSL
   sasl-mechanism: PLAIN
-  # The SASL JAAS config goes in application-secrets.yml
 
 # Producer configs
 kafka-producer-config:
@@ -65,7 +56,7 @@ kafka-producer-config:
   request-timeout-ms: 60000
   retry-count: 5
 
-# Consumer configs
+# Consumer configs (if needed for Avro consumer)
 kafka-consumer-config:
   key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
   value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer

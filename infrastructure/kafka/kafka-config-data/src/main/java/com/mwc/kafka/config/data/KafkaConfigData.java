@@ -15,8 +15,13 @@ public class KafkaConfigData {
     private Integer numOfPartitions;
     private Short replicationFactor;
 
+
     // 1) Add these fields for SASL/SSL config
     private String securityProtocol;   // e.g. SASL_SSL
     private String saslMechanism;      // e.g. PLAIN
     private String saslJaasConfig;     // e.g. org.apache.kafka.common.security.plain.PlainLoginModule ...
+    private String schemaRegistryUserInfo;      // e.g. PLAIN
+    private String schemaRegistryUserInfoKey;      // e.g. PLAIN
+    private String schemaRegistryBasicAuthUserInfo;      // e.g. PLAIN
+    private String schemaRegistryBasicAuthUserInfoKey;      // e.g. PLAIN
 }

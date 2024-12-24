@@ -32,13 +32,22 @@ public class KafkaProducerConfig<K extends Serializable, V extends SpecificRecor
     public Map<String, Object> producerConfig() {
         Map<String, Object> props = new HashMap<>();
 
-        // Basic Confluent (or any Kafka) connection
+        // 1) Basic Confluent (or any Kafka) connection
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaConfigData.getBootstrapServers());
 
-        // If you're using Confluent's Schema Registry
+        // 2) If using Confluent's Schema Registry
+        // The key is something like "schema.registry.url"
         props.put(kafkaConfigData.getSchemaRegistryUrlKey(), kafkaConfigData.getSchemaRegistryUrl());
+//        props.put(kafkaConfigData.getSchemaRegistryUrl(), kafkaConfigData.getSchemaRegistryUrl());
+//        props.put("basic.auth.credentials.source", "USER_INFO");
+//        props.put("schema.registry.basic.auth.user.info", kafkaConfigData.getSchemaRegistryBasicAuthUserInfo());
 
-        // Producer serialization configs
+//        props.put("schema.registry.url", kafkaConfigData.getSchemaRegistryUrl());
+        props.put(kafkaConfigData.getSchemaRegistryUserInfoKey(), kafkaConfigData.getSchemaRegistryUserInfo());
+        props.put(kafkaConfigData.getSchemaRegistryBasicAuthUserInfoKey(), kafkaConfigData.getSchemaRegistryBasicAuthUserInfo());
+
+
+        // 3) Producer serialization configs
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, kafkaProducerConfigData.getKeySerializerClass());
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, kafkaProducerConfigData.getValueSerializerClass());
         props.put(ProducerConfig.BATCH_SIZE_CONFIG,
@@ -49,7 +58,7 @@ public class KafkaProducerConfig<K extends Serializable, V extends SpecificRecor
         props.put(ProducerConfig.REQUEST_TIMEOUT_MS_CONFIG, kafkaProducerConfigData.getRequestTimeoutMs());
         props.put(ProducerConfig.RETRIES_CONFIG, kafkaProducerConfigData.getRetryCount());
 
-        // Security (SASL_SSL, PLAIN, etc.)
+        // 4) Security for Kafka (SASL_SSL, PLAIN, etc.)
         props.put("security.protocol", kafkaConfigData.getSecurityProtocol());
         props.put("sasl.mechanism", kafkaConfigData.getSaslMechanism());
         props.put("sasl.jaas.config", kafkaConfigData.getSaslJaasConfig());

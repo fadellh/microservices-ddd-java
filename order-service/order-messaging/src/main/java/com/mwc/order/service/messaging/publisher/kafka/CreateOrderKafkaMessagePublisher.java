@@ -48,11 +48,11 @@ public class CreateOrderKafkaMessagePublisher implements OrderCreatedMessagePubl
             );
 
             log.info("OrderCreateAvroModel sent to Kafka for order id: {}", orderCreateAvroModel.getId());
+            log.info("Order requested sent to Kafka");
         } catch (Exception e) {
             log.error("Error while sending OrderCreateAvroModel message" +
                     " to kafka with order id: {}, error: {}", orderId, e.getMessage());
         }
 
-        log.info("Order requested sent to Kafka");
     }
 }
