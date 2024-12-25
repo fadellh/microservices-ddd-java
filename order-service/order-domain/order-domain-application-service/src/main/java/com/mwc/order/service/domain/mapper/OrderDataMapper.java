@@ -2,6 +2,8 @@ package com.mwc.order.service.domain.mapper;
 
 import com.mwc.domain.valueobject.*;
 import com.mwc.order.service.domain.dto.create.*;
+import com.mwc.order.service.domain.dto.create.payment.CreatePaymentCommand;
+import com.mwc.order.service.domain.dto.create.payment.CreatePaymentResponse;
 import com.mwc.order.service.domain.entity.*;
 import com.mwc.order.service.domain.entity.OrderItem;
 import com.mwc.order.service.domain.valueobject.StreetAddress;
@@ -76,6 +78,23 @@ public class OrderDataMapper {
         return CreateOrderResponse.builder()
                 .orderStatus(order.getOrderStatus())
                 .message("Order created successfully")
+                .build();
+    }
+
+
+    public CreatePaymentResponse paymentToCreatePaymentResponse(Payment payment) {
+       return CreatePaymentResponse.builder()
+               .paymentProofUrl(payment.getProofUrl())
+               .paymentStatus(payment.getStatus())
+               .message("Upload Success")
+               .build();
+    }
+
+
+    public Payment createPaymentCommandToPayment(CreatePaymentCommand createPaymentCommand) {
+        return Payment.builder()
+                .paymentId(new PaymentId(UUID.randomUUID()))
+                .orderId(new OrderId(createPaymentCommand.getOrderId()))
                 .build();
     }
 

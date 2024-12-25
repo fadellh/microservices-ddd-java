@@ -38,15 +38,9 @@ public class KafkaProducerConfig<K extends Serializable, V extends SpecificRecor
         // 2) If using Confluent's Schema Registry
         // The key is something like "schema.registry.url"
         props.put(kafkaConfigData.getSchemaRegistryUrlKey(), kafkaConfigData.getSchemaRegistryUrl());
-//        props.put(kafkaConfigData.getSchemaRegistryUrl(), kafkaConfigData.getSchemaRegistryUrl());
-//        props.put("basic.auth.credentials.source", "USER_INFO");
-//        props.put("schema.registry.basic.auth.user.info", kafkaConfigData.getSchemaRegistryBasicAuthUserInfo());
-
-//        props.put("schema.registry.url", kafkaConfigData.getSchemaRegistryUrl());
         props.put(kafkaConfigData.getSchemaRegistryUserInfoKey(), kafkaConfigData.getSchemaRegistryUserInfo());
         props.put(kafkaConfigData.getSchemaRegistryBasicAuthUserInfoKey(), kafkaConfigData.getSchemaRegistryBasicAuthUserInfo());
-
-
+        
         // 3) Producer serialization configs
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, kafkaProducerConfigData.getKeySerializerClass());
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, kafkaProducerConfigData.getValueSerializerClass());

@@ -58,6 +58,7 @@ public class OrderDataAccessMapper {
                 .deliveryAddress(orderAddressEntityToStreetAddress(orderEntity.getAddress()))
                 .warehouseId(new WarehouseId(orderEntity.getWarehouseId()))
                 .items(orderItemEntitiesToOrderItems(orderEntity.getItems()))
+                .price(new Money(orderEntity.getTotalAmount()))
                 .orderStatus(orderEntity.getOrderStatus())
                 .failureMessages(Arrays.asList(orderEntity.getFailureMessages().split(",")))
                 .build();

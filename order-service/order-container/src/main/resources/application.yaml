@@ -20,12 +20,12 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres?currentSchema=order,customer,product,warehouse&binaryTransfer=true&reWriteBatchedInserts=true&stringtype=unspecified
     driver-class-name: org.postgresql.Driver
-    schema-locations: classpath:init-schema.sql,classpath:user-schema.sql,classpath:product-schema.sql
+    schema-locations: classpath:init-schema.sql,classpath:user-schema.sql,classpath:product-schema.sql,classpath:payment-schema.sql
   sql:
     init:
       platform: postgres
       mode: always
-      schema-locations: classpath:init-schema.sql
+      schema-locations: classpath:payment-schema.sql
 
 # Example application-level config
 order-service:

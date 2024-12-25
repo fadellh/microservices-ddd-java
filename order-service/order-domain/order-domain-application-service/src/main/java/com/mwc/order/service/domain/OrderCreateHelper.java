@@ -1,21 +1,27 @@
 package com.mwc.order.service.domain;
 
+import com.google.cloud.storage.BlobInfo;
+import com.google.cloud.storage.Storage;
+import com.google.cloud.storage.StorageOptions;
+import com.mwc.domain.valueobject.PaymentId;
+import com.mwc.domain.valueobject.PaymentStatus;
+import com.mwc.domain.valueobject.PaymentMethod;
 import com.mwc.order.service.domain.dto.create.CreateOrderCommand;
+import com.mwc.order.service.domain.dto.create.payment.CreatePaymentCommand;
+import com.mwc.order.service.domain.dto.create.payment.CreatePaymentResponse;
 import com.mwc.order.service.domain.entity.*;
 import com.mwc.order.service.domain.event.OrderCreatedEvent;
 import com.mwc.order.service.domain.exception.OrderDomainException;
 import com.mwc.order.service.domain.mapper.OrderDataMapper;
 import com.mwc.order.service.domain.ports.output.message.publisher.OrderCreatedMessagePublisher;
-import com.mwc.order.service.domain.ports.output.repository.CustomerRepository;
-import com.mwc.order.service.domain.ports.output.repository.OrderRepository;
-import com.mwc.order.service.domain.ports.output.repository.ProductRepository;
-import com.mwc.order.service.domain.ports.output.repository.WarehouseRepository;
+import com.mwc.order.service.domain.ports.output.repository.*;
 import com.mwc.order.service.domain.valueobject.OrderItemId;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.math.BigDecimal;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -31,9 +37,14 @@ public class OrderCreateHelper {
     private final ProductRepository productRepository;
     private final WarehouseRepository warehouseRepository;
     private final OrderRepository orderRepository;
+    private final PaymentRepository paymentRepository;
+
+
     private final OrderDomainService orderDomainService;
     private final OrderCreatedMessagePublisher orderCreatedEventDomainEventPublisher;
+    private final Storage storage = StorageOptions.getDefaultInstance().getService();
 
+    private static final String BUCKET_NAME = "pay-file";
 
 
     private final AtomicLong orderItemIdGenerator = new AtomicLong();
@@ -42,6 +53,7 @@ public class OrderCreateHelper {
                              CustomerRepository customerRepository,
                              ProductRepository productRepository,
                              WarehouseRepository warehouseRepository,
+                             PaymentRepository paymentRepository,
                              OrderRepository orderRepository,
                              OrderDomainService orderDomainService,
                              OrderCreatedMessagePublisher orderCreatedEventDomainEventPublisher
@@ -53,6 +65,7 @@ public class OrderCreateHelper {
         this.orderRepository = orderRepository;
         this.orderDomainService = orderDomainService;
         this.orderCreatedEventDomainEventPublisher = orderCreatedEventDomainEventPublisher;
+        this.paymentRepository = paymentRepository;
     }
 
 
@@ -129,5 +142,51 @@ public class OrderCreateHelper {
             throw new OrderDomainException("Could not find warehouse with warehouse id: " + warehouseId);
         }
     }
+
+
+    private Payment uploadFileToGCS(CreatePaymentCommand createPaymentCommand, Order order) throws IOException {
+        MultipartFile paymentProofFile = createPaymentCommand.getPaymentProofFile();
+
+        // Generate unique filename
+        String fileName = UUID.randomUUID().toString() + "-" + paymentProofFile.getOriginalFilename();
+
+        // Upload file to GCS
+        BlobInfo blobInfo = storage.create(
+                BlobInfo.newBuilder(BUCKET_NAME, fileName).build(),
+                paymentProofFile.getInputStream()
+        );
+
+        // Log success
+        log.info("Payment proof file uploaded successfully to GCS: {}", fileName);
+
+        return Payment.builder()
+                .paymentId(new PaymentId(UUID.randomUUID()))
+                .orderId(order.getId())
+                .amount(order.getPrice())
+                .proofUrl(String.format("https://storage.googleapis.com/%s/%s", BUCKET_NAME, fileName))
+                .status(PaymentStatus.PENDING_VERIFICATION)
+                .paymentMethod(PaymentMethod.TRANSFER_UPLOAD)
+                .build();
+    }
+
+    @Transactional
+    public CreatePaymentResponse uploadPayment(CreatePaymentCommand createPaymentCommand) {
+        try {
+            // Get order and update payment status
+            Order order = orderRepository.findById(createPaymentCommand.getOrderId())
+                    .orElseThrow(() -> new OrderDomainException("Order not found for id: " + createPaymentCommand.getOrderId()));
+
+            // Upload file to GCS
+            Payment payment = uploadFileToGCS(createPaymentCommand, order);
+            // Save payment to repository
+            paymentRepository.save(payment);
+
+            return orderDataMapper.paymentToCreatePaymentResponse(payment);
+        } catch (IOException e) {
+            log.error("Error uploading payment proof file to GCS: {}", e.getMessage());
+            throw new OrderDomainException("Failed to upload payment proof file to GCS", e);
+        }
+    }
+
 
 }
