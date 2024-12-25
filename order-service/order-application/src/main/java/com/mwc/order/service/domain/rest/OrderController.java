@@ -5,10 +5,13 @@ import com.mwc.order.service.domain.dto.create.CreateOrderCommand;
 import com.mwc.order.service.domain.dto.create.CreateOrderResponse;
 import com.mwc.order.service.domain.dto.create.PreviewOrderCommand;
 import com.mwc.order.service.domain.dto.create.PreviewOrderResponse;
+import com.mwc.order.service.domain.dto.create.payment.CreatePaymentCommand;
+import com.mwc.order.service.domain.dto.create.payment.CreatePaymentResponse;
 import com.mwc.order.service.domain.ports.input.service.OrderApplicationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.UUID;
 
@@ -37,7 +40,15 @@ public class OrderController {
         return ResponseEntity.ok(previewOrderResponse);
     }
 
-
-
+    @PostMapping("/payment")
+    public ResponseEntity<CreatePaymentResponse> createPayment(@RequestParam("orderId") UUID orderId, @RequestParam("paymentProofFile") MultipartFile paymentProofFile) {
+        log.info("Uploading payment proof file: {} for order: {}", paymentProofFile.getOriginalFilename(), orderId);
+        CreatePaymentCommand createPaymentCommand = CreatePaymentCommand.builder()
+                .orderId(orderId)
+                .paymentProofFile(paymentProofFile)
+                .build();
+        CreatePaymentResponse createPaymentResponse = orderApplicationService.createPayment(createPaymentCommand);
+        return ResponseEntity.ok(createPaymentResponse);
+    }
 
 }

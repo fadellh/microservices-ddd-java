@@ -2,6 +2,8 @@ package com.mwc.order.service.domain;
 
 import com.mwc.order.service.domain.dto.create.CreateOrderCommand;
 import com.mwc.order.service.domain.dto.create.CreateOrderResponse;
+import com.mwc.order.service.domain.dto.create.payment.CreatePaymentCommand;
+import com.mwc.order.service.domain.dto.create.payment.CreatePaymentResponse;
 import com.mwc.order.service.domain.event.OrderCreatedEvent;
 import com.mwc.order.service.domain.mapper.OrderDataMapper;
 import com.mwc.order.service.domain.ports.output.message.publisher.OrderCreatedMessagePublisher;
@@ -38,5 +40,11 @@ public class OrderCreateCommandHandler {
         // Convert Order entity to CreateOrderResponse DTO
         return orderDataMapper.orderToCreateOrderResponse(orderCreatedEvent.getOrder());
     }
+
+    public CreatePaymentResponse createPayment(CreatePaymentCommand createPaymentCommand) {
+        // Implementation for create payment
+        return orderCreateHelper.uploadPayment(createPaymentCommand);
+    }
+
 
 }

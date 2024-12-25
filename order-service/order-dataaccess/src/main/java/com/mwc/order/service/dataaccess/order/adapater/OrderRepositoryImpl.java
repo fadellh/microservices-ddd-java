@@ -7,6 +7,9 @@ import com.mwc.order.service.domain.entity.Order;
 import com.mwc.order.service.domain.ports.output.repository.OrderRepository;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+import java.util.UUID;
+
 @Component
 public class OrderRepositoryImpl implements OrderRepository {
 
@@ -32,5 +35,11 @@ public class OrderRepositoryImpl implements OrderRepository {
         }
         orderEntity = orderJpaRepository.save(orderEntity);
         return orderDataAccessMapper.orderEntityToOrder(orderEntity);
+    }
+
+    @Override
+    public Optional<Order> findById(UUID orderId) {
+        return orderJpaRepository.findById(orderId)
+                .map(orderDataAccessMapper::orderEntityToOrder);
     }
 }
