@@ -7,7 +7,7 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>inventory-application-service</artifactId>
+    <artifactId>inventory-domain-application-service</artifactId>
     <packaging>jar</packaging>
 
     <name>inventory-application-service</name>
@@ -18,5 +18,10 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>com.mwc</groupId>
+            <artifactId>inventory-domain-core</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 </project>

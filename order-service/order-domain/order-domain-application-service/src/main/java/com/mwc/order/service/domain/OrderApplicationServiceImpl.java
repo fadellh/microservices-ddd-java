@@ -1,9 +1,6 @@
 package com.mwc.order.service.domain;
 
-import com.mwc.order.service.domain.dto.create.CreateOrderCommand;
-import com.mwc.order.service.domain.dto.create.CreateOrderResponse;
-import com.mwc.order.service.domain.dto.create.PreviewOrderCommand;
-import com.mwc.order.service.domain.dto.create.PreviewOrderResponse;
+import com.mwc.order.service.domain.dto.create.*;
 import com.mwc.order.service.domain.dto.create.payment.CreatePaymentCommand;
 import com.mwc.order.service.domain.dto.create.payment.CreatePaymentResponse;
 import com.mwc.order.service.domain.ports.input.service.OrderApplicationService;
@@ -38,6 +35,12 @@ public class OrderApplicationServiceImpl implements OrderApplicationService {
     public CreatePaymentResponse createPayment(CreatePaymentCommand createPaymentCommand) {
         // Implementation for create payment
         return orderCreateCommandHandler.createPayment(createPaymentCommand);
+    }
+
+    @Override
+    public UpdateOrderStatusResponse updateOrderStatus(UpdateOrderStatusCommand updateOrderStatusCommand) {
+        // Implementation for update order status
+        return orderCreateCommandHandler.updateOrderStatus(updateOrderStatusCommand);
     }
 
 }

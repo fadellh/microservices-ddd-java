@@ -30,6 +30,18 @@ public class Inventory extends AggregateRoot<InventoryId> {
         this.quantity = quantity;
     }
 
+
+    public void deductQuantity(int quantity) {
+        if (this.quantity - quantity < 0) {
+            throw new NegativeQuantityException("Inventory quantity cannot be negative");
+        }
+        this.quantity -= quantity;
+    }
+
+    public static Builder builder() {
+        return new Builder();
+    }
+
     public static class Builder {
         private InventoryId id;
         private ProductId productId;
