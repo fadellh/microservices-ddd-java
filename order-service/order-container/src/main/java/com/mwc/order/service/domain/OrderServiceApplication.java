@@ -5,8 +5,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 @EnableJpaRepositories(basePackages = { "com.mwc.order.service.dataaccess", "com.mwc.dataaccess" })
+@EnableMongoRepositories(basePackages = { "com.mwc.order.service.dataaccess", "com.mwc.dataaccess" })
 @EntityScan(basePackages = { "com.mwc.order.service.dataaccess", "com.mwc.dataaccess"})
 @SpringBootApplication(
         scanBasePackages = {"com.mwc"},   // <-- add your Kafka configs package

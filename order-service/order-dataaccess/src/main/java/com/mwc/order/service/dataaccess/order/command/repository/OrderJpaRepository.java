@@ -1,6 +1,6 @@
-package com.mwc.order.service.dataaccess.order.repository;
+package com.mwc.order.service.dataaccess.order.command.repository;
 
-import com.mwc.order.service.dataaccess.order.entity.OrderEntity;
+import com.mwc.order.service.dataaccess.order.command.entity.OrderEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

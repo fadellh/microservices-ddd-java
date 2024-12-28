@@ -1,4 +1,4 @@
-package com.mwc.order.service.dataaccess.order.entity;
+package com.mwc.order.service.dataaccess.order.command.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

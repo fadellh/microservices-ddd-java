@@ -4,12 +4,15 @@ package com.mwc.order.service.domain.rest;
 import com.mwc.order.service.domain.dto.create.*;
 import com.mwc.order.service.domain.dto.create.payment.CreatePaymentCommand;
 import com.mwc.order.service.domain.dto.create.payment.CreatePaymentResponse;
+import com.mwc.order.service.domain.dto.retrieve.order.RetrieveOrderQuery;
+import com.mwc.order.service.domain.dto.retrieve.order.RetrieveOrderQueryResponse;
 import com.mwc.order.service.domain.ports.input.service.OrderApplicationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.UUID;
 
 @Slf4j
@@ -28,6 +31,27 @@ public class OrderController {
         log.info("Creating order for customer: {}", createOrderCommand.getCustomerId());
         CreateOrderResponse createOrderResponse = orderApplicationService.createOrder(createOrderCommand);
         return ResponseEntity.ok(createOrderResponse);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<RetrieveOrderQueryResponse>> getOrders(
+            @RequestHeader("X-User-Id") UUID userId,
+            @RequestParam(value = "order_number", required = false) UUID orderNumber,
+            @RequestParam(value = "order_start_date", required = false) String orderStartDate,
+            @RequestParam(value = "order_end_date", required = false) String orderEndDate
+    ) {
+        log.info("Retrieving orders for user: {}", userId);
+        // Build the query object including optional parameters
+        RetrieveOrderQuery orderListQuery = RetrieveOrderQuery.builder()
+                .customerId(userId)
+                .orderNumber(orderNumber)
+                .orderStartDate(orderStartDate)
+                .orderEndDate(orderEndDate)
+                .build();
+
+        // Pass query object to the service
+        List<RetrieveOrderQueryResponse> orderListQueryResponse = orderApplicationService.retrieveOrders(orderListQuery);
+        return ResponseEntity.ok(orderListQueryResponse);
     }
 
     @PostMapping("/preview")
