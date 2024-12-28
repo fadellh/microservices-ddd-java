@@ -1,22 +1,25 @@
-package com.mwc.order.service.dataaccess.order.adapater;
+package com.mwc.order.service.dataaccess.order.command.adapater;
 
-import com.mwc.order.service.dataaccess.order.entity.OrderEntity;
-import com.mwc.order.service.dataaccess.order.mapper.OrderDataAccessMapper;
-import com.mwc.order.service.dataaccess.order.repository.OrderJpaRepository;
+import com.mwc.order.service.dataaccess.order.command.entity.OrderEntity;
+import com.mwc.order.service.dataaccess.order.command.mapper.OrderDataAccessMapper;
+import com.mwc.order.service.dataaccess.order.command.repository.OrderJpaRepository;
 import com.mwc.order.service.domain.entity.Order;
 import com.mwc.order.service.domain.ports.output.repository.OrderRepository;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 @Component
-public class OrderRepositoryImpl implements OrderRepository {
+@Qualifier("commandRepository")
+public class OrderCommandRepositoryImpl implements OrderRepository {
 
     private final OrderJpaRepository orderJpaRepository;
     private final OrderDataAccessMapper orderDataAccessMapper;
 
-    public OrderRepositoryImpl(OrderJpaRepository orderJpaRepository, OrderDataAccessMapper orderDataAccessMapper) {
+    public OrderCommandRepositoryImpl(OrderJpaRepository orderJpaRepository, OrderDataAccessMapper orderDataAccessMapper) {
         this.orderJpaRepository = orderJpaRepository;
         this.orderDataAccessMapper = orderDataAccessMapper;
     }
@@ -41,5 +44,10 @@ public class OrderRepositoryImpl implements OrderRepository {
     public Optional<Order> findById(UUID orderId) {
         return orderJpaRepository.findById(orderId)
                 .map(orderDataAccessMapper::orderEntityToOrder);
+    }
+
+    @Override
+    public List<Order> findByCustomerIdAndFilters(UUID customerId, UUID orderNumber, String startDate, String endDate) {
+        return List.of();
     }
 }

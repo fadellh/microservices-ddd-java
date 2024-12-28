@@ -8,10 +8,8 @@ import com.mwc.order.service.domain.dto.create.payment.CreatePaymentCommand;
 import com.mwc.order.service.domain.dto.create.payment.CreatePaymentResponse;
 import com.mwc.order.service.domain.event.OrderApprovedEvent;
 import com.mwc.order.service.domain.event.OrderCreatedEvent;
-import com.mwc.order.service.domain.event.OrderStatusUpdatedEvent;
 import com.mwc.order.service.domain.mapper.OrderDataMapper;
 import com.mwc.order.service.domain.ports.output.message.publisher.OrderCreatedMessagePublisher;
-import com.mwc.order.service.domain.ports.output.repository.OrderRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -27,7 +25,7 @@ public class OrderCreateCommandHandler {
     private final OrderCreatedMessagePublisher orderCreatedMessagePublisher;
 
 
-    public OrderCreateCommandHandler(OrderCreateHelper orderCreateHelper, OrderDataMapper orderDataMapper, OrderRepository orderRepository, OrderCreatedMessagePublisher orderCreatedMessagePublisher) {
+    public OrderCreateCommandHandler(OrderCreateHelper orderCreateHelper, OrderDataMapper orderDataMapper, OrderCreatedMessagePublisher orderCreatedMessagePublisher) {
         this.orderCreateHelper = orderCreateHelper;
         this.orderDataMapper = orderDataMapper;
         this.orderCreatedMessagePublisher = orderCreatedMessagePublisher;

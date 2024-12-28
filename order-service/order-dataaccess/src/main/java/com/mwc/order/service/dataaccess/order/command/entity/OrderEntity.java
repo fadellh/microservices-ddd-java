@@ -1,4 +1,4 @@
-package com.mwc.order.service.dataaccess.order.entity;
+package com.mwc.order.service.dataaccess.order.command.entity;
 
 import com.mwc.domain.valueobject.OrderStatus;
 import jakarta.persistence.*;

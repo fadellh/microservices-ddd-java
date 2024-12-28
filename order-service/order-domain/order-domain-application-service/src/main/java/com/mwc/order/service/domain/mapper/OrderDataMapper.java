@@ -4,6 +4,7 @@ import com.mwc.domain.valueobject.*;
 import com.mwc.order.service.domain.dto.create.*;
 import com.mwc.order.service.domain.dto.create.payment.CreatePaymentCommand;
 import com.mwc.order.service.domain.dto.create.payment.CreatePaymentResponse;
+import com.mwc.order.service.domain.dto.retrieve.order.RetrieveOrderQueryResponse;
 import com.mwc.order.service.domain.entity.*;
 import com.mwc.order.service.domain.entity.OrderItem;
 import com.mwc.order.service.domain.valueobject.StreetAddress;
@@ -119,4 +120,13 @@ public class OrderDataMapper {
                 .build();
     }
 
+    public List<RetrieveOrderQueryResponse> orderListToRetrieveOrderQueryResponse(List<Order> orders) {
+        return orders.stream()
+                .map(order -> RetrieveOrderQueryResponse.builder()
+                        .orderNumber(order.getId().getValue())
+                        .orderStatus(order.getOrderStatus())
+                        .totalPrice(order.getPrice().getAmount())
+                        .build())
+                .collect(Collectors.toList());
+    }
 }

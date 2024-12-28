@@ -1,9 +1,9 @@
-package com.mwc.order.service.dataaccess.order.mapper;
+package com.mwc.order.service.dataaccess.order.command.mapper;
 
 import com.mwc.domain.valueobject.*;
-import com.mwc.order.service.dataaccess.order.entity.OrderAddressEntity;
-import com.mwc.order.service.dataaccess.order.entity.OrderEntity;
-import com.mwc.order.service.dataaccess.order.entity.OrderItemEntity;
+import com.mwc.order.service.dataaccess.order.command.entity.OrderAddressEntity;
+import com.mwc.order.service.dataaccess.order.command.entity.OrderEntity;
+import com.mwc.order.service.dataaccess.order.command.entity.OrderItemEntity;
 import com.mwc.order.service.domain.dto.create.OrderAddress;
 import com.mwc.order.service.domain.entity.Order;
 import com.mwc.order.service.domain.entity.OrderItem;
