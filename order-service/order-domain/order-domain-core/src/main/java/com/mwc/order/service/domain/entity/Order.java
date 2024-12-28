@@ -47,18 +47,28 @@ public class Order extends AggregateRoot<OrderId> {
         orderStatus = OrderStatus.AWAITING_PAYMENT;
     }
 
-    public void pay() {
-        if (orderStatus != OrderStatus.AWAITING_PAYMENT) {
-            throw new OrderDomainException("Order is not in correct state for pay operation!");
+    public void updateOrderStatus() {
+        switch (orderStatus) {
+            case AWAITING_PAYMENT:
+                this.orderStatus = OrderStatus.REVIEW_PAYMENT;
+                break;
+            case REVIEW_PAYMENT:
+                this.orderStatus = OrderStatus.APPROVED;
+                break;
+            case CANCEL_PENDING:
+                this.orderStatus = OrderStatus.CANCELLED;
+                break;
+            default:
+                throw new OrderDomainException("Order is not in correct state for operation!");
         }
-        orderStatus = OrderStatus.REVIEW_PAYMENT;
     }
 
     public void approve() {
-        if(orderStatus != OrderStatus.REVIEW_PAYMENT) {
-            throw new OrderDomainException("Order is not in correct state for approve operation!");
-        }
-        orderStatus = OrderStatus.APPROVED;
+       updateOrderStatus();
+    }
+
+    public void pay() {
+        updateOrderStatus();
     }
 
     public void initCancel(List<String> failureMessages) {

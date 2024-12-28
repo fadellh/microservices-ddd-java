@@ -7,13 +7,17 @@ import com.mwc.domain.valueobject.PaymentId;
 import com.mwc.domain.valueobject.PaymentStatus;
 import com.mwc.domain.valueobject.PaymentMethod;
 import com.mwc.order.service.domain.dto.create.CreateOrderCommand;
+import com.mwc.order.service.domain.dto.create.UpdateOrderStatusCommand;
 import com.mwc.order.service.domain.dto.create.payment.CreatePaymentCommand;
 import com.mwc.order.service.domain.dto.create.payment.CreatePaymentResponse;
 import com.mwc.order.service.domain.entity.*;
+import com.mwc.order.service.domain.event.OrderApprovedEvent;
 import com.mwc.order.service.domain.event.OrderCreatedEvent;
 import com.mwc.order.service.domain.exception.OrderDomainException;
 import com.mwc.order.service.domain.mapper.OrderDataMapper;
+import com.mwc.order.service.domain.ports.output.message.publisher.OrderApprovedDeductedStockRequestMessagePublisher;
 import com.mwc.order.service.domain.ports.output.message.publisher.OrderCreatedMessagePublisher;
+import com.mwc.order.service.domain.ports.output.message.publisher.OrderStatusUpdatedMessagePublisher;
 import com.mwc.order.service.domain.ports.output.repository.*;
 import com.mwc.order.service.domain.valueobject.OrderItemId;
 import lombok.extern.slf4j.Slf4j;
@@ -38,10 +42,14 @@ public class OrderCreateHelper {
     private final WarehouseRepository warehouseRepository;
     private final OrderRepository orderRepository;
     private final PaymentRepository paymentRepository;
+    private final AdminRepository adminRepository;
 
 
     private final OrderDomainService orderDomainService;
     private final OrderCreatedMessagePublisher orderCreatedEventDomainEventPublisher;
+    private final OrderStatusUpdatedMessagePublisher orderStatusUpdatedMessagePublisher;
+    private final OrderApprovedDeductedStockRequestMessagePublisher orderApprovedDeductedStockRequestMessagePublisher;
+
     private final Storage storage = StorageOptions.getDefaultInstance().getService();
 
     private static final String BUCKET_NAME = "pay-file";
@@ -55,7 +63,10 @@ public class OrderCreateHelper {
                              WarehouseRepository warehouseRepository,
                              PaymentRepository paymentRepository,
                              OrderRepository orderRepository,
+                             AdminRepository adminRepository,
                              OrderDomainService orderDomainService,
+                             OrderStatusUpdatedMessagePublisher orderStatusUpdatedMessagePublisher,
+                             OrderApprovedDeductedStockRequestMessagePublisher orderApprovedDeductedStockRequestMessagePublisher,
                              OrderCreatedMessagePublisher orderCreatedEventDomainEventPublisher
     ) {
         this.orderDataMapper = orderDataMapper;
@@ -64,8 +75,11 @@ public class OrderCreateHelper {
         this.warehouseRepository = warehouseRepository;
         this.orderRepository = orderRepository;
         this.orderDomainService = orderDomainService;
-        this.orderCreatedEventDomainEventPublisher = orderCreatedEventDomainEventPublisher;
         this.paymentRepository = paymentRepository;
+        this.adminRepository = adminRepository;
+        this.orderCreatedEventDomainEventPublisher = orderCreatedEventDomainEventPublisher;
+        this.orderStatusUpdatedMessagePublisher = orderStatusUpdatedMessagePublisher;
+        this.orderApprovedDeductedStockRequestMessagePublisher = orderApprovedDeductedStockRequestMessagePublisher;
     }
 
 
@@ -186,6 +200,24 @@ public class OrderCreateHelper {
             log.error("Error uploading payment proof file to GCS: {}", e.getMessage());
             throw new OrderDomainException("Failed to upload payment proof file to GCS", e);
         }
+    }
+
+    public OrderApprovedEvent approveOrder(UpdateOrderStatusCommand updateOrderStatusCommand) {
+        Order order = findOrder(updateOrderStatusCommand);
+        Admin admin = getAdmin(updateOrderStatusCommand.getAdminId());
+
+        return orderDomainService.approveOrder(order, updateOrderStatusCommand.getOrderStatus(), admin, orderApprovedDeductedStockRequestMessagePublisher);
+    }
+
+    private Order findOrder(UpdateOrderStatusCommand updateOrderStatusCommand) {
+
+        return orderRepository.findById(updateOrderStatusCommand.getOrderId())
+                .orElseThrow(() -> new OrderDomainException("Order not found for id: " + updateOrderStatusCommand.getOrderId()));
+    }
+
+    private Admin getAdmin(UUID id) {
+        return adminRepository.findAdminById(id)
+                .orElseThrow(() -> new OrderDomainException("Admin not found for id: " + id));
     }
 
 

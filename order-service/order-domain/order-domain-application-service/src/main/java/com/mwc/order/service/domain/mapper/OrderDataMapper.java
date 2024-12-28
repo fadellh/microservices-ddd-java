@@ -98,4 +98,25 @@ public class OrderDataMapper {
                 .build();
     }
 
+    public UpdateOrderStatusResponse orderToOrderStatusResponse(Order order) {
+        return UpdateOrderStatusResponse.builder()
+                .orderStatus(order.getOrderStatus())
+                .message("Order status updated successfully")
+                .build();
+    }
+
+    public Order updateOrderStatusCommandToOrder(UpdateOrderStatusCommand updateOrderStatusCommand, Order order) {
+        return Order.builder()
+                .orderId(new OrderId(updateOrderStatusCommand.getOrderId()))
+                .orderStatus(updateOrderStatusCommand.getOrderStatus())
+                .customerId(order.getCustomerId())
+                .warehouseId(order.getWarehouseId())
+                .items(order.getItems())
+                .deliveryAddress(order.getDeliveryAddress())
+                .price(order.getPrice())
+                .orderStatus(order.getOrderStatus())
+                .failureMessages(order.getFailureMessages())
+                .build();
+    }
+
 }

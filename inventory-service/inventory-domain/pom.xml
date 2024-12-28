@@ -19,7 +19,7 @@
 
     <modules>
         <module>inventory-domain-core</module>
-        <module>inventory-application-service</module>
+        <module>inventory-domain-application-service</module>
     </modules>
 
     <dependencies>

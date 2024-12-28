@@ -1,10 +1,7 @@
 package com.mwc.order.service.domain.rest;
 
 
-import com.mwc.order.service.domain.dto.create.CreateOrderCommand;
-import com.mwc.order.service.domain.dto.create.CreateOrderResponse;
-import com.mwc.order.service.domain.dto.create.PreviewOrderCommand;
-import com.mwc.order.service.domain.dto.create.PreviewOrderResponse;
+import com.mwc.order.service.domain.dto.create.*;
 import com.mwc.order.service.domain.dto.create.payment.CreatePaymentCommand;
 import com.mwc.order.service.domain.dto.create.payment.CreatePaymentResponse;
 import com.mwc.order.service.domain.ports.input.service.OrderApplicationService;
@@ -50,5 +47,12 @@ public class OrderController {
         CreatePaymentResponse createPaymentResponse = orderApplicationService.createPayment(createPaymentCommand);
         return ResponseEntity.ok(createPaymentResponse);
     }
+
+//    @PutMapping("/status")
+//    public ResponseEntity<UpdateOrderStatusResponse> updateOrderStatus(@RequestBody UpdateOrderStatusCommand updateOrderStatusCommand) {
+//        log.info("Updating order status: {} for order: {}", updateOrderStatusCommand.getStatus(), updateOrderStatusCommand.getOrderId());
+//        UpdateOrderStatusResponse updateOrderStatusResponse = orderApplicationService.updateOrderStatus(updateOrderStatusCommand);
+//        return ResponseEntity.ok(updateOrderStatusResponse);
+//    }
 
 }
