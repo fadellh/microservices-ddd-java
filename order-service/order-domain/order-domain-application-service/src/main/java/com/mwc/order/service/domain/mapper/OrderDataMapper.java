@@ -4,7 +4,7 @@ import com.mwc.domain.valueobject.*;
 import com.mwc.order.service.domain.dto.create.*;
 import com.mwc.order.service.domain.dto.create.payment.CreatePaymentCommand;
 import com.mwc.order.service.domain.dto.create.payment.CreatePaymentResponse;
-import com.mwc.order.service.domain.dto.retrieve.order.RetrieveOrderQueryResponse;
+import com.mwc.order.service.domain.dto.retrieve.order.*;
 import com.mwc.order.service.domain.entity.*;
 import com.mwc.order.service.domain.entity.OrderItem;
 import com.mwc.order.service.domain.valueobject.StreetAddress;
@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.math.BigDecimal;
@@ -129,4 +130,23 @@ public class OrderDataMapper {
                         .build())
                 .collect(Collectors.toList());
     }
+
+    public RetrieveOrderDetailQueryResponse orderToRetrieveOrderDetailQueryResponse(Order order) {
+        return RetrieveOrderDetailQueryResponse.builder()
+                .orderNumber(order.getId().getValue())
+                .orderStatus(order.getOrderStatus())
+                .customerId(order.getCustomerId().getValue())
+                .totalAmount(order.getPrice().getAmount())
+                .items(order.getItems().stream()
+                        .map(item -> OrderItemQuery.builder()
+//                                .productName(item.getProduct().getName())
+//                                .productId(item.getProduct().getId().getValue())
+                                .quantity(item.getQuantity())
+                                .price(item.getPrice().getAmount())
+                                .subTotal(item.getSubTotal().getAmount())
+                                .build())
+                        .collect(Collectors.toList()))
+                .build();
+    }
+
 }

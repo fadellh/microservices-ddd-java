@@ -4,6 +4,7 @@ import com.mwc.order.service.dataaccess.order.query.mapper.OrderQueryDataAccessM
 import com.mwc.order.service.dataaccess.order.query.repository.OrderMongoRepository;
 import com.mwc.order.service.domain.entity.Order;
 import com.mwc.order.service.domain.ports.output.repository.OrderRepository;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
@@ -32,8 +33,21 @@ public class OrderQueryRepositoryImpl implements OrderRepository {
     @Override
     public Optional<Order> findById(UUID orderId) {
         // Find document by ID and convert to domain entity
-        return orderMongoRepository.findById(orderId)
-                .map(orderQueryDataAccessMapper::OrderDocumentToOrder);
+//        List<Order> orders = orderMongoRepository.findAll().stream()
+//                .filter(order -> order.getId().equals(orderId))
+////                .filter(order -> order.getCustomerId().equals(customerId))
+////                .filter(order -> startDate == null || order.getOrderDate().compareTo(startDate) >= 0)
+////                .filter(order -> endDate == null || order.getOrderDate().compareTo(endDate) <= 0)
+//                .map(orderQueryDataAccessMapper::OrderDocumentToOrder)
+//                .toList();
+
+//        return orders.isEmpty() ? Optional.empty() : Optional.of(orders.get(0));
+//        ObjectId objectId = new ObjectId("6770e51dea3e0aa9e4497706");
+        return orderMongoRepository.findByOrderId(orderId.toString())
+                .map(orderQueryDataAccessMapper::orderDocumentToOrder);
+
+//        return orderMongoRepository.findByOrderId(orderId)
+//                .map(orderQueryDataAccessMapper::OrderDocumentToOrder);
     }
 
 
@@ -41,11 +55,16 @@ public class OrderQueryRepositoryImpl implements OrderRepository {
     public List<Order> findByCustomerIdAndFilters(UUID customerId, UUID orderNumber, String startDate, String endDate) {
         return orderMongoRepository.findAll().stream()
                 .filter(order -> order.getCustomerId().equals(customerId))
-                .filter(order -> orderNumber == null || order.getId().equals(orderNumber))
+                .filter(order -> orderNumber == null || order.getOrderId().equals(orderNumber))
 //                .filter(order -> startDate == null || order.getOrderDate().compareTo(startDate) >= 0)
 //                .filter(order -> endDate == null || order.getOrderDate().compareTo(endDate) <= 0)
-                .map(orderQueryDataAccessMapper::OrderDocumentToOrder)
+                .map(orderQueryDataAccessMapper::orderDocumentToOrder)
                 .collect(Collectors.toList());
+
+//        return orderMongoRepository.findByCustomerIdAndFilters(customerId, orderNumber, startDate, endDate).stream()
+//                .map(orderQueryDataAccessMapper::OrderDocumentToOrder)
+//                .collect(Collectors.toList());
+
     }
 
 

@@ -1,6 +1,8 @@
 package com.mwc.order.service.dataaccess.order.query.entity;
 
+import com.mwc.domain.valueobject.OrderStatus;
 import lombok.*;
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -18,7 +20,8 @@ import java.util.UUID;
 public class OrderDocument {
 
     @Id
-    private UUID id; // Primary key for MongoDB document
+    private ObjectId _id;
+    private UUID orderId; // Primary key for MongoDB document
 
     @Indexed
     private UUID customerId; // Index for frequent queries by customerId
@@ -31,7 +34,7 @@ public class OrderDocument {
     private BigDecimal totalAmount;
     private BigDecimal shippingCost;
 
-    private String orderStatus; // Enum stored as String
+    private OrderStatus orderStatus; // Enum stored as String
     private String failureMessages;
 
     private OrderAddressDocument orderAddress; // Embedded sub-document for address
