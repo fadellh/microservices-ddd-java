@@ -2,22 +2,15 @@
   {
     "order_id": "e7b6c768-91a4-11ed-a1eb-0242ac120002",
     "customerId": "f49c7f88-91a4-11ed-a1eb-0242ac120002",
-    "customerAddress": "123 Main St",
+    "customerAddress": "123 Main St, San Francisco, CA 94122",
     "warehouseId": "1a2b3c4d-91a4-11ed-a1eb-0242ac120002",
     "totalAmount": 250.00,
     "shippingCost": 15.00,
     "orderStatus": "PENDING",
     "failureMessages": null,
-    "orderAddress": {
-      "city": "San Francisco",
-      "latitude": 37.7749,
-      "longitude": -122.4194,
-      "postalCode": "94103",
-      "street": "123 Main St"
-    },
     "items": [
       {
-        "productId": "8c1d2e3f-91a4-11ed-a1eb-0242ac120002",
+        "name": "Product 1",
         "price": 50.00,
         "quantity": 5,
         "subTotal": 250.00
@@ -27,22 +20,15 @@
   {
     "order_id": "b3f1e476-91a5-11ed-a1eb-0242ac120002",
     "customerId": "c4a9d8b0-91a5-11ed-a1eb-0242ac120002",
-    "customerAddress": "456 Elm St",
+    "customerAddress": "456 Elm St, Los Angeles, CA 90001",
     "warehouseId": "d5c3f250-91a5-11ed-a1eb-0242ac120002",
     "totalAmount": 120.00,
     "shippingCost": 10.00,
     "orderStatus": "SHIPPED",
     "failureMessages": null,
-    "orderAddress": {
-      "city": "Los Angeles",
-      "latitude": 34.0522,
-      "longitude": -118.2437,
-      "postalCode": "90001",
-      "street": "456 Elm St"
-    },
     "items": [
       {
-        "productId": "1f2c3d4e-91a5-11ed-a1eb-0242ac120002",
+        "name": "Product 2",
         "price": 40.00,
         "quantity": 3,
         "subTotal": 120.00
@@ -52,22 +38,15 @@
   {
     "order_id": "d7e2a3f8-91a6-11ed-a1eb-0242ac120002",
     "customerId": "e8f4b5c6-91a6-11ed-a1eb-0242ac120002",
-    "customerAddress": "789 Oak St",
+    "customerAddress": "789 Oak St, Seattle, WA 98101",
     "warehouseId": "f9g5h6i7-91a6-11ed-a1eb-0242ac120002",
     "totalAmount": 320.00,
     "shippingCost": 20.00,
     "orderStatus": "DELIVERED",
     "failureMessages": null,
-    "orderAddress": {
-      "city": "Seattle",
-      "latitude": 47.6062,
-      "longitude": -122.3321,
-      "postalCode": "98101",
-      "street": "789 Oak St"
-    },
     "items": [
       {
-        "productId": "2g3h4i5j-91a6-11ed-a1eb-0242ac120002",
+        "name": "Product 3",
         "price": 80.00,
         "quantity": 4,
         "subTotal": 320.00

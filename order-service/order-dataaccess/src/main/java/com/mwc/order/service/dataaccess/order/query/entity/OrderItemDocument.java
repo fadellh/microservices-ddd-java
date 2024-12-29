@@ -12,7 +12,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 public class OrderItemDocument {
-    private UUID productId;
+    private String name;
     private BigDecimal price;
     private Integer quantity;
     private BigDecimal subTotal;

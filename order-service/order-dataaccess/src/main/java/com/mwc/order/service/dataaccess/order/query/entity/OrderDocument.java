@@ -37,7 +37,7 @@ public class OrderDocument {
     private OrderStatus orderStatus; // Enum stored as String
     private String failureMessages;
 
-    private OrderAddressDocument orderAddress; // Embedded sub-document for address
+    private String orderAddress; // Embedded sub-document for address
 
     private List<OrderItemDocument> items; // Embedded list for order items
 

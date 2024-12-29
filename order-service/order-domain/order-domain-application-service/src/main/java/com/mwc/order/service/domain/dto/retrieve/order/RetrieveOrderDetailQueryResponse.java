@@ -20,7 +20,6 @@ public class RetrieveOrderDetailQueryResponse {
     private final BigDecimal totalAmount;
     private final BigDecimal shippingCost;
     private final OrderStatus orderStatus;
-    private final OrderAddressQuery orderAddress;
     private final List<OrderItemQuery> items;
 
 }
