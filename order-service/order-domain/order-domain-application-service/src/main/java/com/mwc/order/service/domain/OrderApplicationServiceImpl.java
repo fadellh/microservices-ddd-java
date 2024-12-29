@@ -5,11 +5,13 @@ import com.mwc.order.service.domain.dto.create.payment.CreatePaymentCommand;
 import com.mwc.order.service.domain.dto.create.payment.CreatePaymentResponse;
 import com.mwc.order.service.domain.dto.retrieve.order.RetrieveOrderQuery;
 import com.mwc.order.service.domain.dto.retrieve.order.RetrieveOrderQueryResponse;
+import com.mwc.order.service.domain.dto.retrieve.order.RetrieveOrderDetailQueryResponse;
 import com.mwc.order.service.domain.ports.input.service.OrderApplicationService;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Validated
@@ -53,6 +55,12 @@ public class OrderApplicationServiceImpl implements OrderApplicationService {
     public List<RetrieveOrderQueryResponse> retrieveOrders(RetrieveOrderQuery orderListQuery) {
         // Implementation for retrieve orders
         return orderQueryHandler.retrieveOrders(orderListQuery);
+    }
+
+    @Override
+    public RetrieveOrderDetailQueryResponse retrieveOrder(UUID orderId) {
+        // Implementation for retrieve order
+        return orderQueryHandler.retrieveOrder(orderId);
     }
 
 }

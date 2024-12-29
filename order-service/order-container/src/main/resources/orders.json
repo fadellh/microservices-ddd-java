@@ -1,6 +1,6 @@
 [
   {
-    "_id": "e7b6c768-91a4-11ed-a1eb-0242ac120002",
+    "order_id": "e7b6c768-91a4-11ed-a1eb-0242ac120002",
     "customerId": "f49c7f88-91a4-11ed-a1eb-0242ac120002",
     "customerAddress": "123 Main St",
     "warehouseId": "1a2b3c4d-91a4-11ed-a1eb-0242ac120002",
@@ -25,7 +25,7 @@
     ]
   },
   {
-    "_id": "b3f1e476-91a5-11ed-a1eb-0242ac120002",
+    "order_id": "b3f1e476-91a5-11ed-a1eb-0242ac120002",
     "customerId": "c4a9d8b0-91a5-11ed-a1eb-0242ac120002",
     "customerAddress": "456 Elm St",
     "warehouseId": "d5c3f250-91a5-11ed-a1eb-0242ac120002",
@@ -50,7 +50,7 @@
     ]
   },
   {
-    "_id": "d7e2a3f8-91a6-11ed-a1eb-0242ac120002",
+    "order_id": "d7e2a3f8-91a6-11ed-a1eb-0242ac120002",
     "customerId": "e8f4b5c6-91a6-11ed-a1eb-0242ac120002",
     "customerAddress": "789 Oak St",
     "warehouseId": "f9g5h6i7-91a6-11ed-a1eb-0242ac120002",

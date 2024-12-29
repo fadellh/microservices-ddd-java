@@ -6,27 +6,56 @@ import com.mwc.domain.valueobject.OrderId;
 import com.mwc.domain.valueobject.WarehouseId;
 import com.mwc.order.service.dataaccess.order.query.entity.OrderDocument;
 import com.mwc.order.service.domain.entity.Order;
+import com.mwc.order.service.domain.entity.OrderItem;
+import lombok.extern.slf4j.Slf4j;
+import org.bson.types.ObjectId;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+import java.util.Collections;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+@Slf4j
 @Component
 public class OrderQueryDataAccessMapper {
 
-    public OrderDocument OrderToOrderDocument(Order order) {
+    public OrderDocument orderToOrderDocument(Order order) {
         return OrderDocument.builder()
-                .id(order.getId().getValue())
+//                .id(new ObjectId(order.getId().getValue().toString()))
+                .orderId(order.getId().getValue())
                 .customerId(order.getCustomerId().getValue())
                 .warehouseId(order.getWarehouseId().getValue())
                 .totalAmount(order.getPrice().getAmount())
                 .build();
     }
 
-    public Order OrderDocumentToOrder(OrderDocument document) {
+    public Order orderDocumentToOrder(OrderDocument document) {
+        log.debug("Mapping OrderDocument: {}", document);
+
         return Order.builder()
-                .orderId(new OrderId(document.getId()))
-                .customerId(new CustomerId(document.getCustomerId()))
-//                .deliveryAddress( document.getCustomerAddress())
-                .warehouseId(new WarehouseId(document.getWarehouseId()))
-                .price(new Money(document.getTotalAmount()))
+                .orderId(new OrderId( Optional.ofNullable(document.getOrderId())
+                        .orElseThrow(() -> new IllegalArgumentException("Order ID is required"))))
+                .customerId(new CustomerId(Optional.ofNullable(document.getCustomerId())
+                        .orElseThrow(() -> new IllegalArgumentException("Customer ID is required"))))
+                .price(new Money(Optional.ofNullable(document.getTotalAmount())
+                        .orElse(BigDecimal.ZERO)))
+                .warehouseId(new WarehouseId(Optional.ofNullable(document.getWarehouseId())
+                        .orElseThrow(() -> new IllegalArgumentException("Warehouse ID is required"))))
+                .orderStatus(document.getOrderStatus())
+                .items(Optional.ofNullable(document.getItems())
+                        .orElse(Collections.emptyList())
+                        .stream()
+                        .map(item -> {
+                            log.debug("Mapping OrderItem: {}", item);
+                            return OrderItem.builder()
+                                    .quantity(Optional.ofNullable(item.getQuantity()).orElse(0))
+                                    .price(new Money(Optional.ofNullable(item.getPrice()).orElse(BigDecimal.ZERO)))
+                                    .subTotal(new Money(Optional.ofNullable(item.getSubTotal()).orElse(BigDecimal.ZERO)))
+                                    .build();
+                        })
+                        .collect(Collectors.toList()))
                 .build();
     }
+
 }

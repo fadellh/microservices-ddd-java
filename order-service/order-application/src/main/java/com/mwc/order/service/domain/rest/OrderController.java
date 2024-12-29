@@ -4,6 +4,7 @@ package com.mwc.order.service.domain.rest;
 import com.mwc.order.service.domain.dto.create.*;
 import com.mwc.order.service.domain.dto.create.payment.CreatePaymentCommand;
 import com.mwc.order.service.domain.dto.create.payment.CreatePaymentResponse;
+import com.mwc.order.service.domain.dto.retrieve.order.RetrieveOrderDetailQueryResponse;
 import com.mwc.order.service.domain.dto.retrieve.order.RetrieveOrderQuery;
 import com.mwc.order.service.domain.dto.retrieve.order.RetrieveOrderQueryResponse;
 import com.mwc.order.service.domain.ports.input.service.OrderApplicationService;
@@ -52,6 +53,13 @@ public class OrderController {
         // Pass query object to the service
         List<RetrieveOrderQueryResponse> orderListQueryResponse = orderApplicationService.retrieveOrders(orderListQuery);
         return ResponseEntity.ok(orderListQueryResponse);
+    }
+
+    @GetMapping("/{orderId}")
+    public ResponseEntity<RetrieveOrderDetailQueryResponse> getOrder(@PathVariable UUID orderId) {
+        log.info("Retrieving order: {}", orderId);
+        RetrieveOrderDetailQueryResponse retrieveOrderQueryResponse = orderApplicationService.retrieveOrder(orderId);
+        return ResponseEntity.ok(retrieveOrderQueryResponse);
     }
 
     @PostMapping("/preview")
