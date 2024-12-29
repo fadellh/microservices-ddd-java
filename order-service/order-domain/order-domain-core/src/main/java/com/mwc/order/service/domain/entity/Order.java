@@ -15,6 +15,7 @@ public class Order extends AggregateRoot<OrderId> {
     private final StreetAddress deliveryAddress;
     private final WarehouseId warehouseId;
     private Money price;
+    private Money shippingCost;
     private List<OrderItem> items;
 
     private OrderStatus orderStatus;
@@ -148,6 +149,7 @@ public class Order extends AggregateRoot<OrderId> {
         warehouseId = builder.warehouseId;
         deliveryAddress = builder.deliveryAddress;
         price = builder.price;
+        shippingCost = builder.shippingCost;
         items = builder.items;
         orderStatus = builder.orderStatus;
         failureMessages = builder.failureMessages;
@@ -174,6 +176,10 @@ public class Order extends AggregateRoot<OrderId> {
         return price;
     }
 
+    public Money getShippingCost() {
+        return shippingCost;
+    }
+
     public List<OrderItem> getItems() {
         return items;
     }
@@ -193,6 +199,7 @@ public class Order extends AggregateRoot<OrderId> {
         private WarehouseId warehouseId;
         private StreetAddress deliveryAddress;
         private Money price;
+        private Money shippingCost;
         private List<OrderItem> items;
         private OrderStatus orderStatus;
         private List<String> failureMessages;
@@ -222,6 +229,11 @@ public class Order extends AggregateRoot<OrderId> {
 
         public Builder price(Money val) {
             price = val;
+            return this;
+        }
+
+        public Builder shippingCost(Money val) {
+            shippingCost = val;
             return this;
         }
 
