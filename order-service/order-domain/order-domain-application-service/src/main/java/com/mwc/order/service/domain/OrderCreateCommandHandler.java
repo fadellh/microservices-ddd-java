@@ -48,10 +48,10 @@ public class OrderCreateCommandHandler {
         return orderCreateHelper.uploadPayment(createPaymentCommand);
     }
 
-    public UpdateOrderStatusResponse updateOrderStatus(UpdateOrderStatusCommand updateOrderStatusCommand) {
+    public UpdateOrderStatusResponse approveOrder(UpdateOrderStatusCommand updateOrderStatusCommand) {
         // Implementation for update order status
         OrderApprovedEvent orderApprovedEvent = orderCreateHelper.approveOrder(updateOrderStatusCommand);
-        log.info("Order status is updated with id: {}", orderApprovedEvent.getOrder().getId().getValue());
+        log.info("Order status is approved with id: {}", orderApprovedEvent.getOrder().getId().getValue());
 
         //Publish Message to Kafka
 //        orderCreatedMessagePublisher.publish(orderCreatedEvent);

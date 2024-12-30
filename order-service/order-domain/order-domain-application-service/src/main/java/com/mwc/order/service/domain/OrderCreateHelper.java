@@ -41,7 +41,8 @@ public class OrderCreateHelper {
     private final CustomerRepository customerRepository;
     private final ProductRepository productRepository;
     private final WarehouseRepository warehouseRepository;
-    private final OrderRepository orderRepository;
+    private final OrderRepository commandOrderRepository;
+    private final OrderRepository queryOrderRepository;
     private final PaymentRepository paymentRepository;
     private final AdminRepository adminRepository;
 
@@ -63,7 +64,8 @@ public class OrderCreateHelper {
                              ProductRepository productRepository,
                              WarehouseRepository warehouseRepository,
                              PaymentRepository paymentRepository,
-                             @Qualifier("commandRepository") OrderRepository orderRepository,
+                             @Qualifier("commandRepository") OrderRepository commandOrderRepository,
+                             @Qualifier("queryRepository")  OrderRepository queryOrderRepository,
                              AdminRepository adminRepository,
                              OrderDomainService orderDomainService,
                              OrderStatusUpdatedMessagePublisher orderStatusUpdatedMessagePublisher,
@@ -74,7 +76,8 @@ public class OrderCreateHelper {
         this.customerRepository = customerRepository;
         this.productRepository = productRepository;
         this.warehouseRepository = warehouseRepository;
-        this.orderRepository = orderRepository;
+        this.commandOrderRepository = commandOrderRepository;
+        this.queryOrderRepository = queryOrderRepository;
         this.orderDomainService = orderDomainService;
         this.paymentRepository = paymentRepository;
         this.adminRepository = adminRepository;
@@ -105,7 +108,7 @@ public class OrderCreateHelper {
 
 
     private Order saveOrder(Order order) {
-        Order orderResult = orderRepository.save(order);
+        Order orderResult = commandOrderRepository.save(order);
         if (orderResult == null) {
             log.error("Could not save order!");
             throw new OrderDomainException("Could not save order!");
@@ -188,7 +191,7 @@ public class OrderCreateHelper {
     public CreatePaymentResponse uploadPayment(CreatePaymentCommand createPaymentCommand) {
         try {
             // Get order and update payment status
-            Order order = orderRepository.findById(createPaymentCommand.getOrderId())
+            Order order = commandOrderRepository.findById(createPaymentCommand.getOrderId())
                     .orElseThrow(() -> new OrderDomainException("Order not found for id: " + createPaymentCommand.getOrderId()));
 
             // Upload file to GCS
@@ -212,7 +215,7 @@ public class OrderCreateHelper {
 
     private Order findOrder(UpdateOrderStatusCommand updateOrderStatusCommand) {
 
-        return orderRepository.findById(updateOrderStatusCommand.getOrderId())
+        return queryOrderRepository.findById(updateOrderStatusCommand.getOrderId())
                 .orElseThrow(() -> new OrderDomainException("Order not found for id: " + updateOrderStatusCommand.getOrderId()));
     }
 

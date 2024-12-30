@@ -1,15 +1,15 @@
 package com.mwc.inventory.service.domain.entity;
 
 import com.mwc.domain.entity.AggregateRoot;
+import com.mwc.domain.entity.BaseEntity;
 import com.mwc.domain.valueobject.WarehouseId;
-import com.mwc.inventory.service.domain.exception.WarehouseDomainException;
+import com.mwc.inventory.service.domain.exception.InventoryDomainException;
 import com.mwc.inventory.service.domain.valueobject.Location;
 import com.mwc.inventory.service.domain.valueobject.WarehouseStatus;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class Warehouse extends AggregateRoot<WarehouseId> {
+public class Warehouse extends BaseEntity<WarehouseId> {
 
     private String name;
     private Location location;
@@ -81,7 +81,7 @@ public class Warehouse extends AggregateRoot<WarehouseId> {
 
         public Builder name(String name) {
             if (name == null || name.trim().isEmpty()) {
-                throw new WarehouseDomainException("Name cannot be null or empty.");
+                throw new InventoryDomainException("Name cannot be null or empty.");
             }
             this.name = name;
             return this;
@@ -89,7 +89,7 @@ public class Warehouse extends AggregateRoot<WarehouseId> {
 
         public Builder location(Location location) {
             if (location == null) {
-                throw new WarehouseDomainException("Location cannot be null.");
+                throw new InventoryDomainException("Location cannot be null.");
             }
             this.location = location;
             return this;
@@ -109,13 +109,13 @@ public class Warehouse extends AggregateRoot<WarehouseId> {
 
         public Warehouse build() {
             if (this.warehouseId == null) {
-                throw new WarehouseDomainException("WarehouseId must be set.");
+                throw new InventoryDomainException("WarehouseId must be set.");
             }
             if (this.name == null || this.name.trim().isEmpty()) {
-                throw new WarehouseDomainException("Name must be set.");
+                throw new InventoryDomainException("Name must be set.");
             }
             if (this.location == null) {
-                throw new WarehouseDomainException("Location must be set.");
+                throw new InventoryDomainException("Location must be set.");
             }
             return new Warehouse(this);
         }

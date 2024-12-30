@@ -10,7 +10,6 @@ import com.mwc.order.service.domain.exception.OrderDomainException;
 import com.mwc.order.service.domain.mapper.OrderDataMapper;
 import com.mwc.order.service.domain.ports.output.repository.CustomerRepository;
 import com.mwc.order.service.domain.ports.output.repository.ProductRepository;
-import com.mwc.order.service.domain.ports.output.service.InventoryApplicationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,18 +29,14 @@ public class OrderPreviewHelper {
 
     private final ProductRepository productRepository;
 
-    private final InventoryApplicationService inventoryApplicationService;
-
 
     public OrderPreviewHelper(OrderDataMapper orderDataMapper,
                               CustomerRepository customerRepository,
-                              ProductRepository productRepository,
-                              InventoryApplicationService inventoryApplicationService
+                              ProductRepository productRepository
     ) {
         this.orderDataMapper = orderDataMapper;
         this.customerRepository = customerRepository;
         this.productRepository = productRepository;
-        this.inventoryApplicationService = inventoryApplicationService;
     }
 
 //    @Transactional

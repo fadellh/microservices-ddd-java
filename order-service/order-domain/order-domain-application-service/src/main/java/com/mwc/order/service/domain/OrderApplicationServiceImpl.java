@@ -46,9 +46,9 @@ public class OrderApplicationServiceImpl implements OrderApplicationService {
     }
 
     @Override
-    public UpdateOrderStatusResponse updateOrderStatus(UpdateOrderStatusCommand updateOrderStatusCommand) {
+    public UpdateOrderStatusResponse approveOrder(UpdateOrderStatusCommand updateOrderStatusCommand) {
         // Implementation for update order status
-        return orderCreateCommandHandler.updateOrderStatus(updateOrderStatusCommand);
+        return orderCreateCommandHandler.approveOrder(updateOrderStatusCommand);
     }
 
     @Override
