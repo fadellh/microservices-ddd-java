@@ -1,0 +1,53 @@
+{
+    "namespace": "com.mwc.kafka.order.avro.model",
+    "type": "record",
+    "name": "StockDecrementAvroModel",
+    "fields": [
+        {
+            "name": "id",
+            "type": {
+                "type": "string",
+                "logicalType": "uuid"
+            }
+        },
+        {
+            "name": "sagaId",
+            "type": {
+                "type": "string",
+                "logicalType": "uuid"
+            }
+        },
+        {
+            "name": "inventoryId",
+            "type": {
+                "type": "string",
+                "logicalType": "uuid"
+            }
+        },
+        {
+            "name": "productId",
+            "type": {
+                "type": "string",
+                "logicalType": "uuid"
+            }
+        },
+        {
+          "name": "warehouseId",
+          "type": {
+            "type": "string",
+            "logicalType": "uuid"
+          }
+        },
+        {
+            "name": "quantity",
+            "type": "int"
+        },
+        {
+            "name": "createdAt",
+            "type": {
+                "type": "long",
+                "logicalType": "timestamp-millis"
+            }
+        }
+    ]
+}

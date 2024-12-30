@@ -5,13 +5,16 @@ import lombok.Builder;
 import lombok.Getter;
 
 import javax.validation.constraints.NotNull;
+import java.util.UUID;
 
 @Getter
 @AllArgsConstructor
 @Builder
 public class TransferInventoryCommand {
     @NotNull
-    private final String toWarehouseId;
+    private final UUID fromWarehouseId;
+    @NotNull
+    private final UUID toWarehouseId;
     @NotNull
     private final int quantity;
 }

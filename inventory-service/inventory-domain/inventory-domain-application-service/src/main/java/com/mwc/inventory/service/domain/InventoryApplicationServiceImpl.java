@@ -12,16 +12,14 @@ import java.util.UUID;
 @Service
 @Validated
 public class InventoryApplicationServiceImpl implements InventoryApplicationService {
-    private InventoryTransferCommandHandler inventoryTransferCommandHandler;
-    private InventoryTransferHelper inventoryTransferHelper;
+    private final InventoryTransferCommandHandler inventoryTransferCommandHandler;
 
-    public InventoryApplicationServiceImpl(InventoryTransferCommandHandler inventoryTransferCommandHandler, InventoryTransferHelper inventoryTransferHelper) {
+    public InventoryApplicationServiceImpl(InventoryTransferCommandHandler inventoryTransferCommandHandler) {
         this.inventoryTransferCommandHandler = inventoryTransferCommandHandler;
-        this.inventoryTransferHelper = inventoryTransferHelper;
     }
 
     @Override
     public TransferInventoryResponse transferInventory(UUID inventoryId, TransferInventoryCommand transferInventoryCommand) {
-        return inventoryTransferCommandHandler.transferInventory(inventoryId, transferInventoryCommand);
+        return inventoryTransferCommandHandler.manualTransferInventory(inventoryId, transferInventoryCommand);
     }
 }

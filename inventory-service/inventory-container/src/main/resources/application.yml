@@ -20,7 +20,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres?currentSchema=inventory&binaryTransfer=true&reWriteBatchedInserts=true&stringtype=unspecified
     driver-class-name: org.postgresql.Driver
-    schema-locations: classpath:init-schema.sql
+    schema-locations: classpath:init-schema.sql,classpath:inventory-data.sql,classpath:inventory-item-data.sql
 
   data:
     mongodb:
@@ -30,13 +30,15 @@ spring:
   sql:
     init:
       platform: postgres
-      mode: always
-      schema-locations: classpath:init-schema.sql
+      mode: never
+      schema-locations: classpath:init-schema.sql, classpath:inventory-data.sql,classpath:inventory-item-data.sql
 
 # Example application-level config
 inventory-service:
-  inventoryCreateTopicName: inventory-create-request
-  inventoryCreateResponseTopicName: inventory-create-response
+  stockDecrementTopicName: stock-decrement-request
+  stockDecrementResponseTopicName: stock-decrement-response
+  stockIncrementTopicName: stock-increment-request
+  stockIncrementResponseTopicName: stock-increment-response
 
 # ----------------------------------------------------------------
 # KAFKA CONFIG FOR CONFLUENT CLOUD (common or default)

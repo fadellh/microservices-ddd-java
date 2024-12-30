@@ -5,12 +5,12 @@ import com.mwc.inventory.service.domain.entity.Inventory;
 
 import java.time.ZonedDateTime;
 
-public class StockDeductedEvent extends InventoryEvent {
-    private final DomainEventPublisher<StockDeductedEvent> stockDeductedEventDomainEventPublisher;
+public class StockDecrementedEvent extends InventoryEvent {
+    private final DomainEventPublisher<StockDecrementedEvent> stockDeductedEventDomainEventPublisher;
 
-    public StockDeductedEvent(Inventory inventory,
-                              ZonedDateTime createdAt,
-                              DomainEventPublisher<StockDeductedEvent> stockDeductedEventDomainEventPublisher) {
+    public StockDecrementedEvent(Inventory inventory,
+                                 ZonedDateTime createdAt,
+                                 DomainEventPublisher<StockDecrementedEvent> stockDeductedEventDomainEventPublisher) {
         super(inventory, createdAt);
         this.stockDeductedEventDomainEventPublisher = stockDeductedEventDomainEventPublisher;
     }
