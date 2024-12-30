@@ -18,7 +18,7 @@ public interface OrderApplicationService {
 
     CreatePaymentResponse createPayment(@Valid CreatePaymentCommand createPaymentCommand);
 
-    UpdateOrderStatusResponse updateOrderStatus(@Valid UpdateOrderStatusCommand updateOrderStatusCommand);
+    UpdateOrderStatusResponse approveOrder(@Valid UpdateOrderStatusCommand updateOrderStatusCommand);
 
     List<RetrieveOrderQueryResponse> retrieveOrders(RetrieveOrderQuery orderListQuery);
 

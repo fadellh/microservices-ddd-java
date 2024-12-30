@@ -1,6 +1,7 @@
 package com.mwc.order.service.domain.rest;
 
 
+import com.mwc.domain.valueobject.OrderStatus;
 import com.mwc.order.service.domain.dto.create.*;
 import com.mwc.order.service.domain.dto.create.payment.CreatePaymentCommand;
 import com.mwc.order.service.domain.dto.create.payment.CreatePaymentResponse;
@@ -80,11 +81,19 @@ public class OrderController {
         return ResponseEntity.ok(createPaymentResponse);
     }
 
-//    @PutMapping("/status")
-//    public ResponseEntity<UpdateOrderStatusResponse> updateOrderStatus(@RequestBody UpdateOrderStatusCommand updateOrderStatusCommand) {
-//        log.info("Updating order status: {} for order: {}", updateOrderStatusCommand.getStatus(), updateOrderStatusCommand.getOrderId());
-//        UpdateOrderStatusResponse updateOrderStatusResponse = orderApplicationService.updateOrderStatus(updateOrderStatusCommand);
-//        return ResponseEntity.ok(updateOrderStatusResponse);
-//    }
+    @PostMapping("/{orderId}/approve")
+    public ResponseEntity<UpdateOrderStatusResponse> approveOrder(
+            @RequestParam("orderId") UUID orderId,
+            @RequestHeader("X-User-Id") UUID userId
+    ) {
+        log.info("Approving order: {} for user: {}", orderId, userId);
+        UpdateOrderStatusCommand updateOrderStatusCommand = UpdateOrderStatusCommand.builder()
+                .orderId(orderId)
+                .adminId(userId)
+                .orderStatus(OrderStatus.APPROVED)
+                .build();
+        UpdateOrderStatusResponse updateOrderStatusResponse = orderApplicationService.approveOrder(updateOrderStatusCommand);
+        return ResponseEntity.ok(updateOrderStatusResponse);
+    }
 
 }

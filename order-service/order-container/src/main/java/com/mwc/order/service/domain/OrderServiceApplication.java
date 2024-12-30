@@ -14,8 +14,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
         scanBasePackages = {"com.mwc"},   // <-- add your Kafka configs package
         exclude = {
                 org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration.class
-        }
-        )
+        })
 public class OrderServiceApplication {
     public static void main(String[] args) {
         SpringApplication.run(OrderServiceApplication.class, args);

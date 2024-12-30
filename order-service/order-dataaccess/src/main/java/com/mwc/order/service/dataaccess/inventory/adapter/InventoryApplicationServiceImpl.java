@@ -1,13 +1,12 @@
 package com.mwc.order.service.dataaccess.inventory.adapter;
 
 import com.mwc.order.service.domain.dto.external.InventoryResponse;
-import com.mwc.order.service.domain.ports.output.service.InventoryApplicationService;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
 @Component
-public class InventoryApplicationServiceImpl implements InventoryApplicationService {
+public class InventoryApplicationServiceImpl {
 
 //    private final RestTemplate restTemplate;
 
