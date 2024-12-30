@@ -1,0 +1,40 @@
+{
+  "namespace": "com.mwc.kafka.order.avro.model",
+    "type": "record",
+    "name": "StockIncrementResponseAvroModel",
+    "fields": [
+      {
+        "name": "id",
+        "type": {
+          "type": "string",
+          "logicalType": "uuid"
+        }
+      },
+      {
+        "name": "sagaId",
+        "type": {
+          "type": "string",
+          "logicalType": "uuid"
+        }
+      },
+      {
+        "name": "inventoryId",
+        "type": {
+          "type": "string",
+          "logicalType": "uuid"
+        }
+      },
+      {
+        "name": "failureMessages",
+        "type": ["null", "string"],
+        "default": null
+      },
+      {
+        "name": "createdAt",
+        "type": {
+          "type": "long",
+          "logicalType": "timestamp-millis"
+        }
+      }
+    ]
+}

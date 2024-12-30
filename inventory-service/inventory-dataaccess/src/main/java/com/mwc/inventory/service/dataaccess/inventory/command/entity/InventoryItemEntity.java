@@ -21,10 +21,9 @@ public class InventoryItemEntity {
     private UUID id;
 
     @ManyToOne
-    @JoinColumn(name = "INVENTORY_ID", nullable = false)
+    @JoinColumn(name = "inventory_id", nullable = false)
     private InventoryEntity inventory;
 
-    private UUID inventoryId;
     private UUID warehouseId;
     private Integer quantity;
 

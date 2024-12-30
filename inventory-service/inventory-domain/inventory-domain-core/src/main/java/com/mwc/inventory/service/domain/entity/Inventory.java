@@ -42,6 +42,13 @@ public class Inventory extends AggregateRoot<InventoryId> {
         journals.add(journal);
     }
 
+    // check if sourceInventory has enough quantity to transfer
+    public void checkIfEnoughQuantity(Quantity toTransfer) {
+        if (this.quantity.isLessThan(toTransfer)) {
+            throw new NotEnoughInventoryException("Insufficient stock to transfer");
+        }
+    }
+
     public void reduceStock(Quantity toReduce, StockJournalReason reason) {
         if (toReduce.getValue() <= 0) {
             throw new InventoryDomainException("Cannot reduce non-positive quantity");
