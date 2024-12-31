@@ -14,16 +14,16 @@ import java.time.ZonedDateTime;
 public class InventoryDomainServiceImpl implements InventoryDomainService {
 
     @Override
-    public StockDecrementedEvent deductStock(Inventory inventory, int quantity, DomainEventPublisher<StockDecrementedEvent> stockDeductedEventDomainEventPublisher) {
+    public StockDecrementedEvent deductStock(Inventory inventory, int quantity,StockJournalReason stockJournalReason, DomainEventPublisher<StockDecrementedEvent> stockDeductedEventDomainEventPublisher) {
         inventory.checkIfEnoughQuantity(new Quantity(quantity));
 
-        inventory.reduceStock(new Quantity(quantity), StockJournalReason.ORDER);
+        inventory.reduceStock(new Quantity(quantity), stockJournalReason);
         return new StockDecrementedEvent(inventory, ZonedDateTime.now(), stockDeductedEventDomainEventPublisher);
     }
 
     @Override
-    public StockIncrementedEvent incrementStock(Inventory inventory, int quantity, DomainEventPublisher<StockIncrementedEvent> stockIncrementedEventDomainEventPublisher) {
-        inventory.addStock(new Quantity(quantity), StockJournalReason.ORDER);
+    public StockIncrementedEvent incrementStock(Inventory inventory, int quantity,StockJournalReason stockJournalReason, DomainEventPublisher<StockIncrementedEvent> stockIncrementedEventDomainEventPublisher) {
+        inventory.addStock(new Quantity(quantity), stockJournalReason);
         return new StockIncrementedEvent(inventory, ZonedDateTime.now(), stockIncrementedEventDomainEventPublisher);
     }
 

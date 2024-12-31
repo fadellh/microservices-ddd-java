@@ -6,4 +6,5 @@ public enum StockJournalReason {
     MANUAL_TRANSFER_IN,
     MANUAL_TRANSFER_OUT,
     ORDER,
+    ADDITIONAL,
 }

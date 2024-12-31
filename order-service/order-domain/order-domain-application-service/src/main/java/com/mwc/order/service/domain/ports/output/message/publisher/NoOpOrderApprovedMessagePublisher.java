@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class NoOpOrderApprovedMessagePublisher implements OrderApprovedDeductedStockRequestMessagePublisher {
+public class NoOpOrderApprovedMessagePublisher implements OrderApprovedDecrementStockRequestMessagePublisher {
 
     @Override
     public void publish(OrderApprovedEvent domainEvent) {

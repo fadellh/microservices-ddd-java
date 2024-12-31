@@ -1,5 +1,9 @@
 package com.mwc.inventory.service.messaging.mapper;
 
+import com.mwc.domain.valueobject.InventoryId;
+import com.mwc.domain.valueobject.ProductId;
+import com.mwc.domain.valueobject.WarehouseId;
+import com.mwc.inventory.service.domain.dto.message.StockDecrementRequest;
 import com.mwc.inventory.service.domain.entity.Inventory;
 import com.mwc.inventory.service.domain.event.StockDecrementedEvent;
 import com.mwc.inventory.service.domain.event.StockIncrementedEvent;
@@ -35,5 +39,18 @@ public class InventoryMessagingDataMapper {
                 .setQuantity(inventory.getQuantity().getValue())
                 .setCreatedAt(stockIncrementedEvent.getCreatedAt().toInstant())
                 .build();
+    }
+
+    public StockDecrementRequest stockDecrementAvroModelToStockDecrementRequest(StockDecrementAvroModel stockDecrementAvroModel) {
+        return StockDecrementRequest.builder()
+                .id(stockDecrementAvroModel.getId().toString())
+                .sagaId(stockDecrementAvroModel.getSagaId().toString())
+                .inventoryId(stockDecrementAvroModel.getInventoryId())
+                .productId(stockDecrementAvroModel.getProductId())
+                .warehouseId(stockDecrementAvroModel.getWarehouseId())
+                .quantity(stockDecrementAvroModel.getQuantity())
+                .createdAt(stockDecrementAvroModel.getCreatedAt())
+                .build();
+
     }
 }

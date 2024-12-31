@@ -1,6 +1,7 @@
 package com.mwc.inventory.service.domain;
 
 import com.mwc.inventory.service.domain.dto.transfer.AutoTransferInventoryCommand;
+import com.mwc.inventory.service.domain.dto.transfer.StockTransferEventResult;
 import com.mwc.inventory.service.domain.dto.transfer.TransferInventoryCommand;
 import com.mwc.inventory.service.domain.dto.transfer.TransferInventoryResponse;
 import com.mwc.inventory.service.domain.event.StockDecrementedEvent;
@@ -8,6 +9,7 @@ import com.mwc.inventory.service.domain.event.StockIncrementedEvent;
 import com.mwc.inventory.service.domain.mapper.InventoryDataMapper;
 import com.mwc.inventory.service.domain.ports.output.message.publisher.StockDecrementedMessagePublisher;
 import com.mwc.inventory.service.domain.ports.output.message.publisher.StockIncrementedMessagePublisher;
+import com.mwc.inventory.service.domain.valueobject.StockJournalReason;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,14 +20,14 @@ import java.util.UUID;
 @Slf4j
 @Component
 public class InventoryTransferCommandHandler {
-    private final InventoryTransferHelper inventoryTransferHelper;
+    private final InventoryHelper inventoryTransferHelper;
     private final InventoryDataMapper inventoryDataMapper;
 
     private final StockDecrementedMessagePublisher stockDecrementedMessagePublisher;
     private final StockIncrementedMessagePublisher stockIncrementedMessagePublisher;
 
     public InventoryTransferCommandHandler(
-            InventoryTransferHelper inventoryTransferHelper,
+            InventoryHelper inventoryTransferHelper,
             InventoryDataMapper inventoryDataMapper,
             StockDecrementedMessagePublisher stockDecrementedMessagePublisher,
             StockIncrementedMessagePublisher stockIncrementedMessagePublisher
@@ -38,12 +40,10 @@ public class InventoryTransferCommandHandler {
 
     @Transactional
     public TransferInventoryResponse transferInventory(UUID inventoryId, TransferInventoryCommand transferInventoryCommand) {
-        log.info("Stock transfer is started for inventory id: {}", inventoryId);
-        StockDecrementedEvent stockDecrementedEvent =  inventoryTransferHelper.decreaseStock(inventoryId, transferInventoryCommand.getFromWarehouseId(), transferInventoryCommand.getQuantity());
-        StockIncrementedEvent stockIncrementedEvent = inventoryTransferHelper.increaseStock(inventoryId, transferInventoryCommand.getToWarehouseId(), transferInventoryCommand.getQuantity());
+        StockTransferEventResult stockTransferEventResult = inventoryTransferHelper.manualTransferStock(inventoryId, transferInventoryCommand);
 
-        inventoryTransferHelper.persistTransferStock(stockDecrementedEvent.getInventory(), stockIncrementedEvent.getInventory());
-        log.info("Stock transfer is completed for inventory id: {}", inventoryId);
+        StockDecrementedEvent stockDecrementedEvent = stockTransferEventResult.getStockDecrementedEvent();
+        StockIncrementedEvent stockIncrementedEvent = stockTransferEventResult.getStockIncrementedEvent();
 
         stockDecrementedMessagePublisher.publish(stockDecrementedEvent);
         stockIncrementedMessagePublisher.publish(stockIncrementedEvent);
@@ -53,19 +53,17 @@ public class InventoryTransferCommandHandler {
 
     @Transactional
     public TransferInventoryResponse autoTransferInventory(AutoTransferInventoryCommand autoTransferInventoryCommand) {
-        // find nearest warehouse
-        Optional<UUID> nearestWarehouseId = inventoryTransferHelper.findNearestWarehouse(autoTransferInventoryCommand);
-
-        if (nearestWarehouseId.isEmpty()) {
-            throw new IllegalArgumentException("No warehouse found to transfer stock");
-        }
 
         // transfer stock to nearest warehouse
-        return transferInventory(autoTransferInventoryCommand.getInventoryId(), TransferInventoryCommand.builder()
-                .fromWarehouseId(autoTransferInventoryCommand.getFromWarehouseId())
-                .toWarehouseId(nearestWarehouseId.get())
-                .quantity(autoTransferInventoryCommand.getQuantity())
-                .build());
+        StockTransferEventResult stockTransferEventResult = inventoryTransferHelper.autoTransferStock(autoTransferInventoryCommand);
+
+        StockDecrementedEvent stockDecrementedEvent = stockTransferEventResult.getStockDecrementedEvent();
+        StockIncrementedEvent stockIncrementedEvent = stockTransferEventResult.getStockIncrementedEvent();
+
+        stockDecrementedMessagePublisher.publish(stockDecrementedEvent);
+        stockIncrementedMessagePublisher.publish(stockIncrementedEvent);
+
+        return inventoryDataMapper.inventoryToTransferInventoryResponse(stockDecrementedEvent.getInventory(), stockIncrementedEvent.getInventory());
     }
 
 }

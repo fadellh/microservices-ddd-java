@@ -12,8 +12,5 @@ import java.util.UUID;
 public class AutoTransferInventoryCommand {
     private UUID inventoryId;
     private int quantity;
-    private Double latitude;
-    private Double longitude;
     private UUID toWarehouseId;
-    private UUID fromWarehouseId;
 }

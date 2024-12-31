@@ -1,0 +1,16 @@
+package com.mwc.inventory.service.domain.dto.transfer;
+
+
+import com.mwc.inventory.service.domain.event.StockDecrementedEvent;
+import com.mwc.inventory.service.domain.event.StockIncrementedEvent;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
+@Builder
+public class StockTransferEventResult {
+    private final StockDecrementedEvent stockDecrementedEvent;
+    private final StockIncrementedEvent stockIncrementedEvent;
+}
