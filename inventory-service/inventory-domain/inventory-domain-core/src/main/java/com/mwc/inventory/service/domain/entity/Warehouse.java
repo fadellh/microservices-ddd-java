@@ -13,13 +13,15 @@ public class Warehouse extends BaseEntity<WarehouseId> {
 
     private String name;
     private Location location;
+    private Double latitude;
+    private Double longitude;
     private WarehouseStatus status;
     private List<String> failureMessages;
 
     public static final String FAILURE_MESSAGE_DELIMITER = ",";
 
     private Warehouse(Builder builder) {
-        super.setId(builder.warehouseId);
+        super.setId(builder.id);
         this.name = builder.name;
         this.location = builder.location;
         this.status = builder.status;
@@ -60,22 +62,37 @@ public class Warehouse extends BaseEntity<WarehouseId> {
     public String getName() { return name; }
     public Location getLocation() { return location; }
     public WarehouseStatus getStatus() { return status; }
-    public WarehouseId getWarehouseId() { return getId(); }
     public List<String> getFailureMessages() {
         return failureMessages;
+    }
+    public Double getLatitude() {
+        return latitude;
+    }
+    public Double getLongitude() {
+        return longitude;
     }
 
     // Builder class
     public static class Builder {
-        private WarehouseId warehouseId;
+        private WarehouseId id;
         private String name;
         private Location location;
+        private Double latitude;
+        private Double longitude;
         private WarehouseStatus status = WarehouseStatus.ACTIVE;
         private List<String> failureMessages;
 
 
-        public Builder warehouseId(WarehouseId warehouseId) {
-            this.warehouseId = warehouseId;
+        public Builder id(WarehouseId id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder latitude(Double latitude) {
+            return this;
+        }
+
+        public Builder longitude(Double longitude) {
             return this;
         }
 
@@ -108,14 +125,8 @@ public class Warehouse extends BaseEntity<WarehouseId> {
         }
 
         public Warehouse build() {
-            if (this.warehouseId == null) {
+            if (this.id == null) {
                 throw new InventoryDomainException("WarehouseId must be set.");
-            }
-            if (this.name == null || this.name.trim().isEmpty()) {
-                throw new InventoryDomainException("Name must be set.");
-            }
-            if (this.location == null) {
-                throw new InventoryDomainException("Location must be set.");
             }
             return new Warehouse(this);
         }

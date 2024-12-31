@@ -15,7 +15,7 @@ import com.mwc.order.service.domain.event.OrderApprovedEvent;
 import com.mwc.order.service.domain.event.OrderCreatedEvent;
 import com.mwc.order.service.domain.exception.OrderDomainException;
 import com.mwc.order.service.domain.mapper.OrderDataMapper;
-import com.mwc.order.service.domain.ports.output.message.publisher.OrderApprovedDeductedStockRequestMessagePublisher;
+import com.mwc.order.service.domain.ports.output.message.publisher.OrderApprovedDecrementStockRequestMessagePublisher;
 import com.mwc.order.service.domain.ports.output.message.publisher.OrderCreatedMessagePublisher;
 import com.mwc.order.service.domain.ports.output.message.publisher.OrderStatusUpdatedMessagePublisher;
 import com.mwc.order.service.domain.ports.output.repository.*;
@@ -50,7 +50,7 @@ public class OrderCreateHelper {
     private final OrderDomainService orderDomainService;
     private final OrderCreatedMessagePublisher orderCreatedEventDomainEventPublisher;
     private final OrderStatusUpdatedMessagePublisher orderStatusUpdatedMessagePublisher;
-    private final OrderApprovedDeductedStockRequestMessagePublisher orderApprovedDeductedStockRequestMessagePublisher;
+    private final OrderApprovedDecrementStockRequestMessagePublisher orderApprovedDeductedStockRequestMessagePublisher;
 
     private final Storage storage = StorageOptions.getDefaultInstance().getService();
 
@@ -69,7 +69,7 @@ public class OrderCreateHelper {
                              AdminRepository adminRepository,
                              OrderDomainService orderDomainService,
                              OrderStatusUpdatedMessagePublisher orderStatusUpdatedMessagePublisher,
-                             OrderApprovedDeductedStockRequestMessagePublisher orderApprovedDeductedStockRequestMessagePublisher,
+                             OrderApprovedDecrementStockRequestMessagePublisher orderApprovedDeductedStockRequestMessagePublisher,
                              OrderCreatedMessagePublisher orderCreatedEventDomainEventPublisher
     ) {
         this.orderDataMapper = orderDataMapper;
