@@ -4,6 +4,7 @@ server:
 logging:
   level:
     com.mwc: DEBUG
+    org.springframework.sql: DEBUG
 
 spring:
   # Always include the "secrets" profile so we also load `application-secrets.yml`
@@ -18,9 +19,9 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=inventory&binaryTransfer=true&reWriteBatchedInserts=true&stringtype=unspecified
+    url: jdbc:postgresql://localhost:5435/postgres?currentSchema=inventory,warehouse&binaryTransfer=true&reWriteBatchedInserts=true&stringtype=unspecified
     driver-class-name: org.postgresql.Driver
-    schema-locations: classpath:init-schema.sql,classpath:inventory-data.sql,classpath:inventory-item-data.sql
+    schema-locations: classpath:warehouse-schema.sql, classpath:init-schema.sql, classpath:inventory-data.sql, classpath:inventory-item-data.sql, classpath:warehouse-data.sql
 
   data:
     mongodb:
@@ -30,8 +31,8 @@ spring:
   sql:
     init:
       platform: postgres
-      mode: never
-      schema-locations: classpath:init-schema.sql, classpath:inventory-data.sql,classpath:inventory-item-data.sql
+      mode: always
+      schema-locations: classpath:init-schema.sql, classpath:inventory-data.sql,classpath:inventory-item-data.sql,classpath:warehouse-schema.sql,classpath:warehouse-data.sql
 
 # Example application-level config
 inventory-service:

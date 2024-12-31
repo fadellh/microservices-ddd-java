@@ -10,6 +10,7 @@ import com.mwc.inventory.service.domain.ports.output.repository.InventoryReposit
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -48,4 +49,8 @@ public class InventoryCommandRepositoryImpl implements InventoryRepository {
             throw new IllegalArgumentException("Inventory item not found for the given inventoryId and warehouseId");
         }    }
 
+    @Override
+    public List<UUID> findWarehouseIdsByInventoryId(UUID inventoryId, UUID warehouseId) {
+        return inventoryItemJpaRepository.findWarehouseIdsByInventoryId(inventoryId, warehouseId);
+    }
 }

@@ -4,49 +4,28 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d293844d-7748-4a4e-b711-0613d207449e" name="Changes" comment="resolve #45: create inventory domain core and resolve #46">
-      <change afterPath="$PROJECT_DIR$/infrastructure/kafka/kafka-model/src/main/resources/avro/stock_decrement.avsc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/infrastructure/kafka/kafka-model/src/main/resources/avro/stock_decrement_response.avsc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/infrastructure/kafka/kafka-model/src/main/resources/avro/stock_increment.avsc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/infrastructure/kafka/kafka-model/src/main/resources/avro/stock_increment_response.avsc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-container/src/main/java/com/mwc/inventory/service/domain/config/KafkaAdminConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-container/src/main/resources/inventory-data.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-container/src/main/resources/inventory-item-data.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-dataaccess/src/main/java/com/mwc/inventory/service/dataaccess/inventory/command/repository/InventoryItemJpaRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/config/InventoryServiceConfigData.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/ports/output/message/publisher/StockDecrementedMessagePublisher.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/ports/output/message/publisher/StockIncrementedMessagePublisher.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-core/src/main/java/com/mwc/inventory/service/domain/event/StockIncrementedEvent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-core/src/main/java/com/mwc/inventory/service/domain/event/StockTransferredEvent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-core/src/main/java/com/mwc/inventory/service/domain/exception/NotEnoughInventoryException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-messaging/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-messaging/src/main/java/com/mwc/inventory/service/messaging/mapper/InventoryMessagingDataMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-messaging/src/main/java/com/mwc/inventory/service/messaging/publisher/kafka/StockDecrementKafkaMessagePublisher.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-messaging/src/main/java/com/mwc/inventory/service/messaging/publisher/kafka/StockIncrementKafkaMessagePublisher.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+    <list default="true" id="d293844d-7748-4a4e-b711-0613d207449e" name="Changes" comment="resolve #48 and resolve #49: publish stock increase and decrease event">
+      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-container/src/main/resources/warehouse-data.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-container/src/main/resources/warehouse-schema.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-dataaccess/src/main/java/com/mwc/inventory/service/dataaccess/inventory/query/adapter/InventoryQueryRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-dataaccess/src/main/java/com/mwc/inventory/service/dataaccess/inventory/query/mapper/InvetoryDataAccessMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-dataaccess/src/main/java/com/mwc/inventory/service/dataaccess/inventory/query/repository/InventoryReadJpaRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-dataaccess/src/main/java/com/mwc/inventory/service/dataaccess/warehouse/query/adapter/WarehouseQueryRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-dataaccess/src/main/java/com/mwc/inventory/service/dataaccess/warehouse/query/entity/WarehouseEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-dataaccess/src/main/java/com/mwc/inventory/service/dataaccess/warehouse/query/mapper/WarehouseDataAccessMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-dataaccess/src/main/java/com/mwc/inventory/service/dataaccess/warehouse/query/repository/WarehouseJpaRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/dto/transfer/AutoTransferInventoryCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/dto/transfer/AutoTransferInventoryResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/ports/output/repository/WarehouseRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory-service/inventory-application/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/inventory-application/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory-service/inventory-container/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/inventory-container/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory-service/inventory-container/src/main/java/com/mwc/inventory/service/domain/InventoryServiceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/inventory-container/src/main/java/com/mwc/inventory/service/domain/InventoryServiceApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/inventory-service/inventory-container/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/inventory-container/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory-service/inventory-dataaccess/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/inventory-dataaccess/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/inventory-service/inventory-dataaccess/src/main/java/com/mwc/inventory/service/dataaccess/inventory/command/adapter/InventoryCommandRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/inventory-dataaccess/src/main/java/com/mwc/inventory/service/dataaccess/inventory/command/adapter/InventoryCommandRepositoryImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory-service/inventory-dataaccess/src/main/java/com/mwc/inventory/service/dataaccess/inventory/command/entity/InventoryItemEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/inventory-dataaccess/src/main/java/com/mwc/inventory/service/dataaccess/inventory/command/entity/InventoryItemEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory-service/inventory-dataaccess/src/main/java/com/mwc/inventory/service/dataaccess/inventory/command/mapper/InventoryDataAccessMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/inventory-dataaccess/src/main/java/com/mwc/inventory/service/dataaccess/inventory/command/mapper/InventoryDataAccessMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inventory-service/inventory-dataaccess/src/main/java/com/mwc/inventory/service/dataaccess/inventory/command/repository/InventoryItemJpaRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/inventory-dataaccess/src/main/java/com/mwc/inventory/service/dataaccess/inventory/command/repository/InventoryItemJpaRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inventory-service/inventory-dataaccess/src/main/java/com/mwc/inventory/service/dataaccess/inventory/command/repository/InventoryJpaRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/inventory-dataaccess/src/main/java/com/mwc/inventory/service/dataaccess/inventory/command/repository/InventoryJpaRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/InventoryApplicationServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/InventoryApplicationServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/InventoryTransferCommandHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/InventoryTransferCommandHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/InventoryTransferHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/InventoryTransferHelper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/StockDeductRequestMessageListenerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/StockDeductRequestMessageListenerImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/dto/transfer/TransferInventoryCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/dto/transfer/TransferInventoryCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/dto/transfer/TransferInventoryResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/dto/transfer/TransferInventoryResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/mapper/InventoryDataMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/mapper/InventoryDataMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/ports/input/message/listener/order/StockDeductRequestMessageListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/ports/input/message/listener/order/StockDeductRequestMessageListener.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/ports/output/repository/InventoryRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/ports/output/repository/InventoryRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-core/src/main/java/com/mwc/inventory/service/domain/InventoryDomainService.java" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-core/src/main/java/com/mwc/inventory/service/domain/InventoryDomainService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-core/src/main/java/com/mwc/inventory/service/domain/InventoryDomainServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-core/src/main/java/com/mwc/inventory/service/domain/InventoryDomainServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-core/src/main/java/com/mwc/inventory/service/domain/entity/Inventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-core/src/main/java/com/mwc/inventory/service/domain/entity/Inventory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-core/src/main/java/com/mwc/inventory/service/domain/event/StockDeductedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-core/src/main/java/com/mwc/inventory/service/domain/event/StockDecrementedEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,8 +37,8 @@
       <list>
         <option value="Enum" />
         <option value="Exception" />
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -118,7 +97,7 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "order-approve",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/fadellukmanhakim/fadel/mwc-java/inventory-service/inventory-dataaccess/src/main/java/com/mwc/inventory/service/dataaccess/inventory/query",
+    "last_opened_file_path": "/Users/fadellukmanhakim/fadel/mwc-java/inventory-service/inventory-dataaccess/src/main/java/com/mwc/inventory/service/dataaccess/warehouse/command",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0",
@@ -127,6 +106,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/inventory-service/inventory-dataaccess/src/main/java/com/mwc/inventory/service/dataaccess/warehouse/command" />
       <recent name="$PROJECT_DIR$/inventory-service/inventory-dataaccess/src/main/java/com/mwc/inventory/service/dataaccess/inventory/query" />
       <recent name="$PROJECT_DIR$/inventory-service/inventory-container/src/main/resources" />
     </key>
@@ -273,7 +253,23 @@
       <option name="project" value="LOCAL" />
       <updated>1735561388576</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="resolve #48 and resolve #49: publish stock increase and decrease event">
+      <option name="closed" value="true" />
+      <created>1735586242284</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1735586242284</updated>
+    </task>
+    <task id="LOCAL-00014" summary="resolve #48 and resolve #49: publish stock increase and decrease event">
+      <option name="closed" value="true" />
+      <created>1735586253330</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1735586253330</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -289,7 +285,8 @@
     <MESSAGE value="resolve #37 : create API order details" />
     <MESSAGE value="resolve #38 : complete query order details data" />
     <MESSAGE value="resolve #45: create inventory domain core and resolve #46" />
-    <option name="LAST_COMMIT_MESSAGE" value="resolve #45: create inventory domain core and resolve #46" />
+    <MESSAGE value="resolve #48 and resolve #49: publish stock increase and decrease event" />
+    <option name="LAST_COMMIT_MESSAGE" value="resolve #48 and resolve #49: publish stock increase and decrease event" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -331,18 +328,23 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/inventory-service/inventory-dataaccess/src/main/java/com/mwc/inventory/service/dataaccess/inventory/command/adapter/InventoryCommandRepositoryImpl.java</url>
-          <line>45</line>
+          <line>46</line>
           <option name="timeStamp" value="30" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/InventoryTransferHelper.java</url>
-          <line>60</line>
+          <line>68</line>
           <option name="timeStamp" value="31" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/InventoryTransferHelper.java</url>
-          <line>61</line>
+          <line>69</line>
           <option name="timeStamp" value="32" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/InventoryTransferHelper.java</url>
+          <line>75</line>
+          <option name="timeStamp" value="33" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/order-service/order-domain/order-domain-application-service/src/main/java/com/mwc/order/service/domain/ports/input/service/OrderApplicationService.java</url>
