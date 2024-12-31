@@ -12,10 +12,10 @@ public class WarehouseDataAccessMapper {
 
     public Warehouse warehouseEntityToWarehouse(Optional<WarehouseEntity> warehouseEntity) {
         return Warehouse.builder()
-                .id(new WarehouseId(warehouseEntity.getId()))
-                .name(warehouseEntity.getName())
-                .latitude(warehouseEntity.getLatitude())
-                .longitude(warehouseEntity.getLongitude())
+                .id(new WarehouseId(warehouseEntity.get().getId()))
+                .name(warehouseEntity.get().getName())
+                .latitude(warehouseEntity.get().getLatitude())
+                .longitude(warehouseEntity.get().getLongitude())
                 .build();
     }
 
