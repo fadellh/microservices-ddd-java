@@ -1,5 +1,6 @@
 package com.mwc.inventory.service.domain;
 
+import com.mwc.inventory.service.domain.dto.transfer.AutoTransferInventoryCommand;
 import com.mwc.inventory.service.domain.dto.transfer.TransferInventoryCommand;
 import com.mwc.inventory.service.domain.dto.transfer.TransferInventoryResponse;
 import com.mwc.inventory.service.domain.event.StockDecrementedEvent;
@@ -11,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j
@@ -35,7 +37,7 @@ public class InventoryTransferCommandHandler {
     }
 
     @Transactional
-    public TransferInventoryResponse manualTransferInventory(UUID inventoryId, TransferInventoryCommand transferInventoryCommand) {
+    public TransferInventoryResponse transferInventory(UUID inventoryId, TransferInventoryCommand transferInventoryCommand) {
         log.info("Stock transfer is started for inventory id: {}", inventoryId);
         StockDecrementedEvent stockDecrementedEvent =  inventoryTransferHelper.decreaseStock(inventoryId, transferInventoryCommand.getFromWarehouseId(), transferInventoryCommand.getQuantity());
         StockIncrementedEvent stockIncrementedEvent = inventoryTransferHelper.increaseStock(inventoryId, transferInventoryCommand.getToWarehouseId(), transferInventoryCommand.getQuantity());
@@ -47,6 +49,23 @@ public class InventoryTransferCommandHandler {
         stockIncrementedMessagePublisher.publish(stockIncrementedEvent);
 
         return inventoryDataMapper.inventoryToTransferInventoryResponse(stockDecrementedEvent.getInventory(), stockIncrementedEvent.getInventory());
+    }
+
+    @Transactional
+    public TransferInventoryResponse autoTransferInventory(AutoTransferInventoryCommand autoTransferInventoryCommand) {
+        // find nearest warehouse
+        Optional<UUID> nearestWarehouseId = inventoryTransferHelper.findNearestWarehouse(autoTransferInventoryCommand);
+
+        if (nearestWarehouseId.isEmpty()) {
+            throw new IllegalArgumentException("No warehouse found to transfer stock");
+        }
+
+        // transfer stock to nearest warehouse
+        return transferInventory(autoTransferInventoryCommand.getInventoryId(), TransferInventoryCommand.builder()
+                .fromWarehouseId(autoTransferInventoryCommand.getFromWarehouseId())
+                .toWarehouseId(nearestWarehouseId.get())
+                .quantity(autoTransferInventoryCommand.getQuantity())
+                .build());
     }
 
 }

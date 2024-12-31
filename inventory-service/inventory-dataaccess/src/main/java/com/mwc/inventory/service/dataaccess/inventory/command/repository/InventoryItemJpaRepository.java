@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -20,4 +21,11 @@ public interface InventoryItemJpaRepository extends JpaRepository<InventoryItemE
     @Query("UPDATE InventoryItemEntity i SET i.quantity = :quantity, i.updatedAt = CURRENT_TIMESTAMP " +
             "WHERE i.inventory.id = :inventoryId AND i.warehouseId = :warehouseId")
     int updateQuantityByInventoryIdAndWarehouseId(UUID inventoryId, UUID warehouseId, int quantity);
+
+    @Query("SELECT DISTINCT i.warehouseId FROM InventoryItemEntity i " +
+            "WHERE i.inventory.id = :inventoryId AND i.warehouseId != :warehouseId AND i.quantity > 0" )
+    List<UUID> findWarehouseIdsByInventoryId(
+            @Param("inventoryId") UUID inventoryId,
+            @Param("warehouseId") UUID warehouseId
+    );
 }
