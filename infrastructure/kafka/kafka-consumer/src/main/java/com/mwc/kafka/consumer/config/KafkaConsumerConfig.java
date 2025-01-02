@@ -7,6 +7,7 @@ import org.apache.avro.specific.SpecificRecordBase;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.config.KafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
@@ -19,6 +20,7 @@ import java.util.Map;
 
 @Slf4j
 @Configuration
+@EnableKafka
 public class KafkaConsumerConfig<K extends Serializable, V extends SpecificRecordBase> {
 
     private final KafkaConfigData kafkaConfigData;
@@ -51,6 +53,9 @@ public class KafkaConsumerConfig<K extends Serializable, V extends SpecificRecor
                 kafkaConsumerConfigData.getMaxPartitionFetchBytesDefault() *
                         kafkaConsumerConfigData.getMaxPartitionFetchBytesBoostFactor());
         props.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, kafkaConsumerConfigData.getMaxPollRecords());
+
+//        props.put(ConsumerConfig.GROUP_ID_CONFIG, kafkaConsumerConfigData.getStockDecrementConsumerGroupId());
+
 
         // 4) Security for Kafka (SASL_SSL, PLAIN, etc.)
         props.put("security.protocol", kafkaConfigData.getSecurityProtocol());

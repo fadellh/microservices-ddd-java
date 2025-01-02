@@ -4,28 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d293844d-7748-4a4e-b711-0613d207449e" name="Changes" comment="resolve #48 and resolve #49: publish stock increase and decrease event">
-      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-container/src/main/resources/warehouse-data.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-container/src/main/resources/warehouse-schema.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-dataaccess/src/main/java/com/mwc/inventory/service/dataaccess/inventory/query/adapter/InventoryQueryRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-dataaccess/src/main/java/com/mwc/inventory/service/dataaccess/inventory/query/mapper/InvetoryDataAccessMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-dataaccess/src/main/java/com/mwc/inventory/service/dataaccess/inventory/query/repository/InventoryReadJpaRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-dataaccess/src/main/java/com/mwc/inventory/service/dataaccess/warehouse/query/adapter/WarehouseQueryRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-dataaccess/src/main/java/com/mwc/inventory/service/dataaccess/warehouse/query/entity/WarehouseEntity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-dataaccess/src/main/java/com/mwc/inventory/service/dataaccess/warehouse/query/mapper/WarehouseDataAccessMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-dataaccess/src/main/java/com/mwc/inventory/service/dataaccess/warehouse/query/repository/WarehouseJpaRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/dto/transfer/AutoTransferInventoryCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/dto/transfer/AutoTransferInventoryResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/ports/output/repository/WarehouseRepository.java" afterDir="false" />
+    <list default="true" id="d293844d-7748-4a4e-b711-0613d207449e" name="Changes" comment="resolve #59: fixing consumer in inventory service and response it">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory-service/inventory-container/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/inventory-container/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory-service/inventory-dataaccess/src/main/java/com/mwc/inventory/service/dataaccess/inventory/command/adapter/InventoryCommandRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/inventory-dataaccess/src/main/java/com/mwc/inventory/service/dataaccess/inventory/command/adapter/InventoryCommandRepositoryImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory-service/inventory-dataaccess/src/main/java/com/mwc/inventory/service/dataaccess/inventory/command/repository/InventoryItemJpaRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/inventory-dataaccess/src/main/java/com/mwc/inventory/service/dataaccess/inventory/command/repository/InventoryItemJpaRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory-service/inventory-dataaccess/src/main/java/com/mwc/inventory/service/dataaccess/inventory/command/repository/InventoryJpaRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/inventory-dataaccess/src/main/java/com/mwc/inventory/service/dataaccess/inventory/command/repository/InventoryJpaRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/InventoryApplicationServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/InventoryApplicationServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/InventoryTransferCommandHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/InventoryTransferCommandHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/InventoryTransferHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/InventoryTransferHelper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/ports/output/repository/InventoryRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/ports/output/repository/InventoryRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order-service/order-container/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/order-service/order-container/src/main/resources/application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order-service/order-domain/order-domain-application-service/src/main/java/com/mwc/order/service/domain/OrderCreateHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/order-service/order-domain/order-domain-application-service/src/main/java/com/mwc/order/service/domain/OrderCreateHelper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order-service/order-domain/order-domain-application-service/src/main/java/com/mwc/order/service/domain/OrderSagaHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/order-service/order-domain/order-domain-application-service/src/main/java/com/mwc/order/service/domain/OrderSagaHelper.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,8 +19,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Enum" />
-        <option value="Exception" />
         <option value="Interface" />
+        <option value="Exception" />
         <option value="Class" />
       </list>
     </option>
@@ -73,37 +56,37 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.InventoryServiceApplication.executor": "Run",
-    "Application.OrderServiceApplication.executor": "Run",
-    "Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor": "Run",
-    "Maven.inventory-service [clean].executor": "Run",
-    "Maven.inventory-service [install].executor": "Run",
-    "Maven.kafka-model [clean].executor": "Run",
-    "Maven.kafka-model [compile].executor": "Run",
-    "Maven.kafka-model [install].executor": "Run",
-    "Maven.kafka-model [validate].executor": "Run",
-    "Maven.mwc-java [clean].executor": "Run",
-    "Maven.mwc-java [install].executor": "Run",
-    "Maven.mwc-java [validate].executor": "Run",
-    "Maven.order-container [clean].executor": "Run",
-    "Maven.order-container [install].executor": "Run",
-    "Maven.order-domain-application-service [clean].executor": "Run",
-    "Maven.order-messaging [clean].executor": "Run",
-    "Maven.order-service [clean].executor": "Run",
-    "Maven.order-service [install].executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "order-approve",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/fadellukmanhakim/fadel/mwc-java/inventory-service/inventory-dataaccess/src/main/java/com/mwc/inventory/service/dataaccess/warehouse/command",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "com.github.copilot.settings.ApplicationConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.InventoryServiceApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Application.OrderServiceApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.inventory-service [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.inventory-service [install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.kafka-model [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.kafka-model [compile].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.kafka-model [install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.kafka-model [validate].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.mwc-java [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.mwc-java [install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.mwc-java [validate].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.order-container [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.order-container [install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.order-domain-application-service [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.order-messaging [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.order-service [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.order-service [install].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;order-approve&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/fadellukmanhakim/fadel/mwc-java/inventory-service/inventory-dataaccess/src/main/java/com/mwc/inventory/service/dataaccess/warehouse/command&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.github.copilot.settings.ApplicationConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/inventory-service/inventory-dataaccess/src/main/java/com/mwc/inventory/service/dataaccess/warehouse/command" />
@@ -114,7 +97,7 @@
       <recent name="com.mwc.order.service.domain" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.InventoryServiceApplication">
+  <component name="RunManager" selected="Application.OrderServiceApplication">
     <configuration name="InventoryServiceApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.mwc.inventory.service.domain.InventoryServiceApplication" />
       <module name="inventory-container" />
@@ -143,8 +126,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.InventoryServiceApplication" />
         <item itemvalue="Application.OrderServiceApplication" />
+        <item itemvalue="Application.InventoryServiceApplication" />
       </list>
     </recent_temporary>
   </component>
@@ -269,7 +252,39 @@
       <option name="project" value="LOCAL" />
       <updated>1735586253330</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="resolve #52: auto stock trf publisher">
+      <option name="closed" value="true" />
+      <created>1735664111366</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1735664111366</updated>
+    </task>
+    <task id="LOCAL-00016" summary="resolve #54 and resolve #55">
+      <option name="closed" value="true" />
+      <created>1735673533936</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1735673533936</updated>
+    </task>
+    <task id="LOCAL-00017" summary="update resolve #54 and resolve #55">
+      <option name="closed" value="true" />
+      <created>1735674119717</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1735674119717</updated>
+    </task>
+    <task id="LOCAL-00018" summary="resolve #59: fixing consumer in inventory service and response it">
+      <option name="closed" value="true" />
+      <created>1735850828212</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1735850828212</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -286,7 +301,11 @@
     <MESSAGE value="resolve #38 : complete query order details data" />
     <MESSAGE value="resolve #45: create inventory domain core and resolve #46" />
     <MESSAGE value="resolve #48 and resolve #49: publish stock increase and decrease event" />
-    <option name="LAST_COMMIT_MESSAGE" value="resolve #48 and resolve #49: publish stock increase and decrease event" />
+    <MESSAGE value="resolve #52: auto stock trf publisher" />
+    <MESSAGE value="resolve #54 and resolve #55" />
+    <MESSAGE value="update resolve #54 and resolve #55" />
+    <MESSAGE value="resolve #59: fixing consumer in inventory service and response it" />
+    <option name="LAST_COMMIT_MESSAGE" value="resolve #59: fixing consumer in inventory service and response it" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -327,24 +346,59 @@
           <option name="timeStamp" value="29" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/inventory-service/inventory-dataaccess/src/main/java/com/mwc/inventory/service/dataaccess/inventory/command/adapter/InventoryCommandRepositoryImpl.java</url>
-          <line>46</line>
-          <option name="timeStamp" value="30" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/InventoryTransferHelper.java</url>
-          <line>68</line>
+          <url>file://$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/InventoryHelper.java</url>
+          <line>80</line>
           <option name="timeStamp" value="31" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/InventoryTransferHelper.java</url>
-          <line>69</line>
+          <url>file://$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/InventoryHelper.java</url>
+          <line>82</line>
           <option name="timeStamp" value="32" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/InventoryTransferHelper.java</url>
-          <line>75</line>
+          <url>file://$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/InventoryHelper.java</url>
+          <line>88</line>
           <option name="timeStamp" value="33" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/order-service/order-messaging/src/main/java/com/mwc/order/service/messaging/publisher/kafka/ApproveOrderKafkaMessagePublisher.java</url>
+          <line>35</line>
+          <option name="timeStamp" value="38" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/order-service/order-messaging/src/main/java/com/mwc/order/service/messaging/publisher/kafka/ApproveOrderKafkaMessagePublisher.java</url>
+          <line>36</line>
+          <option name="timeStamp" value="39" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/order-service/order-messaging/src/main/java/com/mwc/order/service/messaging/publisher/kafka/ApproveOrderKafkaMessagePublisher.java</url>
+          <line>54</line>
+          <option name="timeStamp" value="40" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/order-service/order-messaging/src/main/java/com/mwc/order/service/messaging/publisher/kafka/ApproveOrderKafkaMessagePublisher.java</url>
+          <line>38</line>
+          <option name="timeStamp" value="41" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/order-service/order-messaging/src/main/java/com/mwc/order/service/messaging/mapper/OrderMessagingDataMapper.java</url>
+          <line>53</line>
+          <option name="timeStamp" value="42" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/order-service/order-dataaccess/src/main/java/com/mwc/order/service/dataaccess/order/query/mapper/OrderQueryDataAccessMapper.java</url>
+          <line>34</line>
+          <option name="timeStamp" value="43" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/InventoryHelper.java</url>
+          <line>168</line>
+          <option name="timeStamp" value="48" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-core/src/main/java/com/mwc/inventory/service/domain/InventoryDomainServiceImpl.java</url>
+          <line>37</line>
+          <option name="timeStamp" value="50" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/order-service/order-domain/order-domain-application-service/src/main/java/com/mwc/order/service/domain/ports/input/service/OrderApplicationService.java</url>
@@ -354,6 +408,15 @@
             <option name="WATCH_EXIT" value="false" />
           </properties>
           <option name="timeStamp" value="21" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-core/src/main/java/com/mwc/inventory/service/domain/InventoryDomainService.java</url>
+          <line>16</line>
+          <properties class="com.mwc.inventory.service.domain.InventoryDomainService" method="orderStock">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="49" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

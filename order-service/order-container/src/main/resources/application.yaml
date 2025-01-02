@@ -18,9 +18,9 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=order,customer,product,warehouse&binaryTransfer=true&reWriteBatchedInserts=true&stringtype=unspecified
+    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=order,customer,product,warehouse,admin&binaryTransfer=true&reWriteBatchedInserts=true&stringtype=unspecified
     driver-class-name: org.postgresql.Driver
-    schema-locations: classpath:init-schema.sql,classpath:user-schema.sql,classpath:product-schema.sql,classpath:payment-schema.sql
+    schema-locations: classpath:init-schema.sql,classpath:user-schema.sql,classpath:product-schema.sql,classpath:payment-schema.sql,classpath:admin-schema.sql
 
   data:
     mongodb:
@@ -30,13 +30,15 @@ spring:
   sql:
     init:
       platform: postgres
-      mode: never
-      schema-locations: classpath:payment-schema.sql
+      mode: always
+      schema-locations: classpath:admin-schema.sql,classpath:admin-data.sql
 
 # Example application-level config
 order-service:
-  orderCreateTopicName: order-create-request
-  orderCreateResponseTopicName: order-create-response
+  order-create-topic-name: order-create-request
+  order-create-response-topic-name: order-create-response
+  stock-decrement-request-topic-name: stock-decrement-request
+  stock-decrement-response-topic-name: stock-decrement-response
 
 # ----------------------------------------------------------------
 # KAFKA CONFIG FOR CONFLUENT CLOUD (common or default)
@@ -66,6 +68,7 @@ kafka-producer-config:
 kafka-consumer-config:
   key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
   value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+  stock-consumer-group-id: stock-decrement-topic-consumer
   auto-offset-reset: earliest
   specific-avro-reader-key: specific.avro.reader
   specific-avro-reader: true

@@ -5,6 +5,8 @@ logging:
   level:
     com.mwc: DEBUG
     org.springframework.sql: DEBUG
+#    org.apache.kafka: DEBUG
+#    org.springframework.kafka: DEBUG
 
 spring:
   # Always include the "secrets" profile so we also load `application-secrets.yml`
@@ -36,10 +38,10 @@ spring:
 
 # Example application-level config
 inventory-service:
-  stockDecrementTopicName: stock-decrement-request
-  stockDecrementResponseTopicName: stock-decrement-response
-  stockIncrementTopicName: stock-increment-request
-  stockIncrementResponseTopicName: stock-increment-response
+  stock-decrement-request-topic-name: stock-decrement-request
+  stock-decrement-response-topic-name: stock-decrement-response
+  stock-increment-topic-name: stock-increment-request
+  stock-increment-response-topic-name: stock-increment-response
 
 # ----------------------------------------------------------------
 # KAFKA CONFIG FOR CONFLUENT CLOUD (common or default)
@@ -69,6 +71,7 @@ kafka-producer-config:
 kafka-consumer-config:
   key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
   value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+  stock-decrement-consumer-group-id: stock-decrement-topic-consumer
   auto-offset-reset: earliest
   specific-avro-reader-key: specific.avro.reader
   specific-avro-reader: true

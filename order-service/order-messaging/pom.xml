@@ -49,7 +49,6 @@
             <groupId>com.mwc</groupId>
             <artifactId>order-domain-application-service</artifactId>
             <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.mwc</groupId>
@@ -60,6 +59,11 @@
             <groupId>io.confluent</groupId>
             <artifactId>kafka-avro-serializer</artifactId>
             <version>7.7.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.mwc</groupId>
+            <artifactId>kafka-consumer</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 </project>

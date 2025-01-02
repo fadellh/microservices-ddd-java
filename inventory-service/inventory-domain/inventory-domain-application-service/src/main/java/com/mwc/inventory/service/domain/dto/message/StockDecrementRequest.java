@@ -17,6 +17,7 @@ public class StockDecrementRequest {
     private UUID inventoryId;
     private UUID productId;
     private UUID warehouseId;
+    private UUID orderId;
     private int quantity;
     private Instant createdAt;
 

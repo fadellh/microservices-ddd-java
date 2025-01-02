@@ -83,7 +83,7 @@ public class OrderController {
 
     @PostMapping("/{orderId}/approve")
     public ResponseEntity<UpdateOrderStatusResponse> approveOrder(
-            @RequestParam("orderId") UUID orderId,
+            @PathVariable("orderId") UUID orderId,
             @RequestHeader("X-User-Id") UUID userId
     ) {
         log.info("Approving order: {} for user: {}", orderId, userId);

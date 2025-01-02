@@ -1,9 +1,6 @@
 package com.mwc.order.service.dataaccess.order.query.mapper;
 
-import com.mwc.domain.valueobject.CustomerId;
-import com.mwc.domain.valueobject.Money;
-import com.mwc.domain.valueobject.OrderId;
-import com.mwc.domain.valueobject.WarehouseId;
+import com.mwc.domain.valueobject.*;
 import com.mwc.order.service.dataaccess.order.query.entity.OrderDocument;
 import com.mwc.order.service.domain.entity.Order;
 import com.mwc.order.service.domain.entity.OrderItem;
@@ -54,7 +51,7 @@ public class OrderQueryDataAccessMapper {
                         .map(item -> {
                             log.debug("Mapping OrderItem: {}", item);
                             return OrderItem.builder()
-                                    .product(Product.builder().name(item.getName()).build())
+                                    .product(Product.builder().name(item.getName()).productId(new ProductId(item.getProductId())).build())
                                     .quantity(Optional.ofNullable(item.getQuantity()).orElse(0))
                                     .price(new Money(Optional.ofNullable(item.getPrice()).orElse(BigDecimal.ZERO)))
                                     .subTotal(new Money(Optional.ofNullable(item.getSubTotal()).orElse(BigDecimal.ZERO)))

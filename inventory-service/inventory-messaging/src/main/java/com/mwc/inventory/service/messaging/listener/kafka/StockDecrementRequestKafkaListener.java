@@ -26,8 +26,12 @@ public class StockDecrementRequestKafkaListener implements KafkaConsumer<StockDe
     }
 
     @Override
-    @KafkaListener(id = "${kafka-consumer-config.stock-decrement-consumer-group-id}",
-            topics = "${inventory-service.stock-decrement-request-topic-name}")
+    @KafkaListener(
+//            id = "${kafka-consumer-config.stock-decrement-consumer-group-id}",
+            groupId = "${kafka-consumer-config.stock-decrement-consumer-group-id}",
+            topics = "${inventory-service.stock-decrement-request-topic-name}"
+//            containerFactory = "kafkaListenerContainerFactory"
+    )
     public void receive(
             @Payload List<StockDecrementAvroModel> messages,
             @Header(KafkaHeaders.RECEIVED_KEY) List<String> keys,
@@ -41,17 +45,17 @@ public class StockDecrementRequestKafkaListener implements KafkaConsumer<StockDe
                 offsets.toString(),
                 messages);
 
-//        messages.forEach(stockDecrementAvroModel -> {
-//            log.info("Processing stock decrement request for product id: {}", stockDecrementAvroModel.getProductId());
-//            stockDecrementRequestMessageListener.decrementStock(inventoryMessagingDataMapper
-//                    .stockDecrementAvroModelToStockDecrementRequest(stockDecrementAvroModel));
-//        }
+        messages.forEach(stockDecrementAvroModel -> {
+            try {
+                log.info("Processing stock decrement request for product id: {}  <#><#>>", stockDecrementAvroModel.getProductId());
+                stockDecrementRequestMessageListener.decrementStock(
+                        inventoryMessagingDataMapper.stockDecrementAvroModelToStockDecrementRequest(stockDecrementAvroModel)
+                );
+            } catch (Exception e) {
+                log.error("Failed to process stock decrement for product id: {}", stockDecrementAvroModel.getProductId(), e);
+            }
+        });
 
-        for (StockDecrementAvroModel stockDecrementAvroModel : messages) {
-            log.info("Processing stock decrement request for product id: {}", stockDecrementAvroModel.getProductId());
-            stockDecrementRequestMessageListener.decrementStock(inventoryMessagingDataMapper
-                    .stockDecrementAvroModelToStockDecrementRequest(stockDecrementAvroModel));
-        }
 
     }
 }

@@ -206,16 +206,21 @@ public class OrderCreateHelper {
         }
     }
 
+    @Transactional
     public OrderApprovedEvent approveOrder(UpdateOrderStatusCommand updateOrderStatusCommand) {
         Order order = findOrder(updateOrderStatusCommand);
         Admin admin = getAdmin(updateOrderStatusCommand.getAdminId());
 
-        return orderDomainService.approveOrder(order, updateOrderStatusCommand.getOrderStatus(), admin, orderApprovedDeductedStockRequestMessagePublisher);
+        OrderApprovedEvent orderApprovedEvent = orderDomainService.initApproveOrder(order, admin, orderApprovedDeductedStockRequestMessagePublisher);
+        saveOrder(order);
+        log.info("Order status is approved with id: {}", orderApprovedEvent.getOrder().getId().getValue());
+        return orderApprovedEvent;
     }
+
 
     private Order findOrder(UpdateOrderStatusCommand updateOrderStatusCommand) {
 
-        return queryOrderRepository.findById(updateOrderStatusCommand.getOrderId())
+        return commandOrderRepository.findById(updateOrderStatusCommand.getOrderId())
                 .orElseThrow(() -> new OrderDomainException("Order not found for id: " + updateOrderStatusCommand.getOrderId()));
     }
 

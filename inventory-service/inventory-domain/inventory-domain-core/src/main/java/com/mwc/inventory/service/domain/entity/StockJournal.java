@@ -3,6 +3,7 @@ package com.mwc.inventory.service.domain.entity;
 import com.mwc.domain.valueobject.InventoryId;
 import com.mwc.inventory.service.domain.valueobject.Quantity;
 import com.mwc.inventory.service.domain.valueobject.StockJournalReason;
+import com.mwc.inventory.service.domain.valueobject.StockJournalStatus;
 import com.mwc.inventory.service.domain.valueobject.StockJournalType;
 
 import java.time.Instant;
@@ -12,6 +13,7 @@ public class StockJournal {
     private Quantity quantityChanged;
     private StockJournalReason reason;
     private StockJournalType type; // INCREASE / DECREASE
+    private StockJournalStatus status;
     private Instant createdAt;
 
     private StockJournal() {
@@ -21,11 +23,12 @@ public class StockJournal {
     public static StockJournal create(InventoryId inventoryId,
                                       Quantity qty,
                                       StockJournalReason reason,
-                                      StockJournalType type) {
+                                      StockJournalType type, StockJournalStatus status) {
         StockJournal journal = new StockJournal();
         journal.inventoryId = inventoryId;
         journal.quantityChanged = qty;
         journal.reason = reason;
+        journal.status = status;
         journal.type = type;
         journal.createdAt = Instant.now();
         return journal;
@@ -37,4 +40,5 @@ public class StockJournal {
     public StockJournalReason getReason() { return reason; }
     public StockJournalType getType() { return type; }
     public Instant getCreatedAt() { return createdAt; }
+    public StockJournalStatus getStatus() { return status; }
 }

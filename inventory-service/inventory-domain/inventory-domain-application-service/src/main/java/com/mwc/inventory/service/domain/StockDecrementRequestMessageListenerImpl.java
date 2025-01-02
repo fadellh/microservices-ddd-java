@@ -3,8 +3,10 @@ package com.mwc.inventory.service.domain;
 import com.mwc.inventory.service.domain.dto.message.StockDecrementRequest;
 import com.mwc.inventory.service.domain.dto.transfer.AutoTransferInventoryCommand;
 import com.mwc.inventory.service.domain.dto.transfer.StockTransferEventResult;
+import com.mwc.inventory.service.domain.event.InventoryEvent;
 import com.mwc.inventory.service.domain.event.StockDecrementedEvent;
 import com.mwc.inventory.service.domain.event.StockIncrementedEvent;
+import com.mwc.inventory.service.domain.event.StockUpdatedEvent;
 import com.mwc.inventory.service.domain.ports.input.message.listener.StockDecrementRequestMessageListener;
 import com.mwc.inventory.service.domain.valueobject.StockJournalReason;
 import lombok.extern.slf4j.Slf4j;
@@ -22,36 +24,8 @@ public class StockDecrementRequestMessageListenerImpl implements StockDecrementR
 
     @Override
     public void decrementStock(StockDecrementRequest stockDecrementRequest) {
-        try {
-            StockDecrementedEvent stockDecrementedEvent = inventoryHelper.decreaseStock(stockDecrementRequest.getInventoryId(), stockDecrementRequest.getWarehouseId(), StockJournalReason.ORDER ,stockDecrementRequest.getQuantity());
-            fireEvent(stockDecrementedEvent);
-        } catch (Exception e) {
-            log.warn("Error processing stock decrement request for inventory id: {} and warehouse id: {} and product id: {}",
-                    stockDecrementRequest.getInventoryId(),
-                    stockDecrementRequest.getWarehouseId(),
-                    stockDecrementRequest.getProductId(),
-                    e);
-
-            // Try to auto transfer stock
-            StockTransferEventResult stockTransferEventResult = inventoryHelper.autoTransferStock(
-                   AutoTransferInventoryCommand.builder()
-                           .inventoryId(stockDecrementRequest.getInventoryId())
-                           .toWarehouseId(stockDecrementRequest.getWarehouseId())
-                           .quantity(stockDecrementRequest.getQuantity())
-                           .build()
-            );
-
-            StockDecrementedEvent stockDecrementedEvent = stockTransferEventResult.getStockDecrementedEvent();
-            StockIncrementedEvent incrementFireEvent = stockTransferEventResult.getStockIncrementedEvent();
-
-            fireEvent(stockDecrementedEvent);
-            incrementFireEvent(incrementFireEvent);
-        }
-
-        // Try order again
-        StockDecrementedEvent stockDecrementedEvent = inventoryHelper.decreaseStock(stockDecrementRequest.getInventoryId(), stockDecrementRequest.getWarehouseId(), StockJournalReason.ORDER ,stockDecrementRequest.getQuantity());
-        fireEvent(stockDecrementedEvent);
-
+        InventoryEvent inventoryEvent = inventoryHelper.orderStock(stockDecrementRequest.getInventoryId(), stockDecrementRequest.getWarehouseId(), stockDecrementRequest.getOrderId() ,stockDecrementRequest.getQuantity());
+        fireEvent(inventoryEvent);
     }
 
     private void incrementFireEvent(StockIncrementedEvent stockIncrementedEvent) {
@@ -62,12 +36,11 @@ public class StockDecrementRequestMessageListenerImpl implements StockDecrementR
         stockIncrementedEvent.fire();
     }
 
-    private void fireEvent(StockDecrementedEvent stockDecrementedEvent) {
-        log.info("Publishing stock decremented event with inventory id: {} and warehouse id: {} and product id: {}",
-                stockDecrementedEvent.getInventory().getId().getValue(),
-                stockDecrementedEvent.getInventory().getWarehouseId().getValue(),
-                stockDecrementedEvent.getInventory().getProductId().getValue());
-        stockDecrementedEvent.fire();
+    private void fireEvent(InventoryEvent inventoryEvent) {
+        log.info("Publishing order stock event with inventory id: {} and warehouse id: {} and product id: {}",
+                inventoryEvent.getInventory().getId().getValue(),
+                inventoryEvent.getInventory().getWarehouseId().getValue(),
+                inventoryEvent.getInventory().getProductId().getValue());
+        inventoryEvent.fire();
     }
-
 }

@@ -17,6 +17,7 @@
         <module>inventory-container</module>
         <module>inventory-application</module>
         <module>inventory-dataaccess</module>
+        <module>inventory-messaging</module>
     </modules>
 
     <properties>

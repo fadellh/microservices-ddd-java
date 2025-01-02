@@ -39,8 +39,6 @@ public class StockJournalEntity {
     @Enumerated(EnumType.STRING)
     private StockJournalStatus status;
 
-    private LocalDateTime timestamp;
-
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private LocalDateTime deletedAt;

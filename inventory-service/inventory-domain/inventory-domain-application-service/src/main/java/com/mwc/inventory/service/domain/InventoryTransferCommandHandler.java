@@ -6,9 +6,11 @@ import com.mwc.inventory.service.domain.dto.transfer.TransferInventoryCommand;
 import com.mwc.inventory.service.domain.dto.transfer.TransferInventoryResponse;
 import com.mwc.inventory.service.domain.event.StockDecrementedEvent;
 import com.mwc.inventory.service.domain.event.StockIncrementedEvent;
+import com.mwc.inventory.service.domain.event.StockUpdatedEvent;
 import com.mwc.inventory.service.domain.mapper.InventoryDataMapper;
 import com.mwc.inventory.service.domain.ports.output.message.publisher.StockDecrementedMessagePublisher;
 import com.mwc.inventory.service.domain.ports.output.message.publisher.StockIncrementedMessagePublisher;
+import com.mwc.inventory.service.domain.ports.output.message.publisher.StockUpdatedMessagePublisher;
 import com.mwc.inventory.service.domain.valueobject.StockJournalReason;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -25,28 +27,30 @@ public class InventoryTransferCommandHandler {
 
     private final StockDecrementedMessagePublisher stockDecrementedMessagePublisher;
     private final StockIncrementedMessagePublisher stockIncrementedMessagePublisher;
+    private final StockUpdatedMessagePublisher stockUpdatedMessagePublisher;
 
     public InventoryTransferCommandHandler(
             InventoryHelper inventoryTransferHelper,
             InventoryDataMapper inventoryDataMapper,
             StockDecrementedMessagePublisher stockDecrementedMessagePublisher,
-            StockIncrementedMessagePublisher stockIncrementedMessagePublisher
+            StockIncrementedMessagePublisher stockIncrementedMessagePublisher, StockUpdatedMessagePublisher stockUpdatedMessagePublisher
     ) {
         this.inventoryTransferHelper = inventoryTransferHelper;
         this.inventoryDataMapper = inventoryDataMapper;
         this.stockDecrementedMessagePublisher = stockDecrementedMessagePublisher;
         this.stockIncrementedMessagePublisher = stockIncrementedMessagePublisher;
+        this.stockUpdatedMessagePublisher = stockUpdatedMessagePublisher;
     }
 
     @Transactional
     public TransferInventoryResponse transferInventory(UUID inventoryId, TransferInventoryCommand transferInventoryCommand) {
         StockTransferEventResult stockTransferEventResult = inventoryTransferHelper.manualTransferStock(inventoryId, transferInventoryCommand);
 
-        StockDecrementedEvent stockDecrementedEvent = stockTransferEventResult.getStockDecrementedEvent();
-        StockIncrementedEvent stockIncrementedEvent = stockTransferEventResult.getStockIncrementedEvent();
+        StockUpdatedEvent stockDecrementedEvent = stockTransferEventResult.getStockDecrementedEvent();
+        StockUpdatedEvent stockIncrementedEvent = stockTransferEventResult.getStockIncrementedEvent();
 
-        stockDecrementedMessagePublisher.publish(stockDecrementedEvent);
-        stockIncrementedMessagePublisher.publish(stockIncrementedEvent);
+        stockUpdatedMessagePublisher.publish(stockDecrementedEvent);
+        stockUpdatedMessagePublisher.publish(stockIncrementedEvent);
 
         return inventoryDataMapper.inventoryToTransferInventoryResponse(stockDecrementedEvent.getInventory(), stockIncrementedEvent.getInventory());
     }
@@ -57,11 +61,11 @@ public class InventoryTransferCommandHandler {
         // transfer stock to nearest warehouse
         StockTransferEventResult stockTransferEventResult = inventoryTransferHelper.autoTransferStock(autoTransferInventoryCommand);
 
-        StockDecrementedEvent stockDecrementedEvent = stockTransferEventResult.getStockDecrementedEvent();
-        StockIncrementedEvent stockIncrementedEvent = stockTransferEventResult.getStockIncrementedEvent();
+        StockUpdatedEvent stockDecrementedEvent = stockTransferEventResult.getStockDecrementedEvent();
+        StockUpdatedEvent stockIncrementedEvent = stockTransferEventResult.getStockIncrementedEvent();
 
-        stockDecrementedMessagePublisher.publish(stockDecrementedEvent);
-        stockIncrementedMessagePublisher.publish(stockIncrementedEvent);
+        stockUpdatedMessagePublisher.publish(stockDecrementedEvent);
+        stockUpdatedMessagePublisher.publish(stockIncrementedEvent);
 
         return inventoryDataMapper.inventoryToTransferInventoryResponse(stockDecrementedEvent.getInventory(), stockIncrementedEvent.getInventory());
     }

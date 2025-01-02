@@ -12,6 +12,7 @@ public class KafkaConsumerConfigData {
     private String keyDeserializer;
     private String valueDeserializer;
     private String autoOffsetReset;
+    private String stockDecrementConsumerGroupId;
     private String specificAvroReaderKey;
     private String specificAvroReader;
     private Boolean batchListener;
