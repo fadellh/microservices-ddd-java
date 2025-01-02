@@ -16,7 +16,7 @@ import java.util.UUID;
 public class OrderSagaHelper {
     private final OrderRepository orderRepository;
 
-    public OrderSagaHelper(@Qualifier("queryRepository") OrderRepository orderRepository) {
+    public OrderSagaHelper(@Qualifier("commandRepository") OrderRepository orderRepository) {
         this.orderRepository = orderRepository;
     }
 
