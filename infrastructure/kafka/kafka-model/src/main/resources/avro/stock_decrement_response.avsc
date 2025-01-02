@@ -17,6 +17,13 @@
           "logicalType": "uuid"
         }
       },
+        {
+            "name": "orderId",
+            "type": {
+            "type": "string",
+            "logicalType": "uuid"
+            }
+        },
       {
         "name": "inventoryId",
         "type": {
@@ -26,8 +33,12 @@
       },
       {
         "name": "failureMessages",
-        "type": ["null", "string"],
-        "default": null
+        "type": {
+          "type": "array",
+          "items":{
+            "type":"string"
+          }
+        }
       },
       {
         "name": "createdAt",

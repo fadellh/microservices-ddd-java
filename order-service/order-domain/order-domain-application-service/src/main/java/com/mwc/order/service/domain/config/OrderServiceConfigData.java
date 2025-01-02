@@ -10,4 +10,6 @@ import org.springframework.context.annotation.Configuration;
 public class OrderServiceConfigData {
     private String orderCreateTopicName;
     private String orderCreateResponseTopicName;
+    private String stockDecrementRequestTopicName;
+    private String stockDecrementResponseTopicName;
 }

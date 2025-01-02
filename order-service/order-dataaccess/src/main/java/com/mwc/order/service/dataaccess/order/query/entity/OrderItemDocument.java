@@ -14,6 +14,7 @@ import java.util.UUID;
 public class OrderItemDocument {
     private String name;
     private BigDecimal price;
+    private UUID productId;
     private Integer quantity;
     private BigDecimal subTotal;
 }

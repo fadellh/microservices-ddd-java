@@ -13,10 +13,10 @@ import org.apache.avro.message.SchemaStore;
 
 @org.apache.avro.specific.AvroGenerated
 public class StockDecrementAvroModel extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = -6696548756484459829L;
+  private static final long serialVersionUID = 881467733188822105L;
 
 
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"StockDecrementAvroModel\",\"namespace\":\"com.mwc.kafka.order.avro.model\",\"fields\":[{\"name\":\"id\",\"type\":{\"type\":\"string\",\"logicalType\":\"uuid\"}},{\"name\":\"sagaId\",\"type\":{\"type\":\"string\",\"logicalType\":\"uuid\"}},{\"name\":\"inventoryId\",\"type\":{\"type\":\"string\",\"logicalType\":\"uuid\"}},{\"name\":\"productId\",\"type\":{\"type\":\"string\",\"logicalType\":\"uuid\"}},{\"name\":\"warehouseId\",\"type\":{\"type\":\"string\",\"logicalType\":\"uuid\"}},{\"name\":\"quantity\",\"type\":\"int\"},{\"name\":\"createdAt\",\"type\":{\"type\":\"long\",\"logicalType\":\"timestamp-millis\"}}]}");
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"StockDecrementAvroModel\",\"namespace\":\"com.mwc.kafka.order.avro.model\",\"fields\":[{\"name\":\"id\",\"type\":{\"type\":\"string\",\"logicalType\":\"uuid\"}},{\"name\":\"sagaId\",\"type\":{\"type\":\"string\",\"logicalType\":\"uuid\"}},{\"name\":\"orderId\",\"type\":{\"type\":\"string\",\"logicalType\":\"uuid\"}},{\"name\":\"inventoryId\",\"type\":{\"type\":\"string\",\"logicalType\":\"uuid\"}},{\"name\":\"productId\",\"type\":{\"type\":\"string\",\"logicalType\":\"uuid\"}},{\"name\":\"warehouseId\",\"type\":{\"type\":\"string\",\"logicalType\":\"uuid\"}},{\"name\":\"quantity\",\"type\":\"int\"},{\"name\":\"createdAt\",\"type\":{\"type\":\"long\",\"logicalType\":\"timestamp-millis\"}}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static final SpecificData MODEL$ = new SpecificData();
@@ -78,6 +78,7 @@ public class StockDecrementAvroModel extends org.apache.avro.specific.SpecificRe
 
   private java.util.UUID id;
   private java.util.UUID sagaId;
+  private java.util.UUID orderId;
   private java.util.UUID inventoryId;
   private java.util.UUID productId;
   private java.util.UUID warehouseId;
@@ -95,15 +96,17 @@ public class StockDecrementAvroModel extends org.apache.avro.specific.SpecificRe
    * All-args constructor.
    * @param id The new value for id
    * @param sagaId The new value for sagaId
+   * @param orderId The new value for orderId
    * @param inventoryId The new value for inventoryId
    * @param productId The new value for productId
    * @param warehouseId The new value for warehouseId
    * @param quantity The new value for quantity
    * @param createdAt The new value for createdAt
    */
-  public StockDecrementAvroModel(java.util.UUID id, java.util.UUID sagaId, java.util.UUID inventoryId, java.util.UUID productId, java.util.UUID warehouseId, java.lang.Integer quantity, java.time.Instant createdAt) {
+  public StockDecrementAvroModel(java.util.UUID id, java.util.UUID sagaId, java.util.UUID orderId, java.util.UUID inventoryId, java.util.UUID productId, java.util.UUID warehouseId, java.lang.Integer quantity, java.time.Instant createdAt) {
     this.id = id;
     this.sagaId = sagaId;
+    this.orderId = orderId;
     this.inventoryId = inventoryId;
     this.productId = productId;
     this.warehouseId = warehouseId;
@@ -123,17 +126,19 @@ public class StockDecrementAvroModel extends org.apache.avro.specific.SpecificRe
     switch (field$) {
     case 0: return id;
     case 1: return sagaId;
-    case 2: return inventoryId;
-    case 3: return productId;
-    case 4: return warehouseId;
-    case 5: return quantity;
-    case 6: return createdAt;
+    case 2: return orderId;
+    case 3: return inventoryId;
+    case 4: return productId;
+    case 5: return warehouseId;
+    case 6: return quantity;
+    case 7: return createdAt;
     default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
     }
   }
 
   private static final org.apache.avro.Conversion<?>[] conversions =
       new org.apache.avro.Conversion<?>[] {
+      new org.apache.avro.Conversions.UUIDConversion(),
       new org.apache.avro.Conversions.UUIDConversion(),
       new org.apache.avro.Conversions.UUIDConversion(),
       new org.apache.avro.Conversions.UUIDConversion(),
@@ -156,11 +161,12 @@ public class StockDecrementAvroModel extends org.apache.avro.specific.SpecificRe
     switch (field$) {
     case 0: id = (java.util.UUID)value$; break;
     case 1: sagaId = (java.util.UUID)value$; break;
-    case 2: inventoryId = (java.util.UUID)value$; break;
-    case 3: productId = (java.util.UUID)value$; break;
-    case 4: warehouseId = (java.util.UUID)value$; break;
-    case 5: quantity = (java.lang.Integer)value$; break;
-    case 6: createdAt = (java.time.Instant)value$; break;
+    case 2: orderId = (java.util.UUID)value$; break;
+    case 3: inventoryId = (java.util.UUID)value$; break;
+    case 4: productId = (java.util.UUID)value$; break;
+    case 5: warehouseId = (java.util.UUID)value$; break;
+    case 6: quantity = (java.lang.Integer)value$; break;
+    case 7: createdAt = (java.time.Instant)value$; break;
     default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
     }
   }
@@ -197,6 +203,23 @@ public class StockDecrementAvroModel extends org.apache.avro.specific.SpecificRe
    */
   public void setSagaId(java.util.UUID value) {
     this.sagaId = value;
+  }
+
+  /**
+   * Gets the value of the 'orderId' field.
+   * @return The value of the 'orderId' field.
+   */
+  public java.util.UUID getOrderId() {
+    return orderId;
+  }
+
+
+  /**
+   * Sets the value of the 'orderId' field.
+   * @param value the value to set.
+   */
+  public void setOrderId(java.util.UUID value) {
+    this.orderId = value;
   }
 
   /**
@@ -327,6 +350,7 @@ public class StockDecrementAvroModel extends org.apache.avro.specific.SpecificRe
 
     private java.util.UUID id;
     private java.util.UUID sagaId;
+    private java.util.UUID orderId;
     private java.util.UUID inventoryId;
     private java.util.UUID productId;
     private java.util.UUID warehouseId;
@@ -352,25 +376,29 @@ public class StockDecrementAvroModel extends org.apache.avro.specific.SpecificRe
         this.sagaId = data().deepCopy(fields()[1].schema(), other.sagaId);
         fieldSetFlags()[1] = other.fieldSetFlags()[1];
       }
-      if (isValidValue(fields()[2], other.inventoryId)) {
-        this.inventoryId = data().deepCopy(fields()[2].schema(), other.inventoryId);
+      if (isValidValue(fields()[2], other.orderId)) {
+        this.orderId = data().deepCopy(fields()[2].schema(), other.orderId);
         fieldSetFlags()[2] = other.fieldSetFlags()[2];
       }
-      if (isValidValue(fields()[3], other.productId)) {
-        this.productId = data().deepCopy(fields()[3].schema(), other.productId);
+      if (isValidValue(fields()[3], other.inventoryId)) {
+        this.inventoryId = data().deepCopy(fields()[3].schema(), other.inventoryId);
         fieldSetFlags()[3] = other.fieldSetFlags()[3];
       }
-      if (isValidValue(fields()[4], other.warehouseId)) {
-        this.warehouseId = data().deepCopy(fields()[4].schema(), other.warehouseId);
+      if (isValidValue(fields()[4], other.productId)) {
+        this.productId = data().deepCopy(fields()[4].schema(), other.productId);
         fieldSetFlags()[4] = other.fieldSetFlags()[4];
       }
-      if (isValidValue(fields()[5], other.quantity)) {
-        this.quantity = data().deepCopy(fields()[5].schema(), other.quantity);
+      if (isValidValue(fields()[5], other.warehouseId)) {
+        this.warehouseId = data().deepCopy(fields()[5].schema(), other.warehouseId);
         fieldSetFlags()[5] = other.fieldSetFlags()[5];
       }
-      if (isValidValue(fields()[6], other.createdAt)) {
-        this.createdAt = data().deepCopy(fields()[6].schema(), other.createdAt);
+      if (isValidValue(fields()[6], other.quantity)) {
+        this.quantity = data().deepCopy(fields()[6].schema(), other.quantity);
         fieldSetFlags()[6] = other.fieldSetFlags()[6];
+      }
+      if (isValidValue(fields()[7], other.createdAt)) {
+        this.createdAt = data().deepCopy(fields()[7].schema(), other.createdAt);
+        fieldSetFlags()[7] = other.fieldSetFlags()[7];
       }
     }
 
@@ -388,25 +416,29 @@ public class StockDecrementAvroModel extends org.apache.avro.specific.SpecificRe
         this.sagaId = data().deepCopy(fields()[1].schema(), other.sagaId);
         fieldSetFlags()[1] = true;
       }
-      if (isValidValue(fields()[2], other.inventoryId)) {
-        this.inventoryId = data().deepCopy(fields()[2].schema(), other.inventoryId);
+      if (isValidValue(fields()[2], other.orderId)) {
+        this.orderId = data().deepCopy(fields()[2].schema(), other.orderId);
         fieldSetFlags()[2] = true;
       }
-      if (isValidValue(fields()[3], other.productId)) {
-        this.productId = data().deepCopy(fields()[3].schema(), other.productId);
+      if (isValidValue(fields()[3], other.inventoryId)) {
+        this.inventoryId = data().deepCopy(fields()[3].schema(), other.inventoryId);
         fieldSetFlags()[3] = true;
       }
-      if (isValidValue(fields()[4], other.warehouseId)) {
-        this.warehouseId = data().deepCopy(fields()[4].schema(), other.warehouseId);
+      if (isValidValue(fields()[4], other.productId)) {
+        this.productId = data().deepCopy(fields()[4].schema(), other.productId);
         fieldSetFlags()[4] = true;
       }
-      if (isValidValue(fields()[5], other.quantity)) {
-        this.quantity = data().deepCopy(fields()[5].schema(), other.quantity);
+      if (isValidValue(fields()[5], other.warehouseId)) {
+        this.warehouseId = data().deepCopy(fields()[5].schema(), other.warehouseId);
         fieldSetFlags()[5] = true;
       }
-      if (isValidValue(fields()[6], other.createdAt)) {
-        this.createdAt = data().deepCopy(fields()[6].schema(), other.createdAt);
+      if (isValidValue(fields()[6], other.quantity)) {
+        this.quantity = data().deepCopy(fields()[6].schema(), other.quantity);
         fieldSetFlags()[6] = true;
+      }
+      if (isValidValue(fields()[7], other.createdAt)) {
+        this.createdAt = data().deepCopy(fields()[7].schema(), other.createdAt);
+        fieldSetFlags()[7] = true;
       }
     }
 
@@ -491,6 +523,46 @@ public class StockDecrementAvroModel extends org.apache.avro.specific.SpecificRe
     }
 
     /**
+      * Gets the value of the 'orderId' field.
+      * @return The value.
+      */
+    public java.util.UUID getOrderId() {
+      return orderId;
+    }
+
+
+    /**
+      * Sets the value of the 'orderId' field.
+      * @param value The value of 'orderId'.
+      * @return This builder.
+      */
+    public com.mwc.kafka.order.avro.model.StockDecrementAvroModel.Builder setOrderId(java.util.UUID value) {
+      validate(fields()[2], value);
+      this.orderId = value;
+      fieldSetFlags()[2] = true;
+      return this;
+    }
+
+    /**
+      * Checks whether the 'orderId' field has been set.
+      * @return True if the 'orderId' field has been set, false otherwise.
+      */
+    public boolean hasOrderId() {
+      return fieldSetFlags()[2];
+    }
+
+
+    /**
+      * Clears the value of the 'orderId' field.
+      * @return This builder.
+      */
+    public com.mwc.kafka.order.avro.model.StockDecrementAvroModel.Builder clearOrderId() {
+      orderId = null;
+      fieldSetFlags()[2] = false;
+      return this;
+    }
+
+    /**
       * Gets the value of the 'inventoryId' field.
       * @return The value.
       */
@@ -505,9 +577,9 @@ public class StockDecrementAvroModel extends org.apache.avro.specific.SpecificRe
       * @return This builder.
       */
     public com.mwc.kafka.order.avro.model.StockDecrementAvroModel.Builder setInventoryId(java.util.UUID value) {
-      validate(fields()[2], value);
+      validate(fields()[3], value);
       this.inventoryId = value;
-      fieldSetFlags()[2] = true;
+      fieldSetFlags()[3] = true;
       return this;
     }
 
@@ -516,7 +588,7 @@ public class StockDecrementAvroModel extends org.apache.avro.specific.SpecificRe
       * @return True if the 'inventoryId' field has been set, false otherwise.
       */
     public boolean hasInventoryId() {
-      return fieldSetFlags()[2];
+      return fieldSetFlags()[3];
     }
 
 
@@ -526,7 +598,7 @@ public class StockDecrementAvroModel extends org.apache.avro.specific.SpecificRe
       */
     public com.mwc.kafka.order.avro.model.StockDecrementAvroModel.Builder clearInventoryId() {
       inventoryId = null;
-      fieldSetFlags()[2] = false;
+      fieldSetFlags()[3] = false;
       return this;
     }
 
@@ -545,9 +617,9 @@ public class StockDecrementAvroModel extends org.apache.avro.specific.SpecificRe
       * @return This builder.
       */
     public com.mwc.kafka.order.avro.model.StockDecrementAvroModel.Builder setProductId(java.util.UUID value) {
-      validate(fields()[3], value);
+      validate(fields()[4], value);
       this.productId = value;
-      fieldSetFlags()[3] = true;
+      fieldSetFlags()[4] = true;
       return this;
     }
 
@@ -556,7 +628,7 @@ public class StockDecrementAvroModel extends org.apache.avro.specific.SpecificRe
       * @return True if the 'productId' field has been set, false otherwise.
       */
     public boolean hasProductId() {
-      return fieldSetFlags()[3];
+      return fieldSetFlags()[4];
     }
 
 
@@ -566,7 +638,7 @@ public class StockDecrementAvroModel extends org.apache.avro.specific.SpecificRe
       */
     public com.mwc.kafka.order.avro.model.StockDecrementAvroModel.Builder clearProductId() {
       productId = null;
-      fieldSetFlags()[3] = false;
+      fieldSetFlags()[4] = false;
       return this;
     }
 
@@ -585,9 +657,9 @@ public class StockDecrementAvroModel extends org.apache.avro.specific.SpecificRe
       * @return This builder.
       */
     public com.mwc.kafka.order.avro.model.StockDecrementAvroModel.Builder setWarehouseId(java.util.UUID value) {
-      validate(fields()[4], value);
+      validate(fields()[5], value);
       this.warehouseId = value;
-      fieldSetFlags()[4] = true;
+      fieldSetFlags()[5] = true;
       return this;
     }
 
@@ -596,7 +668,7 @@ public class StockDecrementAvroModel extends org.apache.avro.specific.SpecificRe
       * @return True if the 'warehouseId' field has been set, false otherwise.
       */
     public boolean hasWarehouseId() {
-      return fieldSetFlags()[4];
+      return fieldSetFlags()[5];
     }
 
 
@@ -606,7 +678,7 @@ public class StockDecrementAvroModel extends org.apache.avro.specific.SpecificRe
       */
     public com.mwc.kafka.order.avro.model.StockDecrementAvroModel.Builder clearWarehouseId() {
       warehouseId = null;
-      fieldSetFlags()[4] = false;
+      fieldSetFlags()[5] = false;
       return this;
     }
 
@@ -625,9 +697,9 @@ public class StockDecrementAvroModel extends org.apache.avro.specific.SpecificRe
       * @return This builder.
       */
     public com.mwc.kafka.order.avro.model.StockDecrementAvroModel.Builder setQuantity(int value) {
-      validate(fields()[5], value);
+      validate(fields()[6], value);
       this.quantity = value;
-      fieldSetFlags()[5] = true;
+      fieldSetFlags()[6] = true;
       return this;
     }
 
@@ -636,7 +708,7 @@ public class StockDecrementAvroModel extends org.apache.avro.specific.SpecificRe
       * @return True if the 'quantity' field has been set, false otherwise.
       */
     public boolean hasQuantity() {
-      return fieldSetFlags()[5];
+      return fieldSetFlags()[6];
     }
 
 
@@ -645,7 +717,7 @@ public class StockDecrementAvroModel extends org.apache.avro.specific.SpecificRe
       * @return This builder.
       */
     public com.mwc.kafka.order.avro.model.StockDecrementAvroModel.Builder clearQuantity() {
-      fieldSetFlags()[5] = false;
+      fieldSetFlags()[6] = false;
       return this;
     }
 
@@ -664,9 +736,9 @@ public class StockDecrementAvroModel extends org.apache.avro.specific.SpecificRe
       * @return This builder.
       */
     public com.mwc.kafka.order.avro.model.StockDecrementAvroModel.Builder setCreatedAt(java.time.Instant value) {
-      validate(fields()[6], value);
+      validate(fields()[7], value);
       this.createdAt = value.truncatedTo(java.time.temporal.ChronoUnit.MILLIS);
-      fieldSetFlags()[6] = true;
+      fieldSetFlags()[7] = true;
       return this;
     }
 
@@ -675,7 +747,7 @@ public class StockDecrementAvroModel extends org.apache.avro.specific.SpecificRe
       * @return True if the 'createdAt' field has been set, false otherwise.
       */
     public boolean hasCreatedAt() {
-      return fieldSetFlags()[6];
+      return fieldSetFlags()[7];
     }
 
 
@@ -684,7 +756,7 @@ public class StockDecrementAvroModel extends org.apache.avro.specific.SpecificRe
       * @return This builder.
       */
     public com.mwc.kafka.order.avro.model.StockDecrementAvroModel.Builder clearCreatedAt() {
-      fieldSetFlags()[6] = false;
+      fieldSetFlags()[7] = false;
       return this;
     }
 
@@ -695,11 +767,12 @@ public class StockDecrementAvroModel extends org.apache.avro.specific.SpecificRe
         StockDecrementAvroModel record = new StockDecrementAvroModel();
         record.id = fieldSetFlags()[0] ? this.id : (java.util.UUID) defaultValue(fields()[0]);
         record.sagaId = fieldSetFlags()[1] ? this.sagaId : (java.util.UUID) defaultValue(fields()[1]);
-        record.inventoryId = fieldSetFlags()[2] ? this.inventoryId : (java.util.UUID) defaultValue(fields()[2]);
-        record.productId = fieldSetFlags()[3] ? this.productId : (java.util.UUID) defaultValue(fields()[3]);
-        record.warehouseId = fieldSetFlags()[4] ? this.warehouseId : (java.util.UUID) defaultValue(fields()[4]);
-        record.quantity = fieldSetFlags()[5] ? this.quantity : (java.lang.Integer) defaultValue(fields()[5]);
-        record.createdAt = fieldSetFlags()[6] ? this.createdAt : (java.time.Instant) defaultValue(fields()[6]);
+        record.orderId = fieldSetFlags()[2] ? this.orderId : (java.util.UUID) defaultValue(fields()[2]);
+        record.inventoryId = fieldSetFlags()[3] ? this.inventoryId : (java.util.UUID) defaultValue(fields()[3]);
+        record.productId = fieldSetFlags()[4] ? this.productId : (java.util.UUID) defaultValue(fields()[4]);
+        record.warehouseId = fieldSetFlags()[5] ? this.warehouseId : (java.util.UUID) defaultValue(fields()[5]);
+        record.quantity = fieldSetFlags()[6] ? this.quantity : (java.lang.Integer) defaultValue(fields()[6]);
+        record.createdAt = fieldSetFlags()[7] ? this.createdAt : (java.time.Instant) defaultValue(fields()[7]);
         return record;
       } catch (org.apache.avro.AvroMissingFieldException e) {
         throw e;

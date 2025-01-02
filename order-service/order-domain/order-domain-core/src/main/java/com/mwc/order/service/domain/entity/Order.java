@@ -54,6 +54,9 @@ public class Order extends AggregateRoot<OrderId> {
                 this.orderStatus = OrderStatus.REVIEW_PAYMENT;
                 break;
             case REVIEW_PAYMENT:
+                this.orderStatus = OrderStatus.APPROVED_PENDING;
+                break;
+            case APPROVED_PENDING:
                 this.orderStatus = OrderStatus.APPROVED;
                 break;
             case CANCEL_PENDING:
@@ -64,8 +67,26 @@ public class Order extends AggregateRoot<OrderId> {
         }
     }
 
+    public void initApprove() {
+        if (orderStatus != OrderStatus.REVIEW_PAYMENT) {
+            throw new OrderDomainException("Order is not in correct state for initApprove operation!");
+        }
+        orderStatus = OrderStatus.APPROVED_PENDING;
+    }
+
     public void approve() {
-       updateOrderStatus();
+        if (orderStatus != OrderStatus.APPROVED_PENDING) {
+            throw new OrderDomainException("Order is not in correct state for approve operation!");
+        }
+        orderStatus = OrderStatus.APPROVED;
+    }
+
+    public void cancelApprove(List<String> failureMessages) {
+        if (orderStatus != OrderStatus.APPROVED_PENDING) {
+            throw new OrderDomainException("Order is not in correct state for cancelApprove operation!");
+        }
+        orderStatus = OrderStatus.REVIEW_PAYMENT;
+        updateFailureMessages(failureMessages);
     }
 
     public void pay() {

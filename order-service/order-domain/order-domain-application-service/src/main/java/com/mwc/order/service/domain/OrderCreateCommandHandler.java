@@ -9,6 +9,7 @@ import com.mwc.order.service.domain.dto.create.payment.CreatePaymentResponse;
 import com.mwc.order.service.domain.event.OrderApprovedEvent;
 import com.mwc.order.service.domain.event.OrderCreatedEvent;
 import com.mwc.order.service.domain.mapper.OrderDataMapper;
+import com.mwc.order.service.domain.ports.output.message.publisher.OrderApprovedDecrementStockRequestMessagePublisher;
 import com.mwc.order.service.domain.ports.output.message.publisher.OrderCreatedMessagePublisher;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -24,11 +25,14 @@ public class OrderCreateCommandHandler {
 
     private final OrderCreatedMessagePublisher orderCreatedMessagePublisher;
 
+    private final OrderApprovedDecrementStockRequestMessagePublisher orderApprovedDecrementStockRequestMessagePublisher;
 
-    public OrderCreateCommandHandler(OrderCreateHelper orderCreateHelper, OrderDataMapper orderDataMapper, OrderCreatedMessagePublisher orderCreatedMessagePublisher) {
+
+    public OrderCreateCommandHandler(OrderCreateHelper orderCreateHelper, OrderDataMapper orderDataMapper, OrderCreatedMessagePublisher orderCreatedMessagePublisher, OrderApprovedDecrementStockRequestMessagePublisher orderApprovedDecrementStockRequestMessagePublisher) {
         this.orderCreateHelper = orderCreateHelper;
         this.orderDataMapper = orderDataMapper;
         this.orderCreatedMessagePublisher = orderCreatedMessagePublisher;
+        this.orderApprovedDecrementStockRequestMessagePublisher = orderApprovedDecrementStockRequestMessagePublisher;
     }
 
     public CreateOrderResponse createOrder(CreateOrderCommand createOrderCommand) {
@@ -54,7 +58,7 @@ public class OrderCreateCommandHandler {
         log.info("Order status is approved with id: {}", orderApprovedEvent.getOrder().getId().getValue());
 
         //Publish Message to Kafka
-//        orderCreatedMessagePublisher.publish(orderCreatedEvent);
+        orderApprovedDecrementStockRequestMessagePublisher.publish(orderApprovedEvent);
 
         return orderDataMapper.orderToOrderStatusResponse(orderApprovedEvent.getOrder());
     }

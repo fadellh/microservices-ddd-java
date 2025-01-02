@@ -58,7 +58,6 @@ CREATE TABLE inventory.stock_journal (
     reason stock_journal_reason NOT NULL,
     type stock_journal_type NOT NULL,
     status stock_journal_status NOT NULL,
-    timestamp TIMESTAMP NOT NULL,
     created_at TIMESTAMP NOT NULL,
     updated_at TIMESTAMP,
     deleted_at TIMESTAMP,

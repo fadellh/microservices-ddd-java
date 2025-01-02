@@ -32,7 +32,7 @@ public class KafkaAdminConfig {
     }
 
     @Bean
-    public NewTopic stockDecrementRequestTopic(@Value("${inventory-service.stockDecrementTopicName}") String topicName) {
+    public NewTopic stockDecrementRequestTopic(@Value("${inventory-service.stock-decrement-request-topic-name}") String topicName) {
         return TopicBuilder.name(topicName)
                 .partitions(kafkaConfigData.getNumOfPartitions())
                 .replicas(kafkaConfigData.getReplicationFactor())
@@ -40,7 +40,7 @@ public class KafkaAdminConfig {
     }
 
     @Bean
-    public NewTopic stockDecrementResponseTopic(@Value("${inventory-service.stockDecrementResponseTopicName}") String topicName) {
+    public NewTopic stockDecrementResponseTopic(@Value("${inventory-service.stock-decrement-response-topic-name}") String topicName) {
         return TopicBuilder.name(topicName)
                 .partitions(kafkaConfigData.getNumOfPartitions())
                 .replicas(kafkaConfigData.getReplicationFactor())
@@ -48,7 +48,7 @@ public class KafkaAdminConfig {
     }
 
     @Bean
-    public NewTopic stockIncrementRequestTopic(@Value("${inventory-service.stockIncrementTopicName}") String topicName) {
+    public NewTopic stockIncrementRequestTopic(@Value("${inventory-service.stock-increment-topic-name}") String topicName) {
         return TopicBuilder.name(topicName)
                 .partitions(kafkaConfigData.getNumOfPartitions())
                 .replicas(kafkaConfigData.getReplicationFactor())
@@ -56,7 +56,7 @@ public class KafkaAdminConfig {
     }
 
     @Bean
-    public NewTopic stockIncrementResponseTopic(@Value("${inventory-service.stockIncrementResponseTopicName}") String topicName) {
+    public NewTopic stockIncrementResponseTopic(@Value("${inventory-service.stock-increment-response-topic-name}") String topicName) {
         return TopicBuilder.name(topicName)
                 .partitions(kafkaConfigData.getNumOfPartitions())
                 .replicas(kafkaConfigData.getReplicationFactor())

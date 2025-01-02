@@ -6,9 +6,9 @@ import com.mwc.domain.valueobject.OrderStatus;
 import com.mwc.order.service.domain.entity.Admin;
 import com.mwc.order.service.domain.entity.Order;
 import com.mwc.order.service.domain.entity.OrderItem;
+import com.mwc.order.service.domain.event.OrderApproveFailedEvent;
 import com.mwc.order.service.domain.event.OrderApprovedEvent;
 import com.mwc.order.service.domain.event.OrderCreatedEvent;
-import com.mwc.order.service.domain.event.OrderStatusUpdatedEvent;
 import com.mwc.order.service.domain.exception.OrderDomainException;
 import lombok.extern.slf4j.Slf4j;
 
@@ -38,11 +38,24 @@ public class OrderDomainServiceImpl implements OrderDomainService {
     }
 
     @Override
-    public OrderApprovedEvent approveOrder(Order order, OrderStatus orderStatus, Admin admin, DomainEventPublisher<OrderApprovedEvent> orderApprovedEventDomainEventPublisher) {
+    public OrderApprovedEvent initApproveOrder(Order order, Admin admin, DomainEventPublisher<OrderApprovedEvent> orderApprovedEventDomainEventPublisher) {
         validateAdmin(admin);
+        order.initApprove();
+        log.info("Order with id: {} is approved_pending", order.getId().getValue());
+        return new OrderApprovedEvent(order, ZonedDateTime.now(ZoneId.of(UTC)), orderApprovedEventDomainEventPublisher);
+    }
+
+    @Override
+    public void approveOrder(Order order) {
         order.approve();
         log.info("Order with id: {} is approved", order.getId().getValue());
-        return new OrderApprovedEvent(order, ZonedDateTime.now(ZoneId.of(UTC)), orderApprovedEventDomainEventPublisher);
+    }
+
+    @Override
+    public OrderApproveFailedEvent cancelApproveOrder(Order order, List<String> failureMessages, DomainEventPublisher<OrderApproveFailedEvent> orderApproveFailedEventDomainEventPublisher) {
+        order.cancelApprove(failureMessages);
+        log.info("Order with id: {} is cancelled", order.getId().getValue());
+        return new OrderApproveFailedEvent(order, ZonedDateTime.now(ZoneId.of(UTC)), orderApproveFailedEventDomainEventPublisher);
     }
 
     private void validateAdmin(Admin admin) {

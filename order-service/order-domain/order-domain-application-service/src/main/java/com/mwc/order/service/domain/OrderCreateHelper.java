@@ -210,7 +210,7 @@ public class OrderCreateHelper {
         Order order = findOrder(updateOrderStatusCommand);
         Admin admin = getAdmin(updateOrderStatusCommand.getAdminId());
 
-        return orderDomainService.approveOrder(order, updateOrderStatusCommand.getOrderStatus(), admin, orderApprovedDeductedStockRequestMessagePublisher);
+        return orderDomainService.initApproveOrder(order, admin, orderApprovedDeductedStockRequestMessagePublisher);
     }
 
     private Order findOrder(UpdateOrderStatusCommand updateOrderStatusCommand) {

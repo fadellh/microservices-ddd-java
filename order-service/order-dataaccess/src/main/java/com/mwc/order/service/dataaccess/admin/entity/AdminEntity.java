@@ -23,6 +23,9 @@ public class AdminEntity {
     private UUID id;
 
     @NotBlank
+    private String email;
+
+    @NotBlank
     private String fullname;
 
     @Enumerated(EnumType.STRING)

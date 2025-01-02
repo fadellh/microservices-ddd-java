@@ -5,9 +5,9 @@ import com.mwc.domain.valueobject.OrderStatus;
 import com.mwc.order.service.domain.entity.Admin;
 import com.mwc.order.service.domain.entity.Order;
 import com.mwc.order.service.domain.entity.OrderItem;
+import com.mwc.order.service.domain.event.OrderApproveFailedEvent;
 import com.mwc.order.service.domain.event.OrderApprovedEvent;
 import com.mwc.order.service.domain.event.OrderCreatedEvent;
-import com.mwc.order.service.domain.event.OrderStatusUpdatedEvent;
 
 import java.util.List;
 
@@ -16,7 +16,11 @@ public interface OrderDomainService {
                                                List<OrderItem> orderItems ,
                                                DomainEventPublisher<OrderCreatedEvent> orderCreatedEventDomainEventPublisher);
 
-    OrderApprovedEvent approveOrder(Order order, OrderStatus orderStatus, Admin admin,
-                                    DomainEventPublisher<OrderApprovedEvent> orderApprovedEventDomainEventPublisher);
+    OrderApprovedEvent initApproveOrder(Order order, Admin admin,
+                                        DomainEventPublisher<OrderApprovedEvent> orderApprovedEventDomainEventPublisher);
+
+    void approveOrder(Order order);
+
+    OrderApproveFailedEvent cancelApproveOrder(Order order, List<String> failureMessages, DomainEventPublisher<OrderApproveFailedEvent> orderApproveFailedEventDomainEventPublisher);
 
 }

@@ -21,7 +21,6 @@
     <module>inventory-service</module>
     <module>common</module>
     <module>infrastructure</module>
-    <module>inventory-service/inventory-messaging</module>
   </modules>
 
   <properties>

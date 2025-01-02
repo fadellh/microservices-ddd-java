@@ -2,10 +2,13 @@ package com.mwc.inventory.service.dataaccess.inventory.command.adapter;
 
 import com.mwc.inventory.service.dataaccess.inventory.command.entity.InventoryEntity;
 import com.mwc.inventory.service.dataaccess.inventory.command.entity.InventoryItemEntity;
+import com.mwc.inventory.service.dataaccess.inventory.command.entity.StockJournalEntity;
 import com.mwc.inventory.service.dataaccess.inventory.command.mapper.InventoryDataAccessMapper;
 import com.mwc.inventory.service.dataaccess.inventory.command.repository.InventoryItemJpaRepository;
 import com.mwc.inventory.service.dataaccess.inventory.command.repository.InventoryJpaRepository;
+import com.mwc.inventory.service.dataaccess.inventory.command.repository.StockJournalJpaRepository;
 import com.mwc.inventory.service.domain.entity.Inventory;
+import com.mwc.inventory.service.domain.entity.StockJournal;
 import com.mwc.inventory.service.domain.ports.output.repository.InventoryRepository;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -21,12 +24,14 @@ public class InventoryCommandRepositoryImpl implements InventoryRepository {
     private final InventoryJpaRepository inventoryJpaRepository;
     private final InventoryItemJpaRepository inventoryItemJpaRepository;
     private final InventoryDataAccessMapper inventoryDataAccessMapper;
+    private final StockJournalJpaRepository stockJournalJpaRepository;
 
 
-    public InventoryCommandRepositoryImpl(InventoryJpaRepository inventoryJpaRepository, InventoryItemJpaRepository inventoryItemJpaRepository, InventoryDataAccessMapper inventoryDataAccessMapper) {
+    public InventoryCommandRepositoryImpl(InventoryJpaRepository inventoryJpaRepository, InventoryItemJpaRepository inventoryItemJpaRepository, InventoryDataAccessMapper inventoryDataAccessMapper, StockJournalJpaRepository stockJournalJpaRepository) {
         this.inventoryJpaRepository = inventoryJpaRepository;
         this.inventoryItemJpaRepository = inventoryItemJpaRepository;
         this.inventoryDataAccessMapper = inventoryDataAccessMapper;
+        this.stockJournalJpaRepository = stockJournalJpaRepository;
     }
 
 
@@ -52,5 +57,19 @@ public class InventoryCommandRepositoryImpl implements InventoryRepository {
     @Override
     public List<UUID> findWarehouseIdsByInventoryId(UUID inventoryId, UUID warehouseId) {
         return inventoryItemJpaRepository.findWarehouseIdsByInventoryId(inventoryId, warehouseId);
+    }
+
+    public void saveStockJournal(StockJournal stockJournal, Inventory inventory) {
+        UUID inventoryItemId = inventory.getId().getValue();
+        UUID warehouseId = inventory.getWarehouseId().getValue();
+
+        Optional<InventoryItemEntity> inventoryItemEntity = inventoryItemJpaRepository.findByInventoryIdAndWarehouseId(inventoryItemId, warehouseId);
+        if (inventoryItemEntity.isEmpty()) {
+            throw new IllegalArgumentException("InventoryItemEntity not found for ID: " + inventoryItemId);
+        }
+
+        StockJournalEntity stockJournalEntity = inventoryDataAccessMapper.stockJournalToStockJournalEntity(stockJournal, inventoryItemEntity.get());
+        stockJournalJpaRepository.save(stockJournalEntity);
+
     }
 }
