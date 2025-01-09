@@ -2,31 +2,21 @@ name: "Microservices Deployment"
 
 on:
   workflow_dispatch:
-#  push:
-#    branches:
-#      - main
   pull_request:
     branches:
       - main
 
-
-
 env:
-    GOOGLE_PROJECT: "purwadika-441705"
-    STAGING_APP_NAME: ""
-    TAG: "latest"
-    ARTIFACT_REGISTRY: "asia-southeast1-docker.pkg.dev"
-    ARTIFACT_FOLDER: "com-fns-wh-app-repository"
-    INVENTORY_APP_NAME: "inventory-service"
-    ORDER_APP_NAME: "order-service"
-
+  GOOGLE_PROJECT: "purwadika-441705"
+  TAG: "latest"
+  ARTIFACT_REGISTRY: "asia-southeast1-docker.pkg.dev"
+  ARTIFACT_FOLDER: "com-fns-wh-app-repository"
+  INVENTORY_APP_NAME: "inventory-service"
+  ORDER_APP_NAME: "order-service"
 
 jobs:
   build_and_push_image:
-    runs-on: [github-runner]
-    environment:
-      name: "Build and Push"
-
+    runs-on: [mwc-mac]
     steps:
       # Step 1: Checkout the code
       - uses: actions/checkout@v3
@@ -37,22 +27,23 @@ jobs:
         with:
           credentials_json: "${{ secrets.GOOGLE_CREDENTIALS }}"
 
+      # Step 3: Docker Authentication
       - name: "Docker auth"
-        run: gcloud auth configure-docker $ARTIFACT_REGISTRY --quiet
+        run: gcloud auth configure-docker ${{ env.ARTIFACT_REGISTRY }} --quiet
 
+      # Step 4: Build and Push Spring Boot Order Image
       - name: Build and Push Spring Boot Order Image
         run: |
-#          mvn spring-boot:build-image
-          cd order-service
-          mvn spring-boot:build-image -Dspring-boot.build-image.imageName="$ARTIFACT_REGISTRY/$GOOGLE_PROJECT/$ARTIFACT_FOLDER_STG/ORDER_APP_NAME:$TAG"
-          docker push "$ARTIFACT_REGISTRY/$GOOGLE_PROJECT/$ARTIFACT_FOLDER/ORDER_APP_NAME:$TAG"      
+          cd order-service/order-container
+          mvn spring-boot:build-image -Dspring-boot.build-image.imageName="${{ env.ARTIFACT_REGISTRY }}/${{ env.GOOGLE_PROJECT }}/${{ env.ARTIFACT_FOLDER }}/${{ env.ORDER_APP_NAME }}:${{ env.TAG }}"
+          docker push "${{ env.ARTIFACT_REGISTRY }}/${{ env.GOOGLE_PROJECT }}/${{ env.ARTIFACT_FOLDER }}/${{ env.ORDER_APP_NAME }}:${{ env.TAG }}"
 
+      # Step 5: Build and Push Spring Boot Inventory Image
       - name: Build and Push Spring Boot Inventory Image
         run: |
-#          mvn spring-boot:build-image
-          cd inventory-service
-          mvn spring-boot:build-image -Dspring-boot.build-image.imageName="$ARTIFACT_REGISTRY/$GOOGLE_PROJECT/$ARTIFACT_FOLDER_STG/INVENTORY_APP_NAME:$TAG"
-          docker push "$ARTIFACT_REGISTRY/$GOOGLE_PROJECT/$ARTIFACT_FOLDER/INVENTORY_APP_NAME:$TAG"
+          cd inventory-service/inventory-container
+          mvn spring-boot:build-image -Dspring-boot.build-image.imageName="${{ env.ARTIFACT_REGISTRY }}/${{ env.GOOGLE_PROJECT }}/${{ env.ARTIFACT_FOLDER }}/${{ env.INVENTORY_APP_NAME }}:${{ env.TAG }}"
+          docker push "${{ env.ARTIFACT_REGISTRY }}/${{ env.GOOGLE_PROJECT }}/${{ env.ARTIFACT_FOLDER }}/${{ env.INVENTORY_APP_NAME }}:${{ env.TAG }}"
 
 #  deploy_to_gke:
 #    needs: build_and_push_image

@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d293844d-7748-4a4e-b711-0613d207449e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.github/workflows/development.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/infrastructure/kubernetes/application-deployment-local.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/infrastructure/kubernetes/application-deployment.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/infrastructure/terraform/main.template.tf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/infrastructure/terraform/openapi.yaml" afterDir="false" />
+    <list default="true" id="d293844d-7748-4a4e-b711-0613d207449e" name="Changes" comment="Build &amp; Push Docker 2">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -210,7 +205,31 @@
       <option name="project" value="LOCAL" />
       <updated>1735459047053</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Deploy Service">
+      <option name="closed" value="true" />
+      <created>1736396640254</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1736396640255</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Build &amp; Push Docker">
+      <option name="closed" value="true" />
+      <created>1736396748332</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1736396748332</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Build &amp; Push Docker 2">
+      <option name="closed" value="true" />
+      <created>1736396901906</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1736396901906</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -225,7 +244,10 @@
     <MESSAGE value="resolve #33 and resolve #34: Setting MongoDb &amp; Order list" />
     <MESSAGE value="resolve #37 : create API order details" />
     <MESSAGE value="resolve #38 : complete query order details data" />
-    <option name="LAST_COMMIT_MESSAGE" value="" />
+    <MESSAGE value="Deploy Service" />
+    <MESSAGE value="Build &amp; Push Docker" />
+    <MESSAGE value="Build &amp; Push Docker 2" />
+    <option name="LAST_COMMIT_MESSAGE" value="Build &amp; Push Docker 2" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
