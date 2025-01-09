@@ -30,7 +30,7 @@ spring:
   sql:
     init:
       platform: postgres
-      mode: always
+      mode: never
       schema-locations: classpath:admin-schema.sql,classpath:admin-data.sql
 
 springdoc:
