@@ -1,0 +1,88 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgis-inventory-service
+  namespace: default
+  labels:
+    app: postgis-inventory-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgis-inventory-service
+  template:
+    metadata:
+      labels:
+        app: postgis-inventory-service
+    spec:
+      containers:
+        - name: postgis-inventory-service
+          image: postgis/postgis:14-3.3
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              value: "inventorydb"
+            - name: POSTGRES_USER
+              value: "inventoryuser"
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgis-inventory-secret
+                  key: POSTGRES_PASSWORD
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgis-inventory-pv
+      volumes:
+        - name: postgis-inventory-pv
+          persistentVolumeClaim:
+            claimName: postgis-inventory-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgis-inventory-service
+  namespace: default
+spec:
+  selector:
+    app: postgis-inventory-service
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432
+  type: LoadBalancer
+
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: postgis-inventory-service
+#   namespace: default
+# spec:
+#   selector:
+#     app: postgis-inventory-service
+#   ports:
+#     - protocol: TCP
+#       port: 5432
+#       targetPort: 5432
+#   type: ClusterIP
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgis-inventory-pvc
+  namespace: default
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: postgis-inventory-secret
+  namespace: default
+type: Opaque
+data:
+  POSTGRES_PASSWORD: aW52ZW50b3J5X3Bhc3N3b3Jk # Base64 encoded value of "inventory_password"
