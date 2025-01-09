@@ -22,12 +22,11 @@ spec:
           ports:
             - containerPort: 8080
           env:
+            - name: SPRING_DATASOURCE_URL
+              value: "jdbc:postgresql://postgres-service:5432/orderdb?currentSchema=order,customer,product,warehouse,admin&binaryTransfer=true&reWriteBatchedInserts=true&stringtype=unspecified"
             - name: SPRING_CONFIG_IMPORT
               value: "optional:file:/config/"
           volumeMounts:
-            - name: order-config
-              mountPath: /config/application.yml
-              subPath: application.yml
             - name: order-secrets
               mountPath: /config/application-secrets.yml
               subPath: application-secrets.yml
@@ -48,9 +47,6 @@ spec:
             timeoutSeconds: 3
             failureThreshold: 3
       volumes:
-        - name: order-config
-          configMap:
-            name: order-service-config
         - name: order-secrets
           configMap:
             name: order-service-secrets
