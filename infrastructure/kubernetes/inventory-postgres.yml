@@ -17,9 +17,11 @@ spec:
     spec:
       containers:
         - name: postgis-inventory-service
-          image: postgis/postgis:14-3.3
+          image: postgis/postgis:15-3.3 # Specify stable version
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 5432
+              protocol: TCP
           env:
             - name: POSTGRES_DB
               value: "inventorydb"
@@ -30,9 +32,18 @@ spec:
                 secretKeyRef:
                   name: postgis-inventory-secret
                   key: POSTGRES_PASSWORD
+            - name: PGDATA
+              value: "/var/lib/postgresql/data/pgdata" # Use subdirectory for safer configuration
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
               name: postgis-inventory-pv
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - sh
+                  - -c
+                  - "mkdir -p /var/lib/postgresql/data/pgdata && chown -R postgres:postgres /var/lib/postgresql/data/pgdata"
       volumes:
         - name: postgis-inventory-pv
           persistentVolumeClaim:
@@ -52,19 +63,6 @@ spec:
       targetPort: 5432
   type: LoadBalancer
 
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: postgis-inventory-service
-#   namespace: default
-# spec:
-#   selector:
-#     app: postgis-inventory-service
-#   ports:
-#     - protocol: TCP
-#       port: 5432
-#       targetPort: 5432
-#   type: ClusterIP
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
