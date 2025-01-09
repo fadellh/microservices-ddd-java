@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: postgres-order-service
-          image: postgres:15.6
+          image: postgres:15.3
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 5432
@@ -37,8 +37,6 @@ spec:
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
               name: postgresdata
-      nodeSelector:
-        cloud.google.com/gke-nodepool: NODESELECTOR
       volumes:
         - name: postgresdata
           persistentVolumeClaim:
