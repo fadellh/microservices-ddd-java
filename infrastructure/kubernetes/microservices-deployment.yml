@@ -28,7 +28,9 @@ spec:
               value: "optional:file:/config/"
           volumeMounts:
             - name: order-secrets
-              mountPath: /config
+              mountPath: /config/secrets/application-secrets.yml
+              subPath: application-secrets.yml
+
           # livenessProbe:
           #   httpGet:
           #     path: /actuator/health
