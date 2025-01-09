@@ -127,10 +127,10 @@ spec:
             - name: inventory-secrets
               mountPath: /config/application-secrets.yml
               subPath: application-secrets.yml
-              livenessProbe:
-                httpGet:
-                  path: /actuator/health
-                  port: 8081
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8081
             initialDelaySeconds: 30
             periodSeconds: 10
             timeoutSeconds: 5
@@ -150,6 +150,7 @@ spec:
         - name: inventory-secrets
           configMap:
             name: inventory-service-secrets
+
 ---
 # Service for Inventory Service
 apiVersion: v1
