@@ -1,0 +1,81 @@
+name: "Microservices Deployment"
+
+on:
+  workflow_dispatch:
+#  push:
+#    branches:
+#      - main
+  pull_request:
+    branches:
+      - main
+
+
+
+env:
+    GOOGLE_PROJECT: "purwadika-441705"
+    STAGING_APP_NAME: ""
+    TAG: "latest"
+    ARTIFACT_REGISTRY: "asia-southeast1-docker.pkg.dev"
+    ARTIFACT_FOLDER: "com-fns-wh-app-repository"
+    INVENTORY_APP_NAME: "inventory-service"
+    ORDER_APP_NAME: "order-service"
+
+
+jobs:
+  build_and_push_image:
+    runs-on: [github-runner]
+    environment:
+      name: "Build and Push"
+
+    steps:
+      # Step 1: Checkout the code
+      - uses: actions/checkout@v3
+
+      # Step 2: Authenticate with GCP
+      - id: "auth"
+        uses: "google-github-actions/auth@v1"
+        with:
+          credentials_json: "${{ secrets.GOOGLE_CREDENTIALS }}"
+
+      # Step 3: Authenticate Docker with Artifact Registry
+      - name: "Docker auth"
+        run: gcloud auth configure-docker $ARTIFACT_REGISTRY --quiet
+
+      # Step 4: Build and Push Docker Image
+      - name: Build and Push Spring Boot Image
+        run: |
+#          mvn spring-boot:build-image
+          cd order-service
+          mvn spring-boot:build-image -Dspring-boot.build-image.imageName="$ARTIFACT_REGISTRY/$GOOGLE_PROJECT/$ARTIFACT_FOLDER_STG/ORDER_APP_NAME:$TAG"
+          docker push "$ARTIFACT_REGISTRY/$GOOGLE_PROJECT/$ARTIFACT_FOLDER/ORDER_APP_NAME:$TAG"      
+
+      # Step 5: Build and Push Docker Image
+      - name: Build and Push Spring Boot Image
+        run: |
+#          mvn spring-boot:build-image
+          cd inventory-service
+          mvn spring-boot:build-image -Dspring-boot.build-image.imageName="$ARTIFACT_REGISTRY/$GOOGLE_PROJECT/$ARTIFACT_FOLDER_STG/INVENTORY_APP_NAME:$TAG"
+          docker push "$ARTIFACT_REGISTRY/$GOOGLE_PROJECT/$ARTIFACT_FOLDER/INVENTORY_APP_NAME:$TAG"
+
+#  deploy_to_gke:
+#    needs: build_and_push_image
+#    runs-on: [gcp-otoklix-api]
+#    environment:
+#      name: "Deploy to GKE"
+#
+#    steps:
+#      # Step 1: Authenticate with GCP
+#      - id: "auth"
+#        uses: "google-github-actions/auth@v1"
+#        with:
+#          credentials_json: "${{ secrets.GOOGLE_CREDENTIALS }}"
+#
+#      # Step 2: Set up Kubernetes cluster context
+#      - name: Set up GKE context
+#        run: gcloud container clusters get-credentials ${{ secrets.CLUSTER_NAME }} --region ${{ secrets.CLUSTER_REGION }}
+#
+#      # Step 3: Deploy to GKE
+#      - name: Apply Kubernetes Manifests
+#        run: |
+#          kubectl apply -f k8s/deployment.yaml
+#          kubectl rollout status deployment/$STAGING_APP_NAME
