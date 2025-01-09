@@ -60,25 +60,37 @@ jobs:
       - name: Set up GKE context
         run: gcloud container clusters get-credentials $CLUSTER_NAME --region $CLUSTER_REGION --project ${{ env.GOOGLE_PROJECT }}
 
-      - name: Check and Create ConfigMap for order-service
+      - name: Check ConfigMap Existence order-service
         run: |
-          kubectl create configmap order-service-config \
-            --from-file=infrastructure/kubernetes/order-service-config.yml \
-            --dry-run=client -o yaml | kubectl apply -f -
+          if kubectl get configmap order-service-config; then
+            echo "ConfigMap order-service-config already exists"
+          else
+            echo "ConfigMap order-service-config does not exist"
+            kubectl create configmap order-service-config --from-file=infrastructure/kubernetes/order-service-config.yml
+          fi
 
-          kubectl create configmap order-service-secrets \
-            --from-file=infrastructure/kubernetes/order-service-secrets.yml \
-            --dry-run=client -o yaml | kubectl apply -f -
+          if kubectl get configmap order-service-secrets; then
+            echo "ConfigMap order-service-secrets already exists"
+          else
+            echo "ConfigMap order-service-secrets does not exist"
+            kubectl create configmap order-service-secrets --from-file=infrastructure/kubernetes/order-service-secrets.yml
+          fi
 
-      - name: Check and Create ConfigMap for inventory-service
+      - name: Check ConfigMap Existence inventory-service
         run: |
-          kubectl create configmap inventory-service-config \
-            --from-file=infrastructure/kubernetes/inventory-service-config.yml \
-            --dry-run=client -o yaml | kubectl apply -f -
+          if kubectl get configmap inventory-service-config; then
+            echo "ConfigMap inventory-service-config already exists"
+          else
+            echo "ConfigMap inventory-service-config does not exist"
+            kubectl create configmap inventory-service-config --from-file=infrastructure/kubernetes/inventory-service-config.yml
+          fi
 
-          kubectl create configmap inventory-service-secrets \
-            --from-file=infrastructure/kubernetes/inventory-service-secrets.yml \
-            --dry-run=client -o yaml | kubectl apply -f -
+          if kubectl get configmap inventory-service-secrets; then
+            echo "ConfigMap inventory-service-secrets already exists"
+          else
+            echo "ConfigMap inventory-service-secrets does not exist"
+            kubectl create configmap inventory-service-secrets --from-file=infrastructure/kubernetes/inventory-service-secrets.yml
+          fi
 
       - name: Apply Kubernetes Manifests
         run: |
