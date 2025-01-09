@@ -34,5 +34,5 @@ jobs:
 
       - name: Deploy Postgres
         run: |
-          kubectl apply -f infrastucture/kubernetes/order-postgres.yml
-          kubectl apply -f infrastucture/kubernetes/inventory-postgres.yml
+          kubectl apply -f infrastructure/kubernetes/order-postgres.yml
+          kubectl apply -f infrastructure/kubernetes/inventory-postgres.yml
