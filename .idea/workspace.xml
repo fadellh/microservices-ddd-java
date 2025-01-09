@@ -295,7 +295,15 @@
       <option name="project" value="LOCAL" />
       <updated>1736392464087</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="Support FE and build image">
+      <option name="closed" value="true" />
+      <created>1736392599434</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1736392599434</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -452,6 +460,11 @@
           <url>file://$PROJECT_DIR$/order-service/order-dataaccess/src/main/java/com/mwc/order/service/dataaccess/order/command/adapater/OrderCommandRepositoryImpl.java</url>
           <line>38</line>
           <option name="timeStamp" value="60" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/order-service/order-container/src/main/java/com/mwc/order/service/domain/OrderServiceApplication.java</url>
+          <line>16</line>
+          <option name="timeStamp" value="61" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/order-service/order-domain/order-domain-application-service/src/main/java/com/mwc/order/service/domain/ports/input/service/OrderApplicationService.java</url>
