@@ -78,6 +78,7 @@ public class OrderDataMapper {
 
     public CreateOrderResponse orderToCreateOrderResponse(Order order) {
         return CreateOrderResponse.builder()
+                .orderId(order.getId().getValue())
                 .orderStatus(order.getOrderStatus())
                 .message("Order created successfully")
                 .build();

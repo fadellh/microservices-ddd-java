@@ -10,6 +10,8 @@ import java.util.UUID;
 @AllArgsConstructor
 public class CreateOrderResponse {
     @NotNull
+    private final UUID orderId;
+    @NotNull
     private final OrderStatus orderStatus;
     @NotNull
     private final String message;

@@ -59,4 +59,29 @@
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <image>
+<!--                        <name>com.mwc/inventory.service:1.0-SNAPSHOT</name>-->
+                        <name>${artifact.repo.region}-docker.pkg.dev/${artifact.project.id}/${artifact.repository.name}/${parent.groupId}/${parent.artifactId}:${project.version}</name>
+
+                    </image>
+                </configuration>
+                <executions>
+                    <execution>
+<!--                        <phase>install</phase>-->
+                        <goals>
+                            <goal>build-image</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>

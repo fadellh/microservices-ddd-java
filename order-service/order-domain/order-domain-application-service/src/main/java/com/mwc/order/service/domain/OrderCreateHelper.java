@@ -101,7 +101,7 @@ public class OrderCreateHelper {
 
         OrderCreatedEvent orderCreatedEvent = orderDomainService.validateAndInitiateOrder(order, orderItems,
                 orderCreatedEventDomainEventPublisher);
-        saveOrder(order);
+        order = saveOrder(order);
         log.info("Order is created with id: {}", orderCreatedEvent.getOrder().getId().getValue());
         return orderCreatedEvent;
     }
@@ -196,8 +196,10 @@ public class OrderCreateHelper {
 
             // Upload file to GCS
             Payment payment = uploadFileToGCS(createPaymentCommand, order);
+            orderDomainService.initReviewPayment(order);
             // Save payment to repository
             paymentRepository.save(payment);
+            commandOrderRepository.save(order);
 
             return orderDataMapper.paymentToCreatePaymentResponse(payment);
         } catch (IOException e) {
