@@ -19,6 +19,7 @@ spec:
       containers:
         - name: order-service
           image: asia-southeast2-docker.pkg.dev/purwadika-441705/com-fns-wh-app-repository/order-service:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
           env:
@@ -26,6 +27,9 @@ spec:
               value: "jdbc:postgresql://postgres-service:5432/orderdb?currentSchema=order,customer,product,warehouse,admin&binaryTransfer=true&reWriteBatchedInserts=true&stringtype=unspecified"
             - name: SPRING_CONFIG_IMPORT
               value: "optional:file:/config/"
+          envFrom:
+            - configMapRef:
+                name: order-service-secrets
           volumeMounts:
             - name: order-secrets
               mountPath: /config/secrets/application-secrets.yml
