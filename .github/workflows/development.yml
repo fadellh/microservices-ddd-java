@@ -9,7 +9,7 @@ on:
 env:
   GOOGLE_PROJECT: "purwadika-441705"
   TAG: "latest"
-  ARTIFACT_REGISTRY: "asia-southeast1-docker.pkg.dev"
+  ARTIFACT_REGISTRY: "asia-southeast2-docker.pkg.dev"
   ARTIFACT_FOLDER: "com-fns-wh-app-repository"
   INVENTORY_APP_NAME: "inventory-service"
   ORDER_APP_NAME: "order-service"
