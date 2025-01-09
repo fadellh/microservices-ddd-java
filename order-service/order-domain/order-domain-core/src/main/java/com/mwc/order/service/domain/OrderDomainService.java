@@ -21,6 +21,8 @@ public interface OrderDomainService {
 
     void approveOrder(Order order);
 
+    void initReviewPayment(Order order);
+
     OrderApproveFailedEvent cancelApproveOrder(Order order, List<String> failureMessages, DomainEventPublisher<OrderApproveFailedEvent> orderApproveFailedEventDomainEventPublisher);
 
 }

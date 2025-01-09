@@ -30,6 +30,11 @@
     <spring.boot.maven.plugin.version>3.3.5</spring.boot.maven.plugin.version>
     <spring.boot.dependecies.version>3.3.5</spring.boot.dependecies.version>
     <avro.version>1.12.0</avro.version>
+
+    <!-- Centralized Docker Image Properties -->
+    <artifact.repo.region>asia-southeast2-docker.pkg.dev</artifact.repo.region>
+    <artifact.project.id>purwadika-441705</artifact.project.id>
+    <artifact.repository.name>com-fns-wh-app-repository</artifact.repository.name>
   </properties>
 
   <dependencyManagement>
@@ -45,6 +50,11 @@
         <groupId>org.springframework.data</groupId>
         <artifactId>spring-boot-starter-data-jpa</artifactId>
         <version>3.3.5</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springdoc</groupId>
+        <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+        <version>2.1.0</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

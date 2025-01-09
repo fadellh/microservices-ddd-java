@@ -52,6 +52,12 @@ public class OrderDomainServiceImpl implements OrderDomainService {
     }
 
     @Override
+    public void initReviewPayment(Order order) {
+        order.initReviewPayment();
+        log.info("Order with id: {} is review_payment", order.getId().getValue());
+    }
+
+    @Override
     public OrderApproveFailedEvent cancelApproveOrder(Order order, List<String> failureMessages, DomainEventPublisher<OrderApproveFailedEvent> orderApproveFailedEventDomainEventPublisher) {
         order.cancelApprove(failureMessages);
         log.info("Order with id: {} is cancelled", order.getId().getValue());

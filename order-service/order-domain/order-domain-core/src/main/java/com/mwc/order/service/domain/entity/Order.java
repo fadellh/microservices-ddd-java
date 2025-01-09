@@ -67,6 +67,13 @@ public class Order extends AggregateRoot<OrderId> {
         }
     }
 
+    public void initReviewPayment() {
+        if (orderStatus != OrderStatus.AWAITING_PAYMENT) {
+            throw new OrderDomainException("Order is not in correct state for initReviewPayment operation!");
+        }
+        orderStatus = OrderStatus.REVIEW_PAYMENT;
+    }
+
     public void initApprove() {
         if (orderStatus != OrderStatus.REVIEW_PAYMENT) {
             throw new OrderDomainException("Order is not in correct state for initApprove operation!");

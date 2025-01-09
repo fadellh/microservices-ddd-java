@@ -33,6 +33,12 @@ spring:
       mode: always
       schema-locations: classpath:admin-schema.sql,classpath:admin-data.sql
 
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
 # Example application-level config
 order-service:
   order-create-topic-name: order-create-request
