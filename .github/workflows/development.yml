@@ -60,25 +60,25 @@ jobs:
       - name: Set up GKE context
         run: gcloud container clusters get-credentials $CLUSTER_NAME --region $CLUSTER_REGION --project ${{ env.GOOGLE_PROJECT }}
 
-      - name: Patch ConfigMap for order-service
+      - name: Check and Create ConfigMap for order-service
         run: |
-          kubectl patch configmap order-service-config \
-            --type merge \
-            -p '{"data":{"additional-config-key":"additional-value"}}'
+          kubectl create configmap order-service-config \
+            --from-file=infrastructure/kubernetes/order-service-config.yml \
+            --dry-run=client -o yaml | kubectl apply -f -
 
-          kubectl patch configmap order-service-secrets \
-            --type merge \
-            -p '{"data":{"additional-secret-key":"additional-secret-value"}}'
+          kubectl create configmap order-service-secrets \
+            --from-file=infrastructure/kubernetes/order-service-secrets.yml \
+            --dry-run=client -o yaml | kubectl apply -f -
 
-      - name: Patch ConfigMap for inventory-service
+      - name: Check and Create ConfigMap for inventory-service
         run: |
-          kubectl patch configmap inventory-service-config \
-            --type merge \
-            -p '{"data":{"another-config-key":"another-value"}}'
+          kubectl create configmap inventory-service-config \
+            --from-file=infrastructure/kubernetes/inventory-service-config.yml \
+            --dry-run=client -o yaml | kubectl apply -f -
 
-          kubectl patch configmap inventory-service-secrets \
-            --type merge \
-            -p '{"data":{"another-secret-key":"another-secret-value"}}'
+          kubectl create configmap inventory-service-secrets \
+            --from-file=infrastructure/kubernetes/inventory-service-secrets.yml \
+            --dry-run=client -o yaml | kubectl apply -f -
 
       - name: Apply Kubernetes Manifests
         run: |
