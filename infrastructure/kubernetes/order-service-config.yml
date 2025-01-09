@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: order-service-config
+  namespace: default
+data:
+  application.yml: |
+    server:
+      port: 8080
+    logging:
+      level:
+        com.mwc: INFO

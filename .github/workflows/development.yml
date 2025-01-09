@@ -13,6 +13,8 @@ env:
   ARTIFACT_FOLDER: "com-fns-wh-app-repository"
   INVENTORY_APP_NAME: "inventory-service"
   ORDER_APP_NAME: "order-service"
+  CLUSTER_NAME: "primary-mwc-cluster"
+  CLUSTER_REGION: "asia-southeast2-a"
 
 jobs:
   build_and_push_image:
@@ -45,25 +47,39 @@ jobs:
           mvn spring-boot:build-image -Dspring-boot.build-image.imageName="${{ env.ARTIFACT_REGISTRY }}/${{ env.GOOGLE_PROJECT }}/${{ env.ARTIFACT_FOLDER }}/${{ env.INVENTORY_APP_NAME }}:${{ env.TAG }}"
           docker push "${{ env.ARTIFACT_REGISTRY }}/${{ env.GOOGLE_PROJECT }}/${{ env.ARTIFACT_FOLDER }}/${{ env.INVENTORY_APP_NAME }}:${{ env.TAG }}"
 
-#  deploy_to_gke:
-#    needs: build_and_push_image
-#    runs-on: [gcp-otoklix-api]
-#    environment:
-#      name: "Deploy to GKE"
-#
-#    steps:
-#      # Step 1: Authenticate with GCP
-#      - id: "auth"
-#        uses: "google-github-actions/auth@v1"
-#        with:
-#          credentials_json: "${{ secrets.GOOGLE_CREDENTIALS }}"
-#
-#      # Step 2: Set up Kubernetes cluster context
-#      - name: Set up GKE context
-#        run: gcloud container clusters get-credentials ${{ secrets.CLUSTER_NAME }} --region ${{ secrets.CLUSTER_REGION }}
-#
-#      # Step 3: Deploy to GKE
-#      - name: Apply Kubernetes Manifests
-#        run: |
-#          kubectl apply -f k8s/deployment.yaml
-#          kubectl rollout status deployment/$STAGING_APP_NAME
+  deploy_to_gke:
+    needs: build_and_push_image
+    runs-on: [mwc-mac]
+
+    steps:
+      - id: "auth"
+        uses: "google-github-actions/auth@v1"
+        with:
+          credentials_json: "${{ secrets.GOOGLE_CREDENTIALS }}"
+
+      - name: Set up GKE context
+        run: gcloud container clusters get-credentials $CLUSTER_NAME --region $CLUSTER_REGION --project ${{ env.GOOGLE_PROJECT }}
+
+      - name: Patch ConfigMap for order-service
+        run: |
+          kubectl patch configmap order-service-config \
+            --type merge \
+            -p '{"data":{"additional-config-key":"additional-value"}}'
+
+          kubectl patch configmap order-service-secrets \
+            --type merge \
+            -p '{"data":{"additional-secret-key":"additional-secret-value"}}'
+
+      - name: Patch ConfigMap for inventory-service
+        run: |
+          kubectl patch configmap inventory-service-config \
+            --type merge \
+            -p '{"data":{"another-config-key":"another-value"}}'
+
+          kubectl patch configmap inventory-service-secrets \
+            --type merge \
+            -p '{"data":{"another-secret-key":"another-secret-value"}}'
+
+      - name: Apply Kubernetes Manifests
+        run: |
+          kubectl apply -f infrastructure/kubernetes/microservices-deployment.yml
