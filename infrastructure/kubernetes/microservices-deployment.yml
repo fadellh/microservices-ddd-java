@@ -303,7 +303,7 @@ spec:
   tls:
     - hosts:
         - "api.fadellh.com"
-      secretName: web-ssl
+      secretName: web-ssl-wrqdc
   rules:
     - host: api.fadellh.com
       http:
@@ -314,14 +314,14 @@ spec:
               service:
                 name: order-service
                 port:
-                  number: 80
+                  number: 8080
           - path: /inventory
             pathType: Prefix
             backend:
               service:
                 name: inventory-service
                 port:
-                  number: 80
+                  number: 8081
           # - path: /user(/|$)(.*)
           #   pathType: Prefix
           #   backend:
