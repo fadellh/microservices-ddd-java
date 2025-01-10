@@ -66,14 +66,14 @@ jobs:
             echo "ConfigMap order-service-config already exists"
           else
             echo "ConfigMap order-service-config does not exist"
-            kubectl create configmap order-service-config --from-file=infrastructure/kubernetes/order-service-config.yml
+            kubectl apply -f infrastructure/kubernetes/order-service-config.yml
           fi
 
           if kubectl get configmap order-service-secrets; then
             echo "ConfigMap order-service-secrets already exists"
           else
             echo "ConfigMap order-service-secrets does not exist"
-            kubectl create configmap order-service-secrets --from-file=infrastructure/kubernetes/order-service-secrets.yml
+            kubectl apply -f infrastructure/kubernetes/order-service-secrets.yml
           fi
 
       - name: Check ConfigMap Existence inventory-service
@@ -82,14 +82,14 @@ jobs:
             echo "ConfigMap inventory-service-config already exists"
           else
             echo "ConfigMap inventory-service-config does not exist"
-            kubectl create configmap inventory-service-config --from-file=infrastructure/kubernetes/inventory-service-config.yml
+            kubectl apply -f infrastructure/kubernetes/inventory-service-config.yml
           fi
 
           if kubectl get configmap inventory-service-secrets; then
             echo "ConfigMap inventory-service-secrets already exists"
           else
             echo "ConfigMap inventory-service-secrets does not exist"
-            kubectl create configmap inventory-service-secrets --from-file=infrastructure/kubernetes/inventory-service-secrets.yml
+            kubectl apply -f infrastructure/kubernetes/inventory-service-secrets.yml
           fi
 
       - name: Apply Kubernetes Manifests

@@ -30,10 +30,10 @@ spec:
           envFrom:
             - configMapRef:
                 name: order-service-secrets
-          volumeMounts:
-            - name: order-secrets
-              mountPath: /config/secrets/application-secrets.yml
-              subPath: application-secrets.yml
+          # volumeMounts:
+          #   - name: order-secrets
+          #     mountPath: /config/secrets/application-secrets.yml
+          #     subPath: application-secrets.yml
 
           # livenessProbe:
           #   httpGet:
@@ -51,10 +51,10 @@ spec:
           #   periodSeconds: 5
           #   timeoutSeconds: 3
           #   failureThreshold: 3
-      volumes:
-        - name: order-secrets
-          configMap:
-            name: order-service-secrets
+      # volumes:
+      #   - name: order-secrets
+      #     configMap:
+      #       name: order-service-secrets
 
 ---
 # Service for Order Service
