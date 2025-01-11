@@ -66,11 +66,11 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <image>
+                    <!-- <image> -->
 <!--                        <name>com.mwc/inventory.service:1.0-SNAPSHOT</name>-->
-                        <name>${artifact.repo.region}-docker.pkg.dev/${artifact.project.id}/${artifact.repository.name}/${parent.groupId}/${parent.artifactId}:${project.version}</name>
+                        <!-- <name>${artifact.repo.region}-docker.pkg.dev/${artifact.project.id}/${artifact.repository.name}/${parent.groupId}/${parent.artifactId}:${project.version}</name> -->
 
-                    </image>
+                    <!-- </image> -->
                 </configuration>
                 <executions>
                     <execution>

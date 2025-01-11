@@ -1,0 +1,97 @@
+name: "Microservices Deployment"
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+
+env:
+  GOOGLE_PROJECT: "purwadika-441705"
+  TAG: "latest"
+  ARTIFACT_REGISTRY: "asia-southeast2-docker.pkg.dev"
+  ARTIFACT_FOLDER: "com-fns-wh-app-repository"
+  INVENTORY_APP_NAME: "inventory-service"
+  ORDER_APP_NAME: "order-service"
+  CLUSTER_NAME: "primary-mwc-cluster"
+  CLUSTER_REGION: "asia-southeast2-a"
+
+jobs:
+  build_and_push_image:
+    runs-on: [mwc-mac]
+    steps:
+      # Step 1: Checkout the code
+      - uses: actions/checkout@v3
+
+      # Step 2: Authenticate with GCP
+      - id: "auth"
+        uses: "google-github-actions/auth@v1"
+        with:
+          credentials_json: "${{ secrets.GOOGLE_CREDENTIALS }}"
+
+      # Step 3: Docker Authentication
+      - name: "Docker auth"
+        run: gcloud auth configure-docker ${{ env.ARTIFACT_REGISTRY }} --quiet
+
+      # Step 4: Build and Push Spring Boot Order Image
+      - name: Build and Push Spring Boot Order Image
+        run: |
+          cd order-service/order-container
+          mvn spring-boot:build-image -Dspring-boot.build-image.imageName="${{ env.ARTIFACT_REGISTRY }}/${{ env.GOOGLE_PROJECT }}/${{ env.ARTIFACT_FOLDER }}/${{ env.ORDER_APP_NAME }}:${{ env.TAG }}"
+          docker push "${{ env.ARTIFACT_REGISTRY }}/${{ env.GOOGLE_PROJECT }}/${{ env.ARTIFACT_FOLDER }}/${{ env.ORDER_APP_NAME }}:${{ env.TAG }}"
+
+      # Step 5: Build and Push Spring Boot Inventory Image
+      - name: Build and Push Spring Boot Inventory Image
+        run: |
+          cd inventory-service/inventory-container
+          mvn spring-boot:build-image -Dspring-boot.build-image.imageName="${{ env.ARTIFACT_REGISTRY }}/${{ env.GOOGLE_PROJECT }}/${{ env.ARTIFACT_FOLDER }}/${{ env.INVENTORY_APP_NAME }}:${{ env.TAG }}"
+          docker push "${{ env.ARTIFACT_REGISTRY }}/${{ env.GOOGLE_PROJECT }}/${{ env.ARTIFACT_FOLDER }}/${{ env.INVENTORY_APP_NAME }}:${{ env.TAG }}"
+
+  deploy_to_gke:
+    needs: build_and_push_image
+    runs-on: [mwc-mac]
+
+    steps:
+      - id: "auth"
+        uses: "google-github-actions/auth@v1"
+        with:
+          credentials_json: "${{ secrets.GOOGLE_CREDENTIALS }}"
+
+      - name: Set up GKE context
+        run: gcloud container clusters get-credentials $CLUSTER_NAME --region $CLUSTER_REGION --project ${{ env.GOOGLE_PROJECT }}
+
+      - name: Check ConfigMap Existence order-service
+        run: |
+          if kubectl get configmap order-service-config; then
+            echo "ConfigMap order-service-config already exists"
+          else
+            echo "ConfigMap order-service-config does not exist"
+            kubectl apply -f infrastructure/kubernetes/order-service-config.yml
+          fi
+
+          if kubectl get configmap order-service-secrets; then
+            echo "ConfigMap order-service-secrets already exists"
+          else
+            echo "ConfigMap order-service-secrets does not exist"
+            kubectl apply -f infrastructure/kubernetes/order-service-secrets.yml
+          fi
+
+      - name: Check ConfigMap Existence inventory-service
+        run: |
+          if kubectl get configmap inventory-service-config; then
+            echo "ConfigMap inventory-service-config already exists"
+          else
+            echo "ConfigMap inventory-service-config does not exist"
+            kubectl apply -f infrastructure/kubernetes/inventory-service-config.yml
+          fi
+
+          if kubectl get configmap inventory-service-secrets; then
+            echo "ConfigMap inventory-service-secrets already exists"
+          else
+            echo "ConfigMap inventory-service-secrets does not exist"
+            kubectl apply -f infrastructure/kubernetes/inventory-service-secrets.yml
+          fi
+
+      - name: Apply Kubernetes Manifests
+        run: |
+          kubectl apply -f infrastructure/kubernetes/microservices-deployment.yml

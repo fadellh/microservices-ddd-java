@@ -1,0 +1,95 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: postgres-order-service
+  name: postgres-order-service
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres-order-service
+  template:
+    metadata:
+      labels:
+        app: postgres-order-service
+    spec:
+      containers:
+        - name: postgres-order-service
+          image: postgres:15.3
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5432
+              protocol: TCP
+          env:
+            - name: POSTGRES_DB
+              value: "orderdb"
+            - name: POSTGRES_USER
+              value: "orderuser"
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-order-secret
+                  key: POSTGRES_PASSWORD
+            - name: PGDATA
+              value: "/var/lib/postgresql/data/pgdata"
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgresdata
+      volumes:
+        - name: postgresdata
+          persistentVolumeClaim:
+            claimName: postgres-order-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: postgres-order-service
+  name: postgres-order-service
+  namespace: default
+spec:
+  ports:
+    - name: 5432-tcp
+      port: 5432
+      protocol: TCP
+      targetPort: 5432
+  selector:
+    app: postgres-order-service
+  type: LoadBalancer
+
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: postgres-order-service
+#   namespace: default
+# spec:
+#   selector:
+#     app: postgres-order-service
+#   ports:
+#     - protocol: TCP
+#       port: 5432
+#       targetPort: 5432
+#   type: ClusterIP
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-order-pvc
+  namespace: default
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: postgres-order-secret
+  namespace: default
+type: Opaque
+data:
+  POSTGRES_PASSWORD: dXNlcl9zZWNyZXRfcGFzc3dvcmQ= # Base64 encoded value of "user_secret_password"

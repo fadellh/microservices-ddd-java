@@ -1,0 +1,38 @@
+name: Deploy Postgres to GKE
+
+on:
+  workflow_dispatch:
+  # pull_request:
+  #   branches:
+  #     - main
+
+env:
+  GOOGLE_PROJECT: "purwadika-441705"
+  TAG: "latest"
+  ARTIFACT_REGISTRY: "asia-southeast2-docker.pkg.dev"
+  ARTIFACT_FOLDER: "com-fns-wh-app-repository"
+  INVENTORY_APP_NAME: "inventory-service"
+  ORDER_APP_NAME: "order-service"
+  CLUSTER_NAME: "primary-mwc-cluster"
+  CLUSTER_REGION: "asia-southeast2-a"
+
+jobs:
+  deploy-db:
+    runs-on: [mwc-mac]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Google Cloud SDK
+        uses: "google-github-actions/auth@v1"
+        with:
+          credentials_json: "${{ secrets.GOOGLE_CREDENTIALS }}"
+
+      - name: Set up GKE context
+        run: gcloud container clusters get-credentials $CLUSTER_NAME --region $CLUSTER_REGION --project ${{ env.GOOGLE_PROJECT }}
+
+      - name: Deploy Postgres
+        run: |
+          kubectl apply -f infrastructure/kubernetes/order-postgres.yml
+          kubectl apply -f infrastructure/kubernetes/inventory-postgres.yml

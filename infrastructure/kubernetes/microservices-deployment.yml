@@ -1,0 +1,357 @@
+# Deployment for Order Service
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-service
+  namespace: default
+  labels:
+    app: order-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: order-service
+  template:
+    metadata:
+      labels:
+        app: order-service
+    spec:
+      containers:
+        - name: order-service
+          image: asia-southeast2-docker.pkg.dev/purwadika-441705/com-fns-wh-app-repository/order-service:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: "jdbc:postgresql://34.101.126.3:5432/orderdb?currentSchema=order,customer,product,warehouse,admin&binaryTransfer=true&reWriteBatchedInserts=true&stringtype=unspecified"
+            - name: SPRING_CONFIG_IMPORT
+              value: "optional:file:/config/"
+          envFrom:
+            - configMapRef:
+                name: order-service-secrets
+          # volumeMounts:
+          #   - name: order-secrets
+          #     mountPath: /config/secrets/application-secrets.yml
+          #     subPath: application-secrets.yml
+
+          # livenessProbe:
+          #   httpGet:
+          #     path: /actuator/health
+          #     port: 8080
+          #   initialDelaySeconds: 30
+          #   periodSeconds: 10
+          #   timeoutSeconds: 5
+          #   failureThreshold: 3
+          # readinessProbe:
+          #   httpGet:
+          #     path: /actuator/health
+          #     port: 8080
+          #   initialDelaySeconds: 10
+          #   periodSeconds: 5
+          #   timeoutSeconds: 3
+          #   failureThreshold: 3
+      # volumes:
+      #   - name: order-secrets
+      #     configMap:
+      #       name: order-service-secrets
+
+---
+# Service for Order Service
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: order-service
+#   annotations:
+#     kubernetes.io/ingress.class: "nginx"
+#     nginx.ingress.kubernetes.io/rewrite-target: /
+#     nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+# spec:
+#   type: ClusterIP
+#   selector:
+#     app: order-service
+#   ports:
+#     - port: 80
+#       targetPort: 8080
+apiVersion: v1
+kind: Service
+metadata:
+  name: order-service
+  namespace: default
+spec:
+  type: LoadBalancer
+  selector:
+    app: order-service
+  ports:
+    - port: 80
+      targetPort: 8080
+---
+# Horizontal Pod Autoscaler for Order Service
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: order-service-hpa
+  namespace: default
+  labels:
+    app: order-service
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: order-service
+  minReplicas: 2
+  maxReplicas: 4
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 85
+---
+# Deployment for Inventory Service
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inventory-service
+  namespace: default
+  labels:
+    app: inventory-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: inventory-service
+  template:
+    metadata:
+      labels:
+        app: inventory-service
+    spec:
+      containers:
+        - name: inventory-service
+          image: asia-southeast2-docker.pkg.dev/purwadika-441705/com-fns-wh-app-repository/inventory-service:latest
+          ports:
+            - containerPort: 8081
+          env:
+            - name: SPRING_CONFIG_IMPORT
+              value: "optional:file:/config/"
+          volumeMounts:
+            - name: inventory-config
+              mountPath: /config/application.yml
+              subPath: application.yml
+            - name: inventory-secrets
+              mountPath: /config/application-secrets.yml
+              subPath: application-secrets.yml
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8081
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8081
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 3
+      volumes:
+        - name: inventory-config
+          configMap:
+            name: inventory-service-config
+        - name: inventory-secrets
+          configMap:
+            name: inventory-service-secrets
+
+---
+# Service for Inventory Service
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: inventory-service
+#   namespace: default
+# spec:
+#   selector:
+#     app: inventory-service
+#   ports:
+#     - protocol: TCP
+#       port: 8080
+#       targetPort: 8081
+#   type: ClusterIP
+apiVersion: v1
+kind: Service
+metadata:
+  name: inventory-service
+  namespace: default
+spec:
+  type: LoadBalancer
+  selector:
+    app: inventory-service
+  ports:
+    - port: 80
+      targetPort: 8081
+---
+# Horizontal Pod Autoscaler for Inventory Service
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: inventory-service-hpa
+  namespace: default
+  labels:
+    app: inventory-service
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: inventory-service
+  minReplicas: 2
+  maxReplicas: 4
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 85
+# ---
+# # Deployment for User Service
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: user-service
+#   namespace: default
+#   labels:
+#     app: user-service
+# spec:
+#   replicas: 2
+#   selector:
+#     matchLabels:
+#       app: user-service
+#   template:
+#     metadata:
+#       labels:
+#         app: user-service
+#     spec:
+#       containers:
+#         - name: user-service
+#           image: asia-southeast2-docker.pkg.dev/purwadika-441705/com-fns-wh-app-repository/user-service:latest
+#           ports:
+#             - containerPort: 8080
+#           env:
+#             - name: SPRING_PROFILES_ACTIVE
+#               value: production
+#           livenessProbe:
+#             httpGet:
+#               path: /actuator/health
+#               port: 8080
+#             initialDelaySeconds: 30
+#             periodSeconds: 10
+#             timeoutSeconds: 5
+#             failureThreshold: 3
+#           readinessProbe:
+#             httpGet:
+#               path: /actuator/health
+#               port: 8080
+#             initialDelaySeconds: 10
+#             periodSeconds: 5
+#             timeoutSeconds: 3
+#             failureThreshold: 3
+# ---
+# # Service for User Service
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: user-service
+#   namespace: default
+# spec:
+#   selector:
+#     app: user-service
+#   ports:
+#     - protocol: TCP
+#       port: 8080
+#       targetPort: 8080
+#   type: ClusterIP
+# ---
+# # Horizontal Pod Autoscaler for User Service
+# apiVersion: autoscaling/v2
+# kind: HorizontalPodAutoscaler
+# metadata:
+#   name: user-service-hpa
+#   namespace: default
+#   labels:
+#     app: user-service
+# spec:
+#   scaleTargetRef:
+#     apiVersion: apps/v1
+#     kind: Deployment
+#     name: user-service
+#   minReplicas: 2
+#   maxReplicas: 4
+#   metrics:
+#     - type: Resource
+#       resource:
+#         name: cpu
+#         target:
+#           type: Utilization
+#           averageUtilization: 85
+
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-dev
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: fadel.lukman.dev@gmail.com
+    privateKeySecretRef:
+      name: letsencrypt-dev-key
+    solvers:
+      - http01:
+          ingress:
+            class: nginx
+
+---
+# Ingress for All Services
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: api-microservices-ingress
+  namespace: default
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    cert-manager.io/cluster-issuer: letsencrypt-dev
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - "backend.fadellh.com"
+      secretName: web-ssl-wrqdc
+  rules:
+    - host: backend.fadellh.com
+      http:
+        paths:
+          - path: /v1/orders
+            pathType: Prefix
+            backend:
+              service:
+                name: order-service
+                port:
+                  number: 8080
+          - path: /v1/inventory
+            pathType: Prefix
+            backend:
+              service:
+                name: inventory-service
+                port:
+                  number: 8081
+          # - path: /user(/|$)(.*)
+          #   pathType: Prefix
+          #   backend:
+          #     service:
+          #       name: user-service
+          #       port:
+          #         number: 8080
