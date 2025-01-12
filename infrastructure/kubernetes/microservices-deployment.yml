@@ -58,30 +58,30 @@ spec:
 
 ---
 # Service for Order Service
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: order-service
-#   namespace: default
-# spec:
-#   type: ClusterIP
-#   selector:
-#     app: order-service
-#   ports:
-#     - port: 8080
-#       targetPort: 8080
 apiVersion: v1
 kind: Service
 metadata:
   name: order-service
   namespace: default
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   selector:
     app: order-service
   ports:
-    - port: 80
+    - port: 8080
       targetPort: 8080
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: order-service
+#   namespace: default
+# spec:
+#   type: LoadBalancer
+#   selector:
+#     app: order-service
+#   ports:
+#     - port: 80
+#       targetPort: 8080
 ---
 # Horizontal Pod Autoscaler for Order Service
 apiVersion: autoscaling/v2
