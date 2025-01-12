@@ -21,19 +21,22 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
   datasource:
+    username: order_user
+    password: order_password
     url: jdbc:postgresql://localhost:5435/postgres?currentSchema=inventory,warehouse&binaryTransfer=true&reWriteBatchedInserts=true&stringtype=unspecified
     driver-class-name: org.postgresql.Driver
     schema-locations: classpath:warehouse-schema.sql, classpath:init-schema.sql, classpath:inventory-data.sql, classpath:inventory-item-data.sql, classpath:warehouse-data.sql
 
   data:
     mongodb:
+      uri: mongodb://localhost:27017/order_view
       database: inventory_view
       auto-index-creation: true
 
   sql:
     init:
       platform: postgres
-      mode: always
+      mode: never
       schema-locations: classpath:init-schema.sql, classpath:inventory-data.sql,classpath:inventory-item-data.sql,classpath:warehouse-schema.sql,classpath:warehouse-data.sql
 
 # Example application-level config
@@ -47,6 +50,13 @@ inventory-service:
 # KAFKA CONFIG FOR CONFLUENT CLOUD (common or default)
 # ----------------------------------------------------------------
 kafka-config:
+  schema-registry-user-info-key: basic.auth.credentials.source
+  schema-registry-user-info: USER_INFO
+  schema-registry-basic-auth-user-info-key: schema.registry.basic.auth.user.info
+  schema-registry-basic-auth-user-info: "SR_KEY:SR_SECRET"
+  sasl-jaas-config: >
+    org.apache.kafka.common.security.plain.PlainLoginModule required
+    username
   bootstrap-servers: pkc-ew3qg.asia-southeast2.gcp.confluent.cloud:9092
   schema-registry-url-key: schema.registry.url
   schema-registry-url: https://psrc-epk8y.australia-southeast1.gcp.confluent.cloud
