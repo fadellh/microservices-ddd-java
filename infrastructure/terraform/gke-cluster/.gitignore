@@ -1,0 +1,14 @@
+# Terraform state files
+terraform.tfstate
+terraform.tfstate.backup
+
+# Local Terraform directories
+.terraform/
+
+# Variable files
+*.tfvars
+
+# Crash log files
+crash.log
+
+openapi.yaml
