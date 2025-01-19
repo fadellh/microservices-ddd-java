@@ -5,6 +5,7 @@ This script creates the MongoDB collections and indexes for the Inventory Servic
 """
 
 from pymongo import MongoClient, ASCENDING, TEXT
+from pymongo.operations import SearchIndexModel
 from dotenv import load_dotenv
 import os
 
@@ -28,19 +29,50 @@ def create_inventory_collections():
     # catalogs collection
     catalogs_coll = db["catalogs"]
     catalogs_coll.create_index([("id", ASCENDING)], name="idx_catalog_id")
-    # catalogs_coll.create_index([("name", TEXT)], name="text_catalog_name")
-    # catalogs_coll.drop_index("text_catalog_name")
-    catalogs_coll.create_index(
-        [("name", "text"), ("brand", "text"), ("description", "text")],
-        name="catalog_text_index",
-        weights={"name": 5, "brand": 3, "description": 1}
-    )
 
     # admins collection (if Inventory Service also displays admin data)
     admins_coll = db["admins"]
     admins_coll.create_index([("id", ASCENDING)], name="idx_admin_id")
 
     client.close()
+
+    create_index()
+
+def create_index():
+    """
+    Create an Atlas Search Index for the specified collection.
+    """
+    try:
+        client = MongoClient(INVENTORY_MONGO_URI)
+        print("[INFO] Connected to MongoDB Atlas.")
+
+        database = client[INVENTORY_MONGO_DB_NAME]
+        collection = database['catalogs']
+
+        search_index_model = SearchIndexModel(
+            definition={
+                "mappings": {
+                    "dynamic": True, 
+                    "fields": {
+                        "name": {"type": "string"},
+                        "brand": {"type": "string"},
+                        "description": {"type": "string"},
+                        "price": {"type": "number"}
+                    }
+                }
+            },
+            name="basic_search", 
+        )
+
+        # Create the search index
+        result = collection.create_search_index(model=search_index_model)
+        print(f"[SUCCESS] Search index created: {result}")
+
+    except Exception as e:
+        print(f"[ERROR] Failed to create search index: {e}")
+    finally:
+        client.close()
+        print("[INFO] MongoDB connection closed.")
 
 def main():
     create_inventory_collections()

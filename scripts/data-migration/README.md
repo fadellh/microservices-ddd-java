@@ -36,7 +36,7 @@ pip install -r requirements.txt
     ORDER_DB_HOST=localhost
     ORDER_DB_PORT=5432
 
-    INVENTORY_DB_NAME=gis_db
+    INVENTORY_DB_NAME=postgres
     INVENTORY_DB_USER=<your_username>
     INVENTORY_DB_PASSWORD=<your_password>
     INVENTORY_DB_HOST=localhost

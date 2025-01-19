@@ -92,8 +92,7 @@ class PyObjectId(ObjectId):
 
 class ProductDataDoc(BaseModel):
     """
-    Data product yang di-embed untuk keperluan menampilkan detail di halaman order (READ).
-    Misal: nama product, brand, dsb. 
+
     """
     id: UUID
     name: str
@@ -102,7 +101,6 @@ class ProductDataDoc(BaseModel):
 
 class AdminDataDoc(BaseModel):
     """
-    Data admin (sekadar info) untuk READ di sisi order service.
     """
     id: UUID
     email: EmailStr
@@ -112,7 +110,6 @@ class AdminDataDoc(BaseModel):
 
 class CustomerDataDoc(BaseModel):
     """
-    Data customer (sekadar info) untuk READ di sisi order service.
     """
     id: UUID
     email: EmailStr
@@ -120,7 +117,6 @@ class CustomerDataDoc(BaseModel):
 
 class WarehouseDataDoc(BaseModel):
     """
-    Data warehouse (sekadar info) untuk READ di sisi order service.
     """
     id: UUID
     name: str
@@ -129,8 +125,6 @@ class WarehouseDataDoc(BaseModel):
 
 class OrderItemDocument(BaseModel):
     """
-    Detail item di dalam order (READ side).
-    Misalnya sudah diperkaya data productName, brand, dsb. 
     """
     productId: UUID
     productName: str
@@ -140,8 +134,6 @@ class OrderItemDocument(BaseModel):
 
 class OrderDetailListDoc(BaseModel):
     """
-    Contoh: Data untuk Halaman Order Detail (aggregate/complex joined data).
-    Bisa berisi ringkasan Admin, Customer, Warehouse, Product, dsb. 
     """
     id: Optional[PyObjectId] = Field(alias="_id")
     orderId: UUID
@@ -180,7 +172,6 @@ class OrderAddressEntity(BaseModel):
 class OrderItemEntity(BaseModel):
     """
     Tabel order_items (Write side - Postgres).
-    Di Java, @Id => Long id + composite. Di Pydantic, kita sederhanakan.
     """
     id: int
     orderId: str #UUID
@@ -212,7 +203,6 @@ class OrderEntity(BaseModel):
 # ===================================
 class CatalogData(BaseModel):
     """
-    Data catalog disimpan di DB read (MongoDB) untuk menampilkan info produk, dsb.
     """
     id: UUID
     name: str

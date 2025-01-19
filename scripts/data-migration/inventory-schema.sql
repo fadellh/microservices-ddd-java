@@ -1,6 +1,8 @@
 -- inventory-schema.sql
 -- This file creates tables for the Inventory Service (Postgres)
 
+CREATE EXTENSION IF NOT EXISTS postgis;
+
 CREATE TABLE IF NOT EXISTS warehouses (
     id UUID PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
