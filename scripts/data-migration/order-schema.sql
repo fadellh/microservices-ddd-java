@@ -32,6 +32,7 @@ CREATE TABLE IF NOT EXISTS order_items (
     id BIGINT,
     order_id UUID NOT NULL,
     product_id UUID NOT NULL,
+    inventory_id UUID NOT NULL,
     price NUMERIC,
     quantity INT,
     sub_total NUMERIC,

@@ -105,10 +105,10 @@ def generate_static_uuid(model_name: str, unique_id: int) -> str:
 
     Args:
         model_name (str): The name of the model (e.g., "AdminUser", "Order", "Inventory").
-        unique_id (int): A unique identifier for the record (e.g., sequential number).
+        unique_id (int): A unique integer used to differentiate the record.
 
     Returns:
-        str: A UUID string.
+        str: A UUID string derived from a stable MD5 hash of model_name + unique_id.
     """
     unique_string = f"{model_name}-{unique_id}"
     hashed = hashlib.md5(unique_string.encode()).hexdigest()
@@ -133,7 +133,7 @@ def create_order_detail_doc(
         "totalAmount": str(order.totalAmount),
         "shippingCost": str(order.shippingCost),
         "customerAddress": order.customerAddress,
-        
+
         # Embedded admin
         "admin": {
             "id": str(admin_user.id),
@@ -142,14 +142,14 @@ def create_order_detail_doc(
             "adminRole": admin_user.adminRole.value,
             "active": admin_user.active
         },
-        
+
         # Embedded customer
         "customer": {
             "id": str(customer_user.id),
             "email": customer_user.email,
             "fullname": customer_user.fullname
         },
-        
+
         # Embedded warehouse
         "warehouse": {
             "id": str(warehouse_entity.id),
@@ -157,31 +157,32 @@ def create_order_detail_doc(
             "latitude": warehouse_entity.latitude,
             "longitude": warehouse_entity.longitude
         },
-        
+
         # Items
         "items": [],
-        
+
         # Address (if we want to store it as a string or sub-doc)
         "address": None
     }
-    
+
     # Convert items
     item_docs = []
     for it in order.items:
         item_docs.append({
             "productId": str(it.productId),
+            "inventoryId": str(it.inventoryId),
             "price": str(it.price),
             "quantity": it.quantity,
             "subTotal": str(it.subTotal)
         })
     doc["items"] = item_docs
-    
+
     # If order.address is not None, embed it
     if order.address:
         addr = order.address
         address_str = f"{addr.street}, {addr.city}, {addr.postalCode}"
         doc["address"] = address_str
-    
+
     # Embed payment data
     doc["payment"] = {
         "paymentMethod": payment["paymentMethod"],
@@ -193,7 +194,6 @@ def create_order_detail_doc(
     }
 
     return doc
-
 
 # ------------------------------------------------------------------------------
 # INSERT FUNCTIONS (WRITE DB)
@@ -209,7 +209,7 @@ def insert_admin_user_postgres(user: AdminUser):
         check_query = "SELECT 1 FROM admin_users WHERE id = %s"
         cursor.execute(check_query, (str(user.id),))
         exists = cursor.fetchone()
-        
+
         if not exists:
             # Insert new record
             q = """
@@ -241,7 +241,7 @@ def insert_customer_user_postgres(user: CustomerUser):
         check_query = "SELECT 1 FROM customer_users WHERE id = %s"
         cursor.execute(check_query, (str(user.id),))
         exists = cursor.fetchone()
-        
+
         if not exists:
             # Insert new record
             q = """
@@ -270,7 +270,7 @@ def insert_warehouse_postgres(wh: WarehouseEntity):
         check_query = "SELECT 1 FROM warehouses WHERE id = %s"
         cursor.execute(check_query, (str(wh.id),))
         exists = cursor.fetchone()
-        
+
         if not exists:
             # Insert new record
             q = """
@@ -299,7 +299,7 @@ def insert_inventory_postgres(inv: InventoryEntity):
         check_query = "SELECT 1 FROM inventory WHERE id = %s"
         cursor.execute(check_query, (inv.id,))
         exists = cursor.fetchone()
-        
+
         if not exists:
             # Insert inventory record
             q_inv = """
@@ -342,7 +342,7 @@ def insert_order_postgres(order: OrderEntity):
         check_query = "SELECT 1 FROM orders WHERE id = %s"
         cursor.execute(check_query, (order.id,))
         exists = cursor.fetchone()
-        
+
         if not exists:
             # Insert order record
             q_order = """
@@ -369,12 +369,12 @@ def insert_order_postgres(order: OrderEntity):
 
             # Insert items
             q_items = """
-            INSERT INTO order_items (id, order_id, product_id, price, quantity, sub_total)
-            VALUES (%s, %s, %s, %s, %s, %s)
+            INSERT INTO order_items (id, order_id, product_id, inventory_id, price, quantity, sub_total)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
             """
             for it in order.items:
                 cursor.execute(q_items, (
-                    str(it.id), str(it.orderId), str(it.productId),
+                    str(it.id), str(it.orderId), str(it.productId), str(it.inventoryId),
                     it.price, it.quantity, it.subTotal
                 ))
             conn.commit()
@@ -398,7 +398,7 @@ def insert_payment_postgres(payment: dict):
         check_query = "SELECT 1 FROM payments WHERE id = %s"
         cursor.execute(check_query, (payment["id"],))
         exists = cursor.fetchone()
-        
+
         if not exists:
             # Insert payment record
             q_payment = """
@@ -495,14 +495,13 @@ def insert_catalog_data_inventory_mongo(cat: CatalogData):
     client = get_mongo_client(INVENTORY_MONGO_URI)
     db = client["inventory_read_db"]
     coll = db["catalogs"]
-    
+
     data = cat.dict()
     if isinstance(data.get("id"), uuid.UUID):
         data["id"] = str(data["id"])
-    
+
     coll.replace_one({"id": data["id"]}, data, upsert=True)
     client.close()
-
 
 def insert_product_data_order_mongo(product_id, name, price):
     """
@@ -525,10 +524,9 @@ def insert_order_detail_doc_mongo(order_doc: dict):
     """
     client = get_mongo_client(ORDER_MONGO_URI)
     db = client["order_read_db"]
-    coll = db["orders"]  # or "orders", depending on your design
+    coll = db["orders"]
     coll.replace_one({"orderId": order_doc["orderId"]}, order_doc, upsert=True)
     client.close()
-
 
 # ------------------------------------------------------------------------------
 # SAMPLE DATA GENERATION
@@ -537,16 +535,9 @@ def random_decimal(min_v=1, max_v=100):
     val = round(random.uniform(min_v, max_v), 2)
     return float(Decimal(str(val)))
 
-def generate_product_data():
-    """
-    Returns a tuple (product_id, name, price).
-    """
-    return (uuid4(), f"Product_{random.randint(1,9999)}", random_decimal(10,200))
-
 def generate_admin_user(index: int) -> AdminUser:
     return AdminUser(
-        # id=str(uuid4()),
-        id=generate_static_uuid("AdminUser", index * 1000 + index),
+        id=generate_static_uuid("AdminUser", index),
         email=f"admin_{random.randint(1,9999)}@example.com",
         fullname="Admin Example",
         adminRole=random.choice(["SUPER_ADMIN", "WAREHOUSE_ADMIN"]),
@@ -555,7 +546,6 @@ def generate_admin_user(index: int) -> AdminUser:
 
 def generate_customer_user(index: int) -> CustomerUser:
     return CustomerUser(
-        # id=str(uuid4()),
         id=generate_static_uuid("CustomerUser", index),
         email=f"cust_{random.randint(1,9999)}@example.com",
         fullname="Customer Example"
@@ -563,7 +553,6 @@ def generate_customer_user(index: int) -> CustomerUser:
 
 def generate_warehouse_entity(index: int) -> WarehouseEntity:
     return WarehouseEntity(
-        # id=str(uuid4()),
         id=generate_static_uuid("Warehouse", index),
         name=f"Warehouse_{random.randint(1,9999)}",
         latitude=round(random.uniform(-8,8),4),
@@ -571,9 +560,12 @@ def generate_warehouse_entity(index: int) -> WarehouseEntity:
     )
 
 def generate_catalog_data(index: int) -> CatalogData:
+    """
+    Generate a 'catalog' record used for the Inventory (read) side.
+    We'll reuse the same ID for product references if desired.
+    """
     return CatalogData(
-        # id=str(uuid4()),
-        id=generate_static_uuid("Catalog", index),
+        id=generate_static_uuid("CatalogProduct", index),
         name=f"Catalog_{random.randint(1,9999)}",
         brand=random.choice(["Nike", "Adidas", "Puma"]),
         price=random_decimal(50, 1000),
@@ -584,20 +576,19 @@ def generate_catalog_data(index: int) -> CatalogData:
         quantity=1
     )
 
-def generate_inventory(index, product_id: UUID, warehouse_id: UUID) -> InventoryEntity:
+def generate_inventory(index: int, product_id: UUID, warehouse_id: UUID) -> InventoryEntity:
     now = datetime.now()
-    # inv_id = str(uuid4())
-    inv_id = generate_static_uuid("Inventory", index)
+    inv_id = generate_static_uuid("Inventory", index)  # returns str already
     items = []
-    for idx in range(random.randint(1,2)):
-        # it_id = str(uuid4())
-        it_id = generate_static_uuid("InventoryItem", index * 1000 + idx)
-        qty = random.randint(1,500)
+    
+    for idx in range(random.randint(1, 2)):
+        it_id = generate_static_uuid("InventoryItem", index*1000 + idx)
+        qty = random.randint(1, 500)
         items.append(
             InventoryItem(
                 id=it_id,
-                inventoryId=inv_id,
-                warehouseId=warehouse_id,
+                inventoryId=inv_id,         # also a str
+                warehouseId=str(warehouse_id),
                 quantity=qty,
                 createdAt=now,
                 updatedAt=now,
@@ -607,8 +598,8 @@ def generate_inventory(index, product_id: UUID, warehouse_id: UUID) -> Inventory
         )
 
     return InventoryEntity(
-        id=str(inv_id),
-        productId=str(product_id),
+        id=inv_id,                     # already str
+        productId=str(product_id),     # convert to string
         totalQuantity=sum(i.quantity for i in items),
         createdAt=now,
         updatedAt=now,
@@ -616,28 +607,42 @@ def generate_inventory(index, product_id: UUID, warehouse_id: UUID) -> Inventory
         inventoryItems=items
     )
 
-def generate_order(index: int, warehouse_id: UUID, customer_id: UUID) -> OrderEntity:
+def generate_order(index: int, warehouse_id: str, customer_id: str, inventory_list) -> OrderEntity:
+    """
+    Generate an Order referencing an existing Warehouse + Customer.
+    For OrderItems, pick a random inventory from `inventory_list`,
+    so the productId & inventoryId remain consistent across microservices.
+    """
     oid = generate_static_uuid("Order", index)
     addr_id = generate_static_uuid("OrderAddress", index)
+
+    # Build items by picking random existing inventory
+    num_items = random.randint(1, 3)
     items = []
-    for item_index in range(random.randint(1, 3)):
-        i_id = random.randint(1000,9999)
-        # i_id = generate_static_uuid("OrderItem", index * 1000 + item_index)
-        pr = random_decimal(10, 200)
+    for item_index in range(num_items):
+        chosen_inv = random.choice(inventory_list)  # pick from existing
+        # Optionally, we can re-use the same product price from the catalog or generate random
+        # price = random_decimal(10, 200)
+        price = random_decimal(10, 200)  # or override with a "catalog price"
         qty = random.randint(1, 5)
+
+        # i_id = generate_static_uuid("OrderItem", index * 1000 + item_index)
+        i_id = random.randint(1000, 9999)  # random int for now
         items.append(
             OrderItemEntity(
                 id=i_id,
                 orderId=oid,
-                productId=generate_static_uuid("Product", index * 1000 + item_index),
-                price=pr,
+                productId=chosen_inv.productId,     # reference the same productId
+                inventoryId=chosen_inv.id,          # reference the same inventoryId
+                price=price,
                 quantity=qty,
-                subTotal=pr * qty
+                subTotal=price * qty
             )
         )
 
     total_amt = sum(i.subTotal for i in items)
     shipping = random_decimal(5, 25)
+
     return OrderEntity(
         id=oid,
         customerId=customer_id,
@@ -659,12 +664,11 @@ def generate_order(index: int, warehouse_id: UUID, customer_id: UUID) -> OrderEn
         items=items
     )
 
-def generate_payment(index: int, order_id: UUID) -> dict:
+def generate_payment(index: int, order_id: str) -> dict:
     """
     Generate payment data for an order.
     """
     return {
-        # "id": str(uuid4()),
         "id": generate_static_uuid("Payment", index),
         "orderId": order_id,
         "paymentMethod": random.choice(["CREDIT_CARD", "BANK_TRANSFER", "PAYPAL"]),
@@ -674,7 +678,6 @@ def generate_payment(index: int, order_id: UUID) -> dict:
         "paymentReference": f"REF-{random.randint(100000, 999999)}",
         "paymentProofUrl": f"http://example.com/proof/{random.randint(1000, 9999)}"
     }
-
 
 # ------------------------------------------------------------------------------
 # MAIN
@@ -699,77 +702,97 @@ def main():
     print("[INFO] All Mongo schemas created.")
 
     # 2) Data injection
-    # Admin users
+    # --------------------------------------------------------------------------
+    # 2.a) Admin users
     admin_list = []
     for idx in range(2):
         admin = generate_admin_user(idx)
-        insert_admin_user_postgres(admin)               # user (write)
-        insert_admin_data_order_mongo(admin)            # order (read)
-        insert_admin_data_inventory_mongo(admin)        # inventory (read)
+        # Write DB
+        insert_admin_user_postgres(admin)
+        # Read DB
+        insert_admin_data_order_mongo(admin)
+        insert_admin_data_inventory_mongo(admin)
         admin_list.append(admin)
     print("[INFO] All Admin Data Inserted.")
 
-    # Customer users
+    # 2.b) Customer users
     cust_list = []
     for idx in range(2):
         cust = generate_customer_user(idx)
-        insert_customer_user_postgres(cust)             # user (write)
-        insert_customer_data_order_mongo(cust)          # order (read)
+        # Write DB
+        insert_customer_user_postgres(cust)
+        # Read DB
+        insert_customer_data_order_mongo(cust)
         cust_list.append(cust)
     print("[INFO] All Customer Data Inserted.")
 
-    # Warehouses
+    # 2.c) Warehouses
     wh_list = []
     for idx in range(2):
         wh = generate_warehouse_entity(idx)
-        insert_warehouse_postgres(wh)                   # inventory (write)
-        insert_warehouse_data_order_mongo(wh)           # order (read)
+        insert_warehouse_postgres(wh)                   # Inventory (write)
+        insert_warehouse_data_order_mongo(wh)           # Order (read)
         wh_list.append(wh)
     print("[INFO] All Warehouse Data Inserted.")
 
-    # Catalog (inventory read)
+    # 2.d) Catalog (Inventory read)
+    # Also treat each Catalog as a "product" for the sake of referencing
+    catalog_list = []
     for idx in range(3):
         cdoc = generate_catalog_data(idx)
         insert_catalog_data_inventory_mongo(cdoc)
-    print("[INFO] All Catalog Data Inserted.")
+        # Also insert into Order's read DB as "product"
+        # So the same ID is recognized in the Order Read side
+        insert_product_data_order_mongo(cdoc.id, cdoc.name, cdoc.price)
+        catalog_list.append(cdoc)
+    print("[INFO] All Catalog Data Inserted into Inventory (read) and Product Data inserted into Order (read).")
 
-    # Inventory + Items
-    # We assume we have "products" in a table, or we consider the same "catalog" as products
-    # For simplicity, let's reuse the catalog as the product ID
-    for cat_index in range(3):
-        # product_id = uuid4()
-        product_id = generate_static_uuid("Product", cat_index)
-        # or reuse cdoc.id if you want the same ID
-        wh = random.choice(wh_list)
-        inv = generate_inventory(cat_index, product_id, wh.id)
-        insert_inventory_postgres(inv)  # inventory (write)
+    # 2.e) Inventory + Items
+    # We tie each Inventory to the same ID as the Catalog's ID for productId
+    # (So that Orders can reference them consistently)
+    inventory_list = []
+    inv_index = 0
+    for cat in catalog_list:
+        # For demonstration, create 2 inventories (2 different warehouses) per catalog
+        for _ in range(2):
+            wh = random.choice(wh_list)
+            inv = generate_inventory(inv_index, str(cat.id), str(wh.id))
+            insert_inventory_postgres(inv)  # Inventory (write)
+            inventory_list.append(inv)
+            inv_index += 1
+
     print("[INFO] All Inventory Data Inserted.")
 
-    # 3) Create orders with aggregated doc
+    # 2.f) Create orders with aggregated doc
     # Let's do 10 orders, each referencing random admin, customer, warehouse
+    # For each order, pick random items from inventory_list
     for i in range(10):
         selected_admin = random.choice(admin_list)
         selected_customer = random.choice(cust_list)
         selected_wh = random.choice(wh_list)
-        
-        # Create an order referencing warehouse + customer
-        order_entity = generate_order(i, selected_wh.id, selected_customer.id)
-        
+
+        # Create an order referencing warehouse + customer + random inventory
+        order_entity = generate_order(
+            index=i,
+            warehouse_id=selected_wh.id,
+            customer_id=selected_customer.id,
+            inventory_list=inventory_list  # pass the entire list to randomly pick items
+        )
+
         # Insert to Postgres (WRITE)
         insert_order_postgres(order_entity)
 
         # Generate and insert payment for the order
         payment_data = generate_payment(i, order_entity.id)
         insert_payment_postgres(payment_data)
-        
+
         # Now create aggregated doc for Mongo READ
-        # We embed the selected_admin, selected_customer, and selected_wh
         order_detail_doc = create_order_detail_doc(order_entity, selected_admin, selected_customer, selected_wh, payment_data)
-        
+
         # Insert aggregated doc to Order Service's Mongo
         insert_order_detail_doc_mongo(order_detail_doc)
-    print("[INFO] All Order Data Inserted.")
 
+    print("[INFO] All Order Data Inserted.")
     print("[INFO] Data injection completed successfully!")
 
 if __name__ == "__main__":

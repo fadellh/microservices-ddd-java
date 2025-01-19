@@ -176,6 +176,7 @@ class OrderItemEntity(BaseModel):
     id: int
     orderId: str #UUID
     productId: str #UUID
+    inventoryId: str #UUID
     price: float
     quantity: int
     subTotal: float
