@@ -102,7 +102,8 @@ def create_order_detail_doc(
     order: OrderEntity,
     admin_user: AdminUser,
     customer_user: CustomerUser,
-    warehouse_entity: WarehouseEntity
+    warehouse_entity: WarehouseEntity,
+    payment: dict
 ) -> dict:
     """
     Creates a fully aggregated order detail document with embedded admin, customer, warehouse, and items.
@@ -165,6 +166,16 @@ def create_order_detail_doc(
         address_str = f"{addr.street}, {addr.city}, {addr.postalCode}"
         doc["address"] = address_str
     
+    # Embed payment data
+    doc["payment"] = {
+        "paymentMethod": payment["paymentMethod"],
+        "paymentStatus": payment["paymentStatus"],
+        "paymentAmount": str(payment["paymentAmount"]),
+        "paymentReference": payment["paymentReference"],
+        "paymentDate": payment["paymentDate"].isoformat(),
+        "paymentProofUrl": payment["paymentProofUrl"]
+    }
+
     return doc
 
 
@@ -306,6 +317,30 @@ def insert_order_postgres(order: OrderEntity):
                 it.price, it.quantity, it.subTotal
             ))
 
+        conn.commit()
+    except Exception as e:
+        conn.rollback()
+        raise e
+    finally:
+        cursor.close()
+        conn.close()
+
+def insert_payment_postgres(payment: dict):
+    """
+    Insert payment data into the payments table.
+    """
+    conn = get_postgres_connection(ORDER_POSTGRES_CONFIG)
+    cursor = conn.cursor()
+    try:
+        q_payment = """
+        INSERT INTO payments (id, order_id, payment_method, payment_status, payment_date, payment_amount, payment_reference, payment_proof_url)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+        """
+        cursor.execute(q_payment, (
+            payment["id"], payment["orderId"], payment["paymentMethod"],
+            payment["paymentStatus"], payment["paymentDate"], payment["paymentAmount"],
+            payment["paymentReference"], payment["paymentProofUrl"]
+        ))
         conn.commit()
     except Exception as e:
         conn.rollback()
@@ -547,6 +582,22 @@ def generate_order(warehouse_id: UUID, customer_id: UUID) -> OrderEntity:
         items=items
     )
 
+def generate_payment(order_id: UUID) -> dict:
+    """
+    Generate payment data for an order.
+    """
+    return {
+        "id": str(uuid4()),
+        "orderId": order_id,
+        "paymentMethod": random.choice(["CREDIT_CARD", "BANK_TRANSFER", "PAYPAL"]),
+        "paymentStatus": random.choice(["COMPLETED", "PENDING", "FAILED"]),
+        "paymentDate": datetime.now(),
+        "paymentAmount": random_decimal(100, 500),  # Payment amount between 100 and 500
+        "paymentReference": f"REF-{random.randint(100000, 999999)}",
+        "paymentProofUrl": f"http://example.com/proof/{random.randint(1000, 9999)}"
+    }
+
+
 # ------------------------------------------------------------------------------
 # MAIN
 # ------------------------------------------------------------------------------
@@ -627,10 +678,14 @@ def main():
         
         # Insert to Postgres (WRITE)
         insert_order_postgres(order_entity)
+
+        # Generate and insert payment for the order
+        payment_data = generate_payment(order_entity.id)
+        insert_payment_postgres(payment_data)
         
         # Now create aggregated doc for Mongo READ
         # We embed the selected_admin, selected_customer, and selected_wh
-        order_detail_doc = create_order_detail_doc(order_entity, selected_admin, selected_customer, selected_wh)
+        order_detail_doc = create_order_detail_doc(order_entity, selected_admin, selected_customer, selected_wh, payment_data)
         
         # Insert aggregated doc to Order Service's Mongo
         insert_order_detail_doc_mongo(order_detail_doc)

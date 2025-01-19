@@ -5,7 +5,10 @@ CREATE TABLE IF NOT EXISTS warehouses (
     id UUID PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     latitude DOUBLE PRECISION NOT NULL,
-    longitude DOUBLE PRECISION NOT NULL
+    longitude DOUBLE PRECISION NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Auto-fill on creation
+    updated_at TIMESTAMP,
+    deleted_at TIMESTAMP
 );
 
 
@@ -23,7 +26,7 @@ CREATE TABLE IF NOT EXISTS inventory_items (
     inventory_id UUID NOT NULL,
     warehouse_id UUID NOT NULL,
     quantity INT,
-    created_at TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Auto-fill on creation
     updated_at TIMESTAMP,
     deleted_at TIMESTAMP,
     CONSTRAINT fk_inventory_items_inventory
@@ -40,7 +43,7 @@ CREATE TABLE IF NOT EXISTS stock_journal (
     reason VARCHAR(50),
     type VARCHAR(50),
     status VARCHAR(50),
-    created_at TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Auto-fill on creation
     updated_at TIMESTAMP,
     deleted_at TIMESTAMP,
     CONSTRAINT fk_stock_journal_item

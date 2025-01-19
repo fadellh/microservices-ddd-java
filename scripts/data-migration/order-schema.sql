@@ -2,13 +2,6 @@
 -- This file creates the tables for the Order Service in Postgres
 -- including relationships (foreign keys).
 
-CREATE TABLE IF NOT EXISTS warehouses (
-    id UUID PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    latitude DOUBLE PRECISION NOT NULL,
-    longitude DOUBLE PRECISION NOT NULL
-);
-
 CREATE TABLE IF NOT EXISTS orders (
     id UUID PRIMARY KEY,
     customer_id UUID NOT NULL,
@@ -17,9 +10,10 @@ CREATE TABLE IF NOT EXISTS orders (
     total_amount NUMERIC,
     shipping_cost NUMERIC,
     order_status VARCHAR(50),
-    failure_messages TEXT
-    -- CONSTRAINT fk_orders_warehouse
-    --     FOREIGN KEY (warehouse_id) REFERENCES warehouses (id)
+    failure_messages TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP,
+    deleted_at TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS order_address (
@@ -41,7 +35,27 @@ CREATE TABLE IF NOT EXISTS order_items (
     price NUMERIC,
     quantity INT,
     sub_total NUMERIC,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Auto-fill on creation
+    updated_at TIMESTAMP,
+    deleted_at TIMESTAMP,
     PRIMARY KEY (id, order_id),
     CONSTRAINT fk_order_items_order
+        FOREIGN KEY (order_id) REFERENCES orders (id)
+);
+
+-- payments table
+CREATE TABLE IF NOT EXISTS payments (
+    id UUID PRIMARY KEY,
+    order_id UUID NOT NULL,
+    payment_method VARCHAR(50),
+    payment_status VARCHAR(50),
+    payment_date TIMESTAMP,
+    payment_amount NUMERIC,
+    payment_reference TEXT,
+    payment_proof_url TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Auto-fill on creation
+    updated_at TIMESTAMP,
+    deleted_at TIMESTAMP,
+    CONSTRAINT fk_payments_order
         FOREIGN KEY (order_id) REFERENCES orders (id)
 );
