@@ -1,0 +1,110 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: akhq
+  namespace: kafka
+  labels:
+    app: akhq
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: akhq
+  template:
+    metadata:
+      labels:
+        app: akhq
+    spec:
+      containers:
+        - name: akhq
+          image: tchiotludo/akhq:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: AKHQ_CONFIGURATION
+              value: |
+                micronaut:
+                  security:
+                    enabled: true
+                    token:
+                      jwt:
+                        signatures:
+                          secret:
+                            generator:
+                              secret: "z8HRq72JvYLC1s6B2qGp7MKX3TW9dhNEg4XaFJ5YzQ6RTvLzK3B7PwY9qGhXJ1sR"
+                akhq:
+                  connections:
+                    my-cluster:
+                      properties:
+                        bootstrap.servers: "my-kafka-cluster-kafka-bootstrap.kafka.svc.cluster.local:9092"
+                        security.protocol: PLAINTEXT
+                      schema-registry:
+                        url: "http://schema-registry.kafka.svc.cluster.local:8081"
+                  security:
+                    basic-auth:
+                      - username: admin
+                        password: "$2a$10$zbrqDlI3rga4CHACip/wWOMbaxxyeOAaje/HBxtg8r8v0V8779LJS"
+                        passwordHash: BCRYPT
+                        groups:
+                        - admin
+                      - username: reader
+                        password: "hashed-reader-password"
+                        passwordHash: BCRYPT
+                        groups:
+                        - reader
+                    default-group: no-roles
+                  roles:
+                    topic-admin:
+                      - resources: [ "TOPIC", "TOPIC_DATA" ]
+                        actions: [ "READ", "CREATE", "DELETE" ]
+                      - resources: [ "TOPIC" ]
+                        actions: [ "UPDATE", "READ_CONFIG", "ALTER_CONFIG" ]
+                  groups:
+                    admin:
+                      - role: admin
+                    reader:
+                      - role: reader
+                        patterns: [ "pub.*" ]
+                        clusters: [ "public" ]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: akhq
+  namespace: kafka
+spec:
+  ports:
+    - port: 80
+      targetPort: 8080
+      protocol: TCP
+  selector:
+    app: akhq
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: akhq-ingress
+  namespace: kafka
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    cert-manager.io/cluster-issuer: letsencrypt-dev
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - "akhq.fadellh.com"
+      secretName: web-ssl-wrqdc
+  rules:
+    - host: akhq.fadellh.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: akhq
+                port:
+                  number: 80

@@ -1,6 +1,7 @@
 package com.mwc.order.service.dataaccess.warehouse.mapper;
 
 import com.mwc.domain.valueobject.WarehouseId;
+import com.mwc.order.service.dataaccess.warehouse.entity.WarehouseDocument;
 import com.mwc.order.service.dataaccess.warehouse.entity.WarehouseEntity;
 import com.mwc.order.service.domain.entity.Warehouse;
 import org.springframework.stereotype.Component;
@@ -19,6 +20,13 @@ public class WarehouseDataAccessMapper {
         return WarehouseEntity.builder()
                 .id(warehouse.getId().getValue())
                 .name(warehouse.getName())
+                .build();
+    }
+
+    public Warehouse warehouseDocumentToWarehouse(WarehouseDocument warehouseDocument) {
+        return Warehouse.builder()
+                .warehouseId(new WarehouseId(warehouseDocument.getId()))
+                .name(warehouseDocument.getName())
                 .build();
     }
 }

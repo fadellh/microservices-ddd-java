@@ -9,3 +9,4 @@ import java.util.UUID;
 public interface ProductJpaRepository extends JpaRepository<ProductEntity, UUID> {
     List<ProductEntity> findByIdIn(List<UUID> ids);
 }
+

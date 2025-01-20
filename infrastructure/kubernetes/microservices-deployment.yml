@@ -58,33 +58,31 @@ spec:
 
 ---
 # Service for Order Service
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: order-service
-#   annotations:
-#     kubernetes.io/ingress.class: "nginx"
-#     nginx.ingress.kubernetes.io/rewrite-target: /
-#     nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
-# spec:
-#   type: ClusterIP
-#   selector:
-#     app: order-service
-#   ports:
-#     - port: 80
-#       targetPort: 8080
 apiVersion: v1
 kind: Service
 metadata:
   name: order-service
   namespace: default
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   selector:
     app: order-service
   ports:
-    - port: 80
+    - name: order-http
+      port: 8080
       targetPort: 8080
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: order-service
+#   namespace: default
+# spec:
+#   type: LoadBalancer
+#   selector:
+#     app: order-service
+#   ports:
+#     - port: 80
+#       targetPort: 8080
 ---
 # Horizontal Pod Autoscaler for Order Service
 apiVersion: autoscaling/v2
@@ -133,66 +131,71 @@ spec:
           ports:
             - containerPort: 8081
           env:
+            - name: SPRING_DATASOURCE_URL
+              value: "jdbc:postgresql://34.101.126.3:5432/inventorydb??currentSchema=inventory,warehouse&binaryTransfer=true&reWriteBatchedInserts=true&stringtype=unspecified"
             - name: SPRING_CONFIG_IMPORT
               value: "optional:file:/config/"
-          volumeMounts:
-            - name: inventory-config
-              mountPath: /config/application.yml
-              subPath: application.yml
-            - name: inventory-secrets
-              mountPath: /config/application-secrets.yml
-              subPath: application-secrets.yml
-          livenessProbe:
-            httpGet:
-              path: /actuator/health
-              port: 8081
-            initialDelaySeconds: 30
-            periodSeconds: 10
-            timeoutSeconds: 5
-            failureThreshold: 3
-          readinessProbe:
-            httpGet:
-              path: /actuator/health
-              port: 8081
-            initialDelaySeconds: 10
-            periodSeconds: 5
-            timeoutSeconds: 3
-            failureThreshold: 3
-      volumes:
-        - name: inventory-config
-          configMap:
-            name: inventory-service-config
-        - name: inventory-secrets
-          configMap:
-            name: inventory-service-secrets
+          envFrom:
+            - configMapRef:
+                name: inventory-service-secrets
+          # volumeMounts:
+          #   - name: inventory-config
+          #     mountPath: /config/application.yml
+          #     subPath: application.yml
+          #   - name: inventory-secrets
+          #     mountPath: /config/application-secrets.yml
+          #     subPath: application-secrets.yml
+          # livenessProbe:
+          #   httpGet:
+          #     path: /actuator/health
+          #     port: 8081
+          #   initialDelaySeconds: 30
+          #   periodSeconds: 10
+          #   timeoutSeconds: 5
+          #   failureThreshold: 3
+          # readinessProbe:
+          #   httpGet:
+          #     path: /actuator/health
+          #     port: 8081
+          #   initialDelaySeconds: 10
+          #   periodSeconds: 5
+          #   timeoutSeconds: 3
+          #   failureThreshold: 3
+      # volumes:
+      #   - name: inventory-config
+      #     configMap:
+      #       name: inventory-service-config
+      #   - name: inventory-secrets
+      #     configMap:
+      #       name: inventory-service-secrets
 
 ---
 # Service for Inventory Service
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: inventory-service
-#   namespace: default
-# spec:
-#   selector:
-#     app: inventory-service
-#   ports:
-#     - protocol: TCP
-#       port: 8080
-#       targetPort: 8081
-#   type: ClusterIP
 apiVersion: v1
 kind: Service
 metadata:
   name: inventory-service
   namespace: default
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   selector:
     app: inventory-service
   ports:
-    - port: 80
+    - protocol: TCP
+      port: 8081
       targetPort: 8081
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: inventory-service
+#   namespace: default
+# spec:
+#   type: LoadBalancer
+#   selector:
+#     app: inventory-service
+#   ports:
+#     - port: 80
+#       targetPort: 8081
 ---
 # Horizontal Pod Autoscaler for Inventory Service
 apiVersion: autoscaling/v2
@@ -322,8 +325,10 @@ metadata:
   name: api-microservices-ingress
   namespace: default
   annotations:
-    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
     cert-manager.io/cluster-issuer: letsencrypt-dev
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
 spec:
   ingressClassName: nginx
   tls:
