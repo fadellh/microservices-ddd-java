@@ -127,6 +127,7 @@ class OrderItemDocument(BaseModel):
     """
     """
     productId: UUID
+    inventoryId: UUID
     productName: str
     price: float
     quantity: int
