@@ -21,6 +21,7 @@
     <module>inventory-service</module>
     <module>common</module>
     <module>infrastructure</module>
+    <module>user-service</module>
   </modules>
 
   <properties>

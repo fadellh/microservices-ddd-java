@@ -4,23 +4,25 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d293844d-7748-4a4e-b711-0613d207449e" name="Changes" comment="changes workspace.xml">
-      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-dataaccess/src/main/java/com/mwc/inventory/service/dataaccess/inventory/query/adapter/InventoryQueryRepositoryImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-dataaccess/src/main/java/com/mwc/inventory/service/dataaccess/inventory/query/entity/CatalogDocument.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-dataaccess/src/main/java/com/mwc/inventory/service/dataaccess/inventory/query/mapper/InventoryQueryDataAccessMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/InventoryQueryHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/ports/output/repository/InventoryQueryRepository.java" afterDir="false" />
+    <list default="true" id="d293844d-7748-4a4e-b711-0613d207449e" name="Changes" comment="resolve catalog list #71">
+      <change afterPath="$PROJECT_DIR$/user-service/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/user-container/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/user-container/src/main/java/com/mwc/user/service/domain/AdminEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/user-container/src/main/java/com/mwc/user/service/domain/BeanConfiguration.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/user-container/src/main/java/com/mwc/user/service/domain/CreateCustomerCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/user-container/src/main/java/com/mwc/user/service/domain/CreateCustomerResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/user-container/src/main/java/com/mwc/user/service/domain/CustomerEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/user-container/src/main/java/com/mwc/user/service/domain/CustomerJpaRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/user-container/src/main/java/com/mwc/user/service/domain/UserController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/user-container/src/main/java/com/mwc/user/service/domain/UserServiceApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/user-container/src/main/java/com/mwc/user/service/domain/VerifyCustomerCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/user-container/src/main/java/com/mwc/user/service/domain/VerifyCustomerResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/user-container/src/main/resources/application.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/user-container/src/main/resources/banner.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory-service/inventory-application/src/main/java/com/mwc/inventory/service/domain/rest/InventoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/inventory-application/src/main/java/com/mwc/inventory/service/domain/rest/InventoryController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory-service/inventory-container/src/main/java/com/mwc/inventory/service/domain/InventoryServiceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/inventory-container/src/main/java/com/mwc/inventory/service/domain/InventoryServiceApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory-service/inventory-container/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/inventory-container/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory-service/inventory-dataaccess/src/main/java/com/mwc/inventory/service/dataaccess/inventory/query/adapter/InventoryQueryRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory-service/inventory-dataaccess/src/main/java/com/mwc/inventory/service/dataaccess/inventory/query/mapper/InvetoryDataAccessMapper.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory-service/inventory-dataaccess/src/main/java/com/mwc/inventory/service/dataaccess/inventory/query/repository/InventoryReadJpaRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/inventory-dataaccess/src/main/java/com/mwc/inventory/service/dataaccess/inventory/query/repository/InventoryReadJpaRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/InventoryApplicationServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/InventoryApplicationServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/dto/product/ProductItemResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/dto/product/ProductItemResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/dto/product/ProductsResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/dto/product/ProductsResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/ports/input/message/service/InventoryApplicationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/ports/input/message/service/InventoryApplicationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,6 +74,7 @@
   "keyToString": {
     "Application.InventoryServiceApplication.executor": "Run",
     "Application.OrderServiceApplication.executor": "Run",
+    "Application.UserServiceApplication.executor": "Run",
     "Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor": "Run",
     "Maven.inventory-service [clean].executor": "Run",
     "Maven.inventory-service [install].executor": "Run",
@@ -88,6 +91,10 @@
     "Maven.order-messaging [clean].executor": "Run",
     "Maven.order-service [clean].executor": "Run",
     "Maven.order-service [install].executor": "Run",
+    "Maven.user-container [clean].executor": "Run",
+    "Maven.user-container [install].executor": "Run",
+    "Maven.user-service [clean].executor": "Run",
+    "Maven.user-service [install].executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "detailing",
@@ -100,11 +107,14 @@
   }
 }]]></component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.mwc.order.service.domain" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.InventoryServiceApplication">
+  <component name="RunManager" selected="Application.UserServiceApplication">
     <configuration name="InventoryServiceApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.mwc.inventory.service.domain.InventoryServiceApplication" />
       <module name="inventory-container" />
@@ -131,8 +141,22 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="UserServiceApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.mwc.user.service.domain.UserServiceApplication" />
+      <module name="user-container" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.mwc.user.service.domain.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.UserServiceApplication" />
         <item itemvalue="Application.InventoryServiceApplication" />
         <item itemvalue="Application.OrderServiceApplication" />
       </list>
@@ -259,7 +283,15 @@
       <option name="project" value="LOCAL" />
       <updated>1736396901906</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="resolve catalog list #71">
+      <option name="closed" value="true" />
+      <created>1737858878460</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1737858878460</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -277,7 +309,8 @@
     <MESSAGE value="Deploy Service" />
     <MESSAGE value="Build &amp; Push Docker" />
     <MESSAGE value="Build &amp; Push Docker 2" />
-    <option name="LAST_COMMIT_MESSAGE" value="Build &amp; Push Docker 2" />
+    <MESSAGE value="resolve catalog list #71" />
+    <option name="LAST_COMMIT_MESSAGE" value="resolve catalog list #71" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
