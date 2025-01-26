@@ -50,19 +50,26 @@ inventory-service:
 # KAFKA CONFIG FOR CONFLUENT CLOUD (common or default)
 # ----------------------------------------------------------------
 kafka-config:
-  schema-registry-user-info-key: basic.auth.credentials.source
-  schema-registry-user-info: USER_INFO
-  schema-registry-basic-auth-user-info-key: schema.registry.basic.auth.user.info
-  schema-registry-basic-auth-user-info: "SR_KEY:SR_SECRET"
-  sasl-jaas-config: >
-    org.apache.kafka.common.security.plain.PlainLoginModule required
-    username
-  bootstrap-servers: pkc-ew3qg.asia-southeast2.gcp.confluent.cloud:9092
+  # schema-registry-user-info-key: basic.auth.credentials.source
+  # schema-registry-user-info: USER_INFO
+  # schema-registry-basic-auth-user-info-key: schema.registry.basic.auth.user.info
+  # schema-registry-basic-auth-user-info: "SR_KEY:SR_SECRET"
+  # sasl-jaas-config: >
+  #   org.apache.kafka.common.security.plain.PlainLoginModule required
+  #   username
+  # bootstrap-servers: pkc-ew3qg.asia-southeast2.gcp.confluent.cloud:9092
+  # schema-registry-url-key: schema.registry.url
+  # schema-registry-url: https://psrc-epk8y.australia-southeast1.gcp.confluent.cloud
+  # num-of-partitions: 3
+  # replication-factor: 3
+  # security-protocol: SASL_SSL
+  # sasl-mechanism: PLAIN
+  bootstrap-servers: 34.101.89.132:32100
   schema-registry-url-key: schema.registry.url
-  schema-registry-url: https://psrc-epk8y.australia-southeast1.gcp.confluent.cloud
+  schema-registry-url: https://schema-registry.fadellh.com
   num-of-partitions: 3
   replication-factor: 3
-  security-protocol: SASL_SSL
+  security-protocol: PLAINTEXT
   sasl-mechanism: PLAIN
 
 # Producer configs

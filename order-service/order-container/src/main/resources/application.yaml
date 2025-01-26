@@ -74,7 +74,7 @@ kafka-config:
   #  security-protocol: SSL
   # sasl-mechanism: PLAIN
 
-  bootstrap-servers: 34.50.98.86:32100
+  bootstrap-servers: 34.101.89.132:32100
   schema-registry-url-key: schema.registry.url
   schema-registry-url: https://schema-registry.fadellh.com
   num-of-partitions: 3
