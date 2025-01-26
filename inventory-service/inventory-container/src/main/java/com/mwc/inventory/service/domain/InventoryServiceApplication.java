@@ -11,7 +11,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 
 
 @EnableJpaRepositories(basePackages = { "com.mwc.inventory.service.dataaccess", "com.mwc.dataaccess" })
-//@EnableMongoRepositories(basePackages = { "com.mwc.inventory.service.dataaccess", "com.mwc.dataaccess" })
+@EnableMongoRepositories(basePackages = { "com.mwc.inventory.service.dataaccess", "com.mwc.dataaccess" })
 @EntityScan(basePackages = { "com.mwc.inventory.service.dataaccess", "com.mwc.dataaccess"})
 @SpringBootApplication(
         scanBasePackages = {"com.mwc"},   // <-- add your Kafka configs package

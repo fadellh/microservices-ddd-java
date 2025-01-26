@@ -1,12 +1,13 @@
 package com.mwc.inventory.service.domain;
 
-import com.mwc.inventory.service.domain.dto.transfer.AutoTransferInventoryCommand;
+import com.mwc.inventory.service.domain.dto.product.ProductItemResponse;
 import com.mwc.inventory.service.domain.dto.transfer.TransferInventoryCommand;
 import com.mwc.inventory.service.domain.dto.transfer.TransferInventoryResponse;
 import com.mwc.inventory.service.domain.ports.input.message.service.InventoryApplicationService;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import java.util.List;
 import java.util.UUID;
 
 
@@ -14,14 +15,21 @@ import java.util.UUID;
 @Validated
 public class InventoryApplicationServiceImpl implements InventoryApplicationService {
     private final InventoryTransferCommandHandler inventoryTransferCommandHandler;
+    private final InventoryQueryHandler inventoryQueryHandler;
 
-    public InventoryApplicationServiceImpl(InventoryTransferCommandHandler inventoryTransferCommandHandler) {
+    public InventoryApplicationServiceImpl(InventoryTransferCommandHandler inventoryTransferCommandHandler, InventoryQueryHandler inventoryQueryHandler) {
         this.inventoryTransferCommandHandler = inventoryTransferCommandHandler;
+        this.inventoryQueryHandler = inventoryQueryHandler;
     }
 
     @Override
     public TransferInventoryResponse transferInventory(UUID inventoryId, TransferInventoryCommand transferInventoryCommand) {
         return inventoryTransferCommandHandler.transferInventory(inventoryId, transferInventoryCommand);
+    }
+
+    @Override
+    public List<ProductItemResponse> retrieveCatalogs() {
+        return inventoryQueryHandler.getCatalogs();
     }
 
 //    @Override

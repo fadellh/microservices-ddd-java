@@ -30,7 +30,7 @@ spring:
   data:
     mongodb:
       uri: mongodb://localhost:27017/order_view
-      database: inventory_view
+      database: inventory_read_db
       auto-index-creation: true
 
   sql:

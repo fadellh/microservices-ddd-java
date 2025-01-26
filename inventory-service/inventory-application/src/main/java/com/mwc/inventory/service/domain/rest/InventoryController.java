@@ -38,26 +38,7 @@ public class InventoryController {
         log.info("Getting all products");
 //        List<ProductResponse> productResponse = inventoryApplicationService.getProducts();
         ProductsResponse productResponse = ProductsResponse.builder()
-                .products(new ProductItemResponse[]{
-                        ProductItemResponse.builder()
-                                .id(UUID.fromString("49feb4bb-883e-4ffe-8866-b53c1ee503f2"))
-                                .name("Product 5")
-                                .brand("Brand 1")
-                                .image("https://images-cdn.ubuy.co.id/651ae1ec6550d876a420ea3e-nike-mens-air-jordan-1-mid-chicago.jpg")
-                                .price(new BigDecimal(1000000))
-                                .maxQuantity(10)
-                                .size("10")
-                                .build(),
-                        ProductItemResponse.builder()
-                                .id(UUID.fromString("748d7aa7-9cd1-4e10-b9dd-3f8d4bdedf74"))
-                                .name("Product 2")
-                                .brand("Brand 2")
-                                .image("https://www.footlocker.id/media/catalog/product/cache/f57d6f7ebc711fc328170f0ddc174b08/0/1/01-NIKE-F34KBNIK5-NIK553560132-White.jpg")
-                                .price(new BigDecimal(2000000))
-                                .maxQuantity(20)
-                                .size("11")
-                                .build()
-                })
+                .products(inventoryApplicationService.retrieveCatalogs())
                 .build();
 
         return ResponseEntity.ok(productResponse);

@@ -5,7 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d293844d-7748-4a4e-b711-0613d207449e" name="Changes" comment="changes workspace.xml">
+      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-dataaccess/src/main/java/com/mwc/inventory/service/dataaccess/inventory/query/adapter/InventoryQueryRepositoryImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-dataaccess/src/main/java/com/mwc/inventory/service/dataaccess/inventory/query/entity/CatalogDocument.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-dataaccess/src/main/java/com/mwc/inventory/service/dataaccess/inventory/query/mapper/InventoryQueryDataAccessMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/InventoryQueryHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/ports/output/repository/InventoryQueryRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inventory-service/inventory-application/src/main/java/com/mwc/inventory/service/domain/rest/InventoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/inventory-application/src/main/java/com/mwc/inventory/service/domain/rest/InventoryController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inventory-service/inventory-container/src/main/java/com/mwc/inventory/service/domain/InventoryServiceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/inventory-container/src/main/java/com/mwc/inventory/service/domain/InventoryServiceApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inventory-service/inventory-container/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/inventory-container/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inventory-service/inventory-dataaccess/src/main/java/com/mwc/inventory/service/dataaccess/inventory/query/adapter/InventoryQueryRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/inventory-service/inventory-dataaccess/src/main/java/com/mwc/inventory/service/dataaccess/inventory/query/mapper/InvetoryDataAccessMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/inventory-service/inventory-dataaccess/src/main/java/com/mwc/inventory/service/dataaccess/inventory/query/repository/InventoryReadJpaRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/inventory-dataaccess/src/main/java/com/mwc/inventory/service/dataaccess/inventory/query/repository/InventoryReadJpaRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/InventoryApplicationServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/InventoryApplicationServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/dto/product/ProductItemResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/dto/product/ProductItemResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/dto/product/ProductsResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/dto/product/ProductsResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/ports/input/message/service/InventoryApplicationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/ports/input/message/service/InventoryApplicationService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,8 +32,8 @@
       <list>
         <option value="Exception" />
         <option value="Enum" />
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -75,7 +90,7 @@
     "Maven.order-service [install].executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "load-testing",
+    "git-widget-placeholder": "detailing",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/Users/fadellukmanhakim/fadel/mwc-java",
     "project.structure.last.edited": "Modules",
@@ -291,6 +306,11 @@
           <url>file://$PROJECT_DIR$/order-service/order-dataaccess/src/main/java/com/mwc/order/service/dataaccess/product/entity/ProductDocument.java</url>
           <line>17</line>
           <option name="timeStamp" value="27" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/InventoryQueryHandler.java</url>
+          <line>24</line>
+          <option name="timeStamp" value="28" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
