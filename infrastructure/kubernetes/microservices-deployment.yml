@@ -23,8 +23,6 @@ spec:
           ports:
             - containerPort: 8080
           env:
-            - name: SPRING_DATASOURCE_URL
-              value: "jdbc:postgresql://34.101.126.3:5432/orderdb?currentSchema=order,customer,product,warehouse,admin&binaryTransfer=true&reWriteBatchedInserts=true&stringtype=unspecified"
             - name: SPRING_CONFIG_IMPORT
               value: "optional:file:/config/"
           envFrom:
@@ -131,8 +129,6 @@ spec:
           ports:
             - containerPort: 8081
           env:
-            - name: SPRING_DATASOURCE_URL
-              value: "jdbc:postgresql://34.101.126.3:5432/inventorydb??currentSchema=inventory,warehouse&binaryTransfer=true&reWriteBatchedInserts=true&stringtype=unspecified"
             - name: SPRING_CONFIG_IMPORT
               value: "optional:file:/config/"
           envFrom:

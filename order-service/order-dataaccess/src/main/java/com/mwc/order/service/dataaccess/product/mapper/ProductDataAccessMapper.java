@@ -7,6 +7,8 @@ import com.mwc.order.service.dataaccess.product.entity.ProductEntity;
 import com.mwc.order.service.domain.entity.Product;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @Component
 public class ProductDataAccessMapper {
 
@@ -28,7 +30,7 @@ public class ProductDataAccessMapper {
 
     public Product productDocumentToProduct(ProductDocument productDocument) {
         return Product.builder()
-                .productId(new ProductId(productDocument.getId()))
+                .productId(new ProductId(UUID.fromString(productDocument.getId())))
                 .name(productDocument.getName())
                 .price(new Money(productDocument.getPrice()))
                 .build();

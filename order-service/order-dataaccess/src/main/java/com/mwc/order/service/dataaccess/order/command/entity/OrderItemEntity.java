@@ -24,6 +24,7 @@ public class OrderItemEntity {
     private OrderEntity order;
 
     private UUID productId;
+    private UUID inventoryId;
     private BigDecimal price;
     private Integer quantity;
     private BigDecimal subTotal;

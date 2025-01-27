@@ -18,7 +18,7 @@ public class ProductDocument {
     @Id
     private Object _id;
     @Field("id")
-    private UUID id;
+    private String id;
 
     private String name;
     private BigDecimal price;

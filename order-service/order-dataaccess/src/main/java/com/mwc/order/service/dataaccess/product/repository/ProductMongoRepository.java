@@ -17,6 +17,6 @@ public interface ProductMongoRepository extends MongoRepository<ProductDocument,
     Optional<ProductDocument> findByProductId(String productId);
 
     @Query("{ 'id': { $in: ?0 } }")
-    List<ProductDocument> findByIdIn(List<UUID> productIds);
+    List<ProductDocument> findByIdIn(List<String> productIds);
 
 }
