@@ -35,22 +35,36 @@ public class KafkaProducerConfig<K extends Serializable, V extends SpecificRecor
         // REQUIRED: BootStrap servers
         // Put your Kafka broker(s) here, e.g. "PLAINTEXT://my-kafka:9092"
         // or from an env var if you want. Hard-coded below just as example:
-        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "34.101.89.132:32100");
+//        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "34.101.89.132:32100");
 
         // REQUIRED: Key/Value serializers
-        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,
-                kafkaProducerConfigData.getKeySerializerClass());
-        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
-                kafkaProducerConfigData.getValueSerializerClass());
+//        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,
+//                kafkaProducerConfigData.getKeySerializerClass());
+//        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
+//                kafkaProducerConfigData.getValueSerializerClass());
+//
+//        // Additional producer properties
+//        props.put(ProducerConfig.BATCH_SIZE_CONFIG,
+//                kafkaProducerConfigData.getBatchSize() * kafkaProducerConfigData.getBatchSizeBoostFactor());
+//        props.put(ProducerConfig.LINGER_MS_CONFIG, kafkaProducerConfigData.getLingerMs());
+//        props.put(ProducerConfig.COMPRESSION_TYPE_CONFIG, kafkaProducerConfigData.getCompressionType());
+//        props.put(ProducerConfig.ACKS_CONFIG, kafkaProducerConfigData.getAcks());
+//        props.put(ProducerConfig.REQUEST_TIMEOUT_MS_CONFIG, kafkaProducerConfigData.getRequestTimeoutMs());
+//        props.put(ProducerConfig.RETRIES_CONFIG, kafkaProducerConfigData.getRetryCount());
 
-        // Additional producer properties
-        props.put(ProducerConfig.BATCH_SIZE_CONFIG,
+
+        putIfNotNull(props, ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "34.101.89.132:32100");
+        putIfNotNull(props, ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,
+                kafkaProducerConfigData.getKeySerializerClass());
+        putIfNotNull(props, ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
+                kafkaProducerConfigData.getValueSerializerClass());
+        putIfNotNull(props, ProducerConfig.BATCH_SIZE_CONFIG,
                 kafkaProducerConfigData.getBatchSize() * kafkaProducerConfigData.getBatchSizeBoostFactor());
-        props.put(ProducerConfig.LINGER_MS_CONFIG, kafkaProducerConfigData.getLingerMs());
-        props.put(ProducerConfig.COMPRESSION_TYPE_CONFIG, kafkaProducerConfigData.getCompressionType());
-        props.put(ProducerConfig.ACKS_CONFIG, kafkaProducerConfigData.getAcks());
-        props.put(ProducerConfig.REQUEST_TIMEOUT_MS_CONFIG, kafkaProducerConfigData.getRequestTimeoutMs());
-        props.put(ProducerConfig.RETRIES_CONFIG, kafkaProducerConfigData.getRetryCount());
+        putIfNotNull(props, ProducerConfig.LINGER_MS_CONFIG, kafkaProducerConfigData.getLingerMs());
+        putIfNotNull(props, ProducerConfig.COMPRESSION_TYPE_CONFIG, kafkaProducerConfigData.getCompressionType());
+        putIfNotNull(props, ProducerConfig.ACKS_CONFIG, kafkaProducerConfigData.getAcks());
+        putIfNotNull(props, ProducerConfig.REQUEST_TIMEOUT_MS_CONFIG, kafkaProducerConfigData.getRequestTimeoutMs());
+        putIfNotNull(props, ProducerConfig.RETRIES_CONFIG, kafkaProducerConfigData.getRetryCount());
 
         // NO schema registry, NO SASL, so no chance of putting null keys or values:
         // (All removed to avoid the null key bug.)
@@ -62,6 +76,16 @@ public class KafkaProducerConfig<K extends Serializable, V extends SpecificRecor
     @Bean
     public ProducerFactory<K, V> producerFactory() {
         return new DefaultKafkaProducerFactory<>(producerConfig());
+    }
+
+    private void putIfNotNull(Map<String, Object> map, String key, Object value) {
+        if (key == null) {
+            log.warn("Ignoring config entry with null key. value={}", value);
+        } else if (value == null) {
+            log.warn("Ignoring config entry for key={} because value is null", key);
+        } else {
+            map.put(key, value);
+        }
     }
 
     @Bean
