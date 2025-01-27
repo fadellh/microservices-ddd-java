@@ -69,8 +69,10 @@ public class KafkaProducerConfig<K extends Serializable, V extends SpecificRecor
         // NO schema registry, NO SASL, so no chance of putting null keys or values:
         // (All removed to avoid the null key bug.)
 
+        System.out.println("SYSTEM ProducerConfig ");
         log.info("ProducerConfig => {}", props);
         log.info("Creating NEW ProducerConfig ");
+        System.out.println("Creating NEW ProducerConfig ");
         Map<String, Object> newProps = new HashMap<>();
         props.forEach((key, value) -> {
             if (key != null && value != null) {
