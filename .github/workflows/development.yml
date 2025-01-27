@@ -8,7 +8,7 @@ on:
 
 env:
   GOOGLE_PROJECT: "purwadika-441705"
-  TAG: "terbaru"
+  TAG: "309209302"
   ARTIFACT_REGISTRY: "asia-southeast2-docker.pkg.dev"
   ARTIFACT_FOLDER: "com-fns-wh-app-repository"
   INVENTORY_APP_NAME: "inventory-service"
@@ -41,11 +41,11 @@ jobs:
           docker push "${{ env.ARTIFACT_REGISTRY }}/${{ env.GOOGLE_PROJECT }}/${{ env.ARTIFACT_FOLDER }}/${{ env.ORDER_APP_NAME }}:${{ env.TAG }}"
 
       # Step 5: Build and Push Spring Boot Inventory Image
-      - name: Build and Push Spring Boot Inventory Image
-        run: |
-          cd inventory-service/inventory-container
-          mvn spring-boot:build-image -Dspring-boot.build-image.imageName="${{ env.ARTIFACT_REGISTRY }}/${{ env.GOOGLE_PROJECT }}/${{ env.ARTIFACT_FOLDER }}/${{ env.INVENTORY_APP_NAME }}:${{ env.TAG }}"
-          docker push "${{ env.ARTIFACT_REGISTRY }}/${{ env.GOOGLE_PROJECT }}/${{ env.ARTIFACT_FOLDER }}/${{ env.INVENTORY_APP_NAME }}:${{ env.TAG }}"
+      # - name: Build and Push Spring Boot Inventory Image
+      #   run: |
+      #     cd inventory-service/inventory-container
+      #     mvn spring-boot:build-image -Dspring-boot.build-image.imageName="${{ env.ARTIFACT_REGISTRY }}/${{ env.GOOGLE_PROJECT }}/${{ env.ARTIFACT_FOLDER }}/${{ env.INVENTORY_APP_NAME }}:${{ env.TAG }}"
+      #     docker push "${{ env.ARTIFACT_REGISTRY }}/${{ env.GOOGLE_PROJECT }}/${{ env.ARTIFACT_FOLDER }}/${{ env.INVENTORY_APP_NAME }}:${{ env.TAG }}"
 
   deploy_to_gke:
     needs: build_and_push_image

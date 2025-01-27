@@ -49,6 +49,8 @@ order-service:
   stock-decrement-request-topic-name: stock-decrement-request
   stock-decrement-response-topic-name: stock-decrement-response
 
+kafka:
+  enable: false
 # ----------------------------------------------------------------
 # KAFKA CONFIG FOR CONFLUENT CLOUD (common or default)
 # ----------------------------------------------------------------

@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: order-service
-          image: asia-southeast2-docker.pkg.dev/purwadika-441705/com-fns-wh-app-repository/order-service:terbaru
+          image: asia-southeast2-docker.pkg.dev/purwadika-441705/com-fns-wh-app-repository/order-service:309209302
           imagePullPolicy: Always
           ports:
             - containerPort: 8080

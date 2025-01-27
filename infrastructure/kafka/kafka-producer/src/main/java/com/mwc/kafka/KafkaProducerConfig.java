@@ -51,7 +51,7 @@ public class KafkaProducerConfig<K extends Serializable, V extends SpecificRecor
 //        props.put(ProducerConfig.ACKS_CONFIG, kafkaProducerConfigData.getAcks());
 //        props.put(ProducerConfig.REQUEST_TIMEOUT_MS_CONFIG, kafkaProducerConfigData.getRequestTimeoutMs());
 //        props.put(ProducerConfig.RETRIES_CONFIG, kafkaProducerConfigData.getRetryCount());
-
+        System.out.println("Creating NEW ProducerConfig");
 
         putIfNotNull(props, ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "34.101.89.132:32100");
         putIfNotNull(props, ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,
