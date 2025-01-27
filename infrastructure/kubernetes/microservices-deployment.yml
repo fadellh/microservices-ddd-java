@@ -122,7 +122,7 @@ spec:
     spec:
       containers:
         - name: inventory-service
-          image: asia-southeast2-docker.pkg.dev/purwadika-441705/com-fns-wh-app-repository/inventory-service:latest
+          image: asia-southeast2-docker.pkg.dev/purwadika-441705/com-fns-wh-app-repository/inventory-service:309209302
           ports:
             - containerPort: 8081
           env:
