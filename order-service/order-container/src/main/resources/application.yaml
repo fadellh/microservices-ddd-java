@@ -21,7 +21,7 @@ spring:
     username: order_user
     password: order_password
     url: jdbc:postgresql://localhost:5432/postgres?currentSchema=order,customer,product,warehouse,admin&binaryTransfer=true&reWriteBatchedInserts=true&stringtype=unspecified
-#    url: jdbc:postgresql://34.50.85.51:5432/orderdb?currentSchema=public&binaryTransfer=true&reWriteBatchedInserts=true&stringtype=unspecified
+    #    url: jdbc:postgresql://34.50.85.51:5432/orderdb?currentSchema=public&binaryTransfer=true&reWriteBatchedInserts=true&stringtype=unspecified
     driver-class-name: org.postgresql.Driver
     schema-locations: classpath:init-schema.sql,classpath:user-schema.sql,classpath:product-schema.sql,classpath:payment-schema.sql,classpath:admin-schema.sql
 
@@ -73,13 +73,13 @@ kafka-config:
   #  security-protocol: SASL_SSL
   #  security-protocol: SSL
   # sasl-mechanism: PLAIN
-  schema-registry-user-info-key: basic.auth.credentials.source
-  schema-registry-user-info: USER_INFO
-  schema-registry-basic-auth-user-info-key: schema.registry.basic.auth.user.info
-  schema-registry-basic-auth-user-info: "SR_KEY:SR_SECRET"
-  sasl-jaas-config: >
-    org.apache.kafka.common.security.plain.PlainLoginModule required
-    username
+  # schema-registry-user-info-key: basic.auth.credentials.source
+  # schema-registry-user-info: USER_INFO
+  # schema-registry-basic-auth-user-info-key: schema.registry.basic.auth.user.info
+  # schema-registry-basic-auth-user-info: "SR_KEY:SR_SECRET"
+  # sasl-jaas-config: >
+  #   org.apache.kafka.common.security.plain.PlainLoginModule required
+  #   username
   bootstrap-servers: 34.101.89.132:32100
   schema-registry-url-key: schema.registry.url
   schema-registry-url: https://schema-registry.fadellh.com
