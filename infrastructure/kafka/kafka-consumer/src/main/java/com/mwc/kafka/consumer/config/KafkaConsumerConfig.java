@@ -39,10 +39,10 @@ public class KafkaConsumerConfig<K extends Serializable, V extends SpecificRecor
         putIfNotNull(props, ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaConfigData.getBootstrapServers());
 
         // 2) Schema Registry (if applicable)
-//        putIfNotNull(props, kafkaConfigData.getSchemaRegistryUrlKey(), kafkaConfigData.getSchemaRegistryUrl());
-//        putIfNotNull(props, kafkaConfigData.getSchemaRegistryUserInfoKey(), kafkaConfigData.getSchemaRegistryUserInfo());
-//        putIfNotNull(props, kafkaConfigData.getSchemaRegistryBasicAuthUserInfoKey(),
-//                kafkaConfigData.getSchemaRegistryBasicAuthUserInfo());
+        putIfNotNull(props, kafkaConfigData.getSchemaRegistryUrlKey(), kafkaConfigData.getSchemaRegistryUrl());
+        putIfNotNull(props, kafkaConfigData.getSchemaRegistryUserInfoKey(), kafkaConfigData.getSchemaRegistryUserInfo());
+        putIfNotNull(props, kafkaConfigData.getSchemaRegistryBasicAuthUserInfoKey(),
+                kafkaConfigData.getSchemaRegistryBasicAuthUserInfo());
 
         // 3) Consumer configs
         putIfNotNull(props, ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, kafkaConsumerConfigData.getKeyDeserializer());
@@ -63,9 +63,9 @@ public class KafkaConsumerConfig<K extends Serializable, V extends SpecificRecor
 
 
         // 4) Security (SASL_SSL, PLAIN, etc.)
-//        putIfNotNull(props, "security.protocol", kafkaConfigData.getSecurityProtocol());
-//        putIfNotNull(props, "sasl.mechanism", kafkaConfigData.getSaslMechanism());
-//        putIfNotNull(props, "sasl.jaas.config", kafkaConfigData.getSaslJaasConfig());
+        putIfNotNull(props, "security.protocol", kafkaConfigData.getSecurityProtocol());
+        putIfNotNull(props, "sasl.mechanism", kafkaConfigData.getSaslMechanism());
+        putIfNotNull(props, "sasl.jaas.config", kafkaConfigData.getSaslJaasConfig());
 
 
         log.info("ConsumerConfig => {}", props);
