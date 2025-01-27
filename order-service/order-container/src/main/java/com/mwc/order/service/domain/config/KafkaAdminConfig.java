@@ -25,9 +25,9 @@ public class KafkaAdminConfig {
     public KafkaAdmin kafkaAdmin() {
         Map<String, Object> configs = new HashMap<>();
         configs.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaConfigData.getBootstrapServers());
-        configs.put(AdminClientConfig.SECURITY_PROTOCOL_CONFIG, kafkaConfigData.getSecurityProtocol());
-        configs.put("sasl.mechanism", kafkaConfigData.getSaslMechanism());
-        configs.put("sasl.jaas.config", kafkaConfigData.getSaslJaasConfig());
+//        configs.put(AdminClientConfig.SECURITY_PROTOCOL_CONFIG, kafkaConfigData.getSecurityProtocol());
+//        configs.put("sasl.mechanism", kafkaConfigData.getSaslMechanism());
+//        configs.put("sasl.jaas.config", kafkaConfigData.getSaslJaasConfig());
         return new KafkaAdmin(configs);
     }
 

@@ -33,7 +33,11 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     @Override
     public List<Product> findProductsByIds(List<UUID> productIds) {
-        return productMongoRepository.findByIdIn(productIds).stream()
+        List<String> stringIds = productIds.stream()
+                .map(UUID::toString)
+                .collect(Collectors.toList());
+
+        return productMongoRepository.findByIdIn(stringIds).stream()
                 .map(productDataAccessMapper::productDocumentToProduct)
                 .collect(Collectors.toList());
     }

@@ -2,9 +2,9 @@ name: "Microservices Deployment"
 
 on:
   workflow_dispatch:
-  # pull_request:
-  #   branches:
-  #     - main
+  pull_request:
+    branches:
+      - main
 
 env:
   GOOGLE_PROJECT: "purwadika-441705"
@@ -52,6 +52,7 @@ jobs:
     runs-on: [mwc-mac]
 
     steps:
+      - uses: actions/checkout@v3
       - id: "auth"
         uses: "google-github-actions/auth@v1"
         with:

@@ -35,17 +35,22 @@ public class KafkaConsumerConfig<K extends Serializable, V extends SpecificRecor
     @Bean
     public Map<String, Object> consumerConfigs() {
         Map<String, Object> props = new HashMap<>();
-        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaConfigData.getBootstrapServers());
+        // 1) Basic Kafka connection (required)
+        putIfNotNull(props, ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaConfigData.getBootstrapServers());
 
-        // The key is something like "schema.registry.url"
-        props.put(kafkaConfigData.getSchemaRegistryUrlKey(), kafkaConfigData.getSchemaRegistryUrl());
-        props.put(kafkaConfigData.getSchemaRegistryUserInfoKey(), kafkaConfigData.getSchemaRegistryUserInfo());
-        props.put(kafkaConfigData.getSchemaRegistryBasicAuthUserInfoKey(), kafkaConfigData.getSchemaRegistryBasicAuthUserInfo());
+        // 2) Schema Registry (if applicable)
+        putIfNotNull(props, kafkaConfigData.getSchemaRegistryUrlKey(), kafkaConfigData.getSchemaRegistryUrl());
+        putIfNotNull(props, kafkaConfigData.getSchemaRegistryUserInfoKey(), kafkaConfigData.getSchemaRegistryUserInfo());
+        putIfNotNull(props, kafkaConfigData.getSchemaRegistryBasicAuthUserInfoKey(),
+                kafkaConfigData.getSchemaRegistryBasicAuthUserInfo());
 
-        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, kafkaConsumerConfigData.getKeyDeserializer());
-        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, kafkaConsumerConfigData.getValueDeserializer());
-        props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, kafkaConsumerConfigData.getAutoOffsetReset());
-        props.put(kafkaConsumerConfigData.getSpecificAvroReaderKey(), kafkaConsumerConfigData.getSpecificAvroReader());
+        // 3) Consumer configs
+        putIfNotNull(props, ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, kafkaConsumerConfigData.getKeyDeserializer());
+        putIfNotNull(props, ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, kafkaConsumerConfigData.getValueDeserializer());
+        putIfNotNull(props, ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, kafkaConsumerConfigData.getAutoOffsetReset());
+        putIfNotNull(props, kafkaConsumerConfigData.getSpecificAvroReaderKey(), kafkaConsumerConfigData.getSpecificAvroReader());
+
+        // numeric properties
         props.put(ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG, kafkaConsumerConfigData.getSessionTimeoutMs());
         props.put(ConsumerConfig.HEARTBEAT_INTERVAL_MS_CONFIG, kafkaConsumerConfigData.getHeartbeatIntervalMs());
         props.put(ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG, kafkaConsumerConfigData.getMaxPollIntervalMs());
@@ -57,10 +62,11 @@ public class KafkaConsumerConfig<K extends Serializable, V extends SpecificRecor
 //        props.put(ConsumerConfig.GROUP_ID_CONFIG, kafkaConsumerConfigData.getStockDecrementConsumerGroupId());
 
 
-        // 4) Security for Kafka (SASL_SSL, PLAIN, etc.)
-        props.put("security.protocol", kafkaConfigData.getSecurityProtocol());
-        props.put("sasl.mechanism", kafkaConfigData.getSaslMechanism());
-        props.put("sasl.jaas.config", kafkaConfigData.getSaslJaasConfig());
+        // 4) Security (SASL_SSL, PLAIN, etc.)
+        putIfNotNull(props, "security.protocol", kafkaConfigData.getSecurityProtocol());
+        putIfNotNull(props, "sasl.mechanism", kafkaConfigData.getSaslMechanism());
+        putIfNotNull(props, "sasl.jaas.config", kafkaConfigData.getSaslJaasConfig());
+
 
         log.info("ConsumerConfig => {}", props);
 
@@ -83,5 +89,10 @@ public class KafkaConsumerConfig<K extends Serializable, V extends SpecificRecor
         return factory;
     }
 
+    private void putIfNotNull(Map<String, Object> props, String key, Object value) {
+        if (key != null && value != null) {
+            props.put(key, value);
+        }
+    }
 
 }

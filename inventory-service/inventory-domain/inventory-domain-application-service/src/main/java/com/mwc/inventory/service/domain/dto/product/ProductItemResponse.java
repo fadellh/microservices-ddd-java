@@ -18,7 +18,7 @@ public class ProductItemResponse {
     final BigDecimal price;
     final String image;
     final String size;
-    final List<String> availableColors = List.of("red", "blue", "green", "yellow", "black", "white");
+    final List<String> availableColors;
     final int maxQuantity;
-    final int quantity = 1;
+    final int quantity;
 }

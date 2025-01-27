@@ -83,7 +83,7 @@ public class InventoryHelper {
     public StockTransferEventResult manualTransferStock(UUID inventoryId, TransferInventoryCommand transferInventoryCommand) {
         log.info("Stock transfer is started for inventory id: {}", inventoryId);
         StockUpdatedEvent stockDecrementedEvent = decreaseStock(inventoryId, transferInventoryCommand.getFromWarehouseId(), StockJournalReason.MANUAL_TRANSFER_OUT, transferInventoryCommand.getQuantity());
-        StockUpdatedEvent stockIncrementedEvent = increaseStock(inventoryId, transferInventoryCommand.getFromWarehouseId(), StockJournalReason.MANUAL_TRANSFER_IN, transferInventoryCommand.getQuantity());
+        StockUpdatedEvent stockIncrementedEvent = increaseStock(inventoryId, transferInventoryCommand.getToWarehouseId(), StockJournalReason.MANUAL_TRANSFER_IN, transferInventoryCommand.getQuantity());
 
 //        persistTransferStock(stockDecrementedEvent.getInventory(), stockIncrementedEvent.getInventory());
         log.info("Stock transfer is completed for inventory id: {}", inventoryId);

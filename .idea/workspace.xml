@@ -4,8 +4,25 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d293844d-7748-4a4e-b711-0613d207449e" name="Changes" comment="changes workspace.xml">
+    <list default="true" id="d293844d-7748-4a4e-b711-0613d207449e" name="Changes" comment="resolve catalog list #71">
+      <change afterPath="$PROJECT_DIR$/user-service/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/user-container/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/user-container/src/main/java/com/mwc/user/service/domain/AdminEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/user-container/src/main/java/com/mwc/user/service/domain/BeanConfiguration.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/user-container/src/main/java/com/mwc/user/service/domain/CreateCustomerCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/user-container/src/main/java/com/mwc/user/service/domain/CreateCustomerResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/user-container/src/main/java/com/mwc/user/service/domain/CustomerEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/user-container/src/main/java/com/mwc/user/service/domain/CustomerJpaRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/user-container/src/main/java/com/mwc/user/service/domain/UserController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/user-container/src/main/java/com/mwc/user/service/domain/UserServiceApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/user-container/src/main/java/com/mwc/user/service/domain/VerifyCustomerCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/user-container/src/main/java/com/mwc/user/service/domain/VerifyCustomerResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/user-container/src/main/resources/application.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/user-container/src/main/resources/banner.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,8 +34,8 @@
       <list>
         <option value="Exception" />
         <option value="Enum" />
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -57,6 +74,7 @@
   "keyToString": {
     "Application.InventoryServiceApplication.executor": "Run",
     "Application.OrderServiceApplication.executor": "Run",
+    "Application.UserServiceApplication.executor": "Run",
     "Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor": "Run",
     "Maven.inventory-service [clean].executor": "Run",
     "Maven.inventory-service [install].executor": "Run",
@@ -73,9 +91,13 @@
     "Maven.order-messaging [clean].executor": "Run",
     "Maven.order-service [clean].executor": "Run",
     "Maven.order-service [install].executor": "Run",
+    "Maven.user-container [clean].executor": "Run",
+    "Maven.user-container [install].executor": "Run",
+    "Maven.user-service [clean].executor": "Run",
+    "Maven.user-service [install].executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "load-testing",
+    "git-widget-placeholder": "detailing",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/Users/fadellukmanhakim/fadel/mwc-java",
     "project.structure.last.edited": "Modules",
@@ -85,11 +107,14 @@
   }
 }]]></component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.mwc.order.service.domain" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.InventoryServiceApplication">
+  <component name="RunManager" selected="Application.UserServiceApplication">
     <configuration name="InventoryServiceApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.mwc.inventory.service.domain.InventoryServiceApplication" />
       <module name="inventory-container" />
@@ -116,8 +141,22 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="UserServiceApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.mwc.user.service.domain.UserServiceApplication" />
+      <module name="user-container" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.mwc.user.service.domain.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.UserServiceApplication" />
         <item itemvalue="Application.InventoryServiceApplication" />
         <item itemvalue="Application.OrderServiceApplication" />
       </list>
@@ -244,7 +283,15 @@
       <option name="project" value="LOCAL" />
       <updated>1736396901906</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="resolve catalog list #71">
+      <option name="closed" value="true" />
+      <created>1737858878460</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1737858878460</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -262,7 +309,8 @@
     <MESSAGE value="Deploy Service" />
     <MESSAGE value="Build &amp; Push Docker" />
     <MESSAGE value="Build &amp; Push Docker 2" />
-    <option name="LAST_COMMIT_MESSAGE" value="Build &amp; Push Docker 2" />
+    <MESSAGE value="resolve catalog list #71" />
+    <option name="LAST_COMMIT_MESSAGE" value="resolve catalog list #71" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -291,6 +339,11 @@
           <url>file://$PROJECT_DIR$/order-service/order-dataaccess/src/main/java/com/mwc/order/service/dataaccess/product/entity/ProductDocument.java</url>
           <line>17</line>
           <option name="timeStamp" value="27" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/inventory-service/inventory-domain/inventory-domain-application-service/src/main/java/com/mwc/inventory/service/domain/InventoryQueryHandler.java</url>
+          <line>24</line>
+          <option name="timeStamp" value="28" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

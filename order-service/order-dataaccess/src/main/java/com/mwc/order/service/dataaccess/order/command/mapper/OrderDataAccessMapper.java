@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -52,6 +53,10 @@ public class OrderDataAccessMapper {
     }
 
     public Order orderEntityToOrder(OrderEntity orderEntity) {
+        List<String> failureMessages = orderEntity.getFailureMessages() == null
+                ? Collections.emptyList()
+                : Arrays.asList(orderEntity.getFailureMessages().split(","));
+
         return Order.builder()
                 .orderId(new OrderId(orderEntity.getId()))
                 .customerId(new CustomerId(orderEntity.getCustomerId()))
@@ -60,7 +65,7 @@ public class OrderDataAccessMapper {
                 .items(orderItemEntitiesToOrderItems(orderEntity.getItems()))
                 .price(new Money(orderEntity.getTotalAmount()))
                 .orderStatus(orderEntity.getOrderStatus())
-                .failureMessages(Arrays.asList(orderEntity.getFailureMessages().split(",")))
+                .failureMessages(failureMessages)
                 .build();
     }
 
@@ -108,6 +113,7 @@ public class OrderDataAccessMapper {
                 .map(orderItem -> OrderItemEntity.builder()
                         .id(orderItem.getId().getValue())
                         .productId(orderItem.getProduct().getId().getValue())
+                        .inventoryId(orderItem.getProduct().getId().getValue())
                         .price(orderItem.getPrice().getAmount())
                         .quantity(orderItem.getQuantity())
                         .subTotal(orderItem.getSubTotal().getAmount())
