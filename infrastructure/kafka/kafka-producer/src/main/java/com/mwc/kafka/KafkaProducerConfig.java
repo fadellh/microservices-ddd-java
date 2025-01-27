@@ -70,9 +70,8 @@ public class KafkaProducerConfig<K extends Serializable, V extends SpecificRecor
         // (All removed to avoid the null key bug.)
 
         log.info("ProducerConfig => {}", props);
-
+        log.info("Creating NEW ProducerConfig ");
         Map<String, Object> newProps = new HashMap<>();
-
         props.forEach((key, value) -> {
             if (key != null && value != null) {
                 newProps.put(key, value);
@@ -80,7 +79,7 @@ public class KafkaProducerConfig<K extends Serializable, V extends SpecificRecor
         });
 
         log.info("NEW ProducerConfig => {}", newProps);
-        return props;
+        return newProps;
     }
 
     @Bean
