@@ -1,6 +1,5 @@
 package com.mwc.kafka;
 
-import com.mwc.kafka.config.data.KafkaConfigData;
 import com.mwc.kafka.config.data.KafkaProducerConfigData;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.avro.specific.SpecificRecordBase;
@@ -19,12 +18,13 @@ import java.util.Map;
 @Configuration
 public class KafkaProducerConfig<K extends Serializable, V extends SpecificRecordBase> {
 
-    private final KafkaConfigData kafkaConfigData;
+    /**
+     * Just the producer config data (no need for KafkaConfigData if
+     * you don't use SASL or a Confluent schema registry).
+     */
     private final KafkaProducerConfigData kafkaProducerConfigData;
 
-    public KafkaProducerConfig(KafkaConfigData kafkaConfigData,
-                               KafkaProducerConfigData kafkaProducerConfigData) {
-        this.kafkaConfigData = kafkaConfigData;
+    public KafkaProducerConfig(KafkaProducerConfigData kafkaProducerConfigData) {
         this.kafkaProducerConfigData = kafkaProducerConfigData;
     }
 
@@ -32,19 +32,18 @@ public class KafkaProducerConfig<K extends Serializable, V extends SpecificRecor
     public Map<String, Object> producerConfig() {
         Map<String, Object> props = new HashMap<>();
 
-        // 1) Basic Kafka connection (required)
-        putIfNotNull(props, ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaConfigData.getBootstrapServers());
+        // REQUIRED: BootStrap servers
+        // Put your Kafka broker(s) here, e.g. "PLAINTEXT://my-kafka:9092"
+        // or from an env var if you want. Hard-coded below just as example:
+        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "34.101.89.132:32100");
 
-        // 2) Schema Registry (if applicable)
-        putIfNotNull(props, kafkaConfigData.getSchemaRegistryUrlKey(), kafkaConfigData.getSchemaRegistryUrl());
-        putIfNotNull(props, kafkaConfigData.getSchemaRegistryUserInfoKey(), kafkaConfigData.getSchemaRegistryUserInfo());
-        putIfNotNull(props, kafkaConfigData.getSchemaRegistryBasicAuthUserInfoKey(),
-                kafkaConfigData.getSchemaRegistryBasicAuthUserInfo());
+        // REQUIRED: Key/Value serializers
+        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,
+                kafkaProducerConfigData.getKeySerializerClass());
+        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
+                kafkaProducerConfigData.getValueSerializerClass());
 
-        // 3) Producer serialization configs (these typically must NOT be null)
-        putIfNotNull(props, ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, kafkaProducerConfigData.getKeySerializerClass());
-        putIfNotNull(props, ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, kafkaProducerConfigData.getValueSerializerClass());
-
+        // Additional producer properties
         props.put(ProducerConfig.BATCH_SIZE_CONFIG,
                 kafkaProducerConfigData.getBatchSize() * kafkaProducerConfigData.getBatchSizeBoostFactor());
         props.put(ProducerConfig.LINGER_MS_CONFIG, kafkaProducerConfigData.getLingerMs());
@@ -53,10 +52,8 @@ public class KafkaProducerConfig<K extends Serializable, V extends SpecificRecor
         props.put(ProducerConfig.REQUEST_TIMEOUT_MS_CONFIG, kafkaProducerConfigData.getRequestTimeoutMs());
         props.put(ProducerConfig.RETRIES_CONFIG, kafkaProducerConfigData.getRetryCount());
 
-        // 4) Security (SASL_SSL, PLAIN, etc.) - only put if they're non-null
-        putIfNotNull(props, "security.protocol", kafkaConfigData.getSecurityProtocol());
-        putIfNotNull(props, "sasl.mechanism", kafkaConfigData.getSaslMechanism());
-        putIfNotNull(props, "sasl.jaas.config", kafkaConfigData.getSaslJaasConfig());
+        // NO schema registry, NO SASL, so no chance of putting null keys or values:
+        // (All removed to avoid the null key bug.)
 
         log.info("ProducerConfig => {}", props);
         return props;
@@ -70,12 +67,5 @@ public class KafkaProducerConfig<K extends Serializable, V extends SpecificRecor
     @Bean
     public KafkaTemplate<K, V> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
-    }
-
-
-    private void putIfNotNull(Map<String, Object> props, String key, Object value) {
-        if (key != null && value != null) {
-            props.put(key, value);
-        }
     }
 }
