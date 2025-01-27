@@ -22,9 +22,6 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
-          env:
-            - name: SPRING_CONFIG_IMPORT
-              value: "optional:file:/config/"
           envFrom:
             - configMapRef:
                 name: order-service-secrets
