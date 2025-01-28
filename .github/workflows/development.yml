@@ -34,9 +34,6 @@ jobs:
       - name: "Docker auth"
         run: gcloud auth configure-docker ${{ env.ARTIFACT_REGISTRY }} --quiet
 
-      - name: Clean Cache
-        run: rm -rf ~/.m2/repository
-
       - name: Build and Push Order Image
         run: |
           cd order-service
