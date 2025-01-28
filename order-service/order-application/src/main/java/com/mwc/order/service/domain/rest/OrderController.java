@@ -20,7 +20,6 @@ import java.util.UUID;
 @Slf4j
 @RestController
 @RequestMapping(value = "v1/orders", produces = "application/vnd.api.v1+json")
-@CrossOrigin(origins = "http://localhost:3000")
 public class OrderController {
 
     private final OrderApplicationService orderApplicationService;

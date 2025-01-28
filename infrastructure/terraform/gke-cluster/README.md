@@ -87,6 +87,27 @@ Edge case:
 - manual add external ingress load balancer in cloudflare
 ---
 
+Mengatur cloudflare:
+- Gunakan worker & page 
+- Pakai code ini
+  ```
+  export default {
+    async fetch(request) {
+      const targetUrl = "https://mwc-gateway-ysw27pj.an.gateway.dev";
+    
+      const newRequest = new Request(request);
+      newRequest.headers.set("Host", "mwc-gateway-ysw27pj.an.gateway.dev");
+    
+      const url = new URL(request.url);
+      const path = url.pathname + url.search;
+      const target = targetUrl + path;
+    
+      // Teruskan request ke Google API Gateway
+      return fetch(target, newRequest);
+    }
+    };
+  ```
+- Pilih worker. Atur custom domain
 
 # API Gateway Configuration Guide
 
