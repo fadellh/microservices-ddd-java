@@ -34,12 +34,24 @@ jobs:
       - name: "Docker auth"
         run: gcloud auth configure-docker ${{ env.ARTIFACT_REGISTRY }} --quiet
 
-      # Step 4: Build and Push Spring Boot Order Image
-      - name: Build and Push Spring Boot Order Image
+      - name: Clean Cache
+        run: rm -rf ~/.m2/repository
+
+      - name: Build and Push Order Image
         run: |
-          cd order-service/order-container
-          mvn clean package spring-boot:build-image -Dspring-boot.build-image.imageName="${{ env.ARTIFACT_REGISTRY }}/${{ env.GOOGLE_PROJECT }}/${{ env.ARTIFACT_FOLDER }}/${{ env.ORDER_APP_NAME }}:${{ env.TAG }}" -Dspring-boot.build-image.builder=paketobuildpacks/builder-jammy-base -Dspring-boot.build-image.environment.BP_CACHE_TTL=0 -Dspring-boot.build-image.cleanCache=true
+          cd order-service
+          mvn clean package spring-boot:build-image \
+            -Dspring-boot.build-image.imageName="${{ env.ARTIFACT_REGISTRY }}/${{ env.GOOGLE_PROJECT }}/${{ env.ARTIFACT_FOLDER }}/${{ env.ORDER_APP_NAME }}:${{ env.TAG }}" \
+            -Dspring-boot.build-image.builder=paketobuildpacks/builder-jammy-base \
+            -Dspring-boot.build-image.environment.BP_CACHE_TTL=0 \
+            -Dspring-boot.build-image.cleanCache=true
           docker push "${{ env.ARTIFACT_REGISTRY }}/${{ env.GOOGLE_PROJECT }}/${{ env.ARTIFACT_FOLDER }}/${{ env.ORDER_APP_NAME }}:${{ env.TAG }}"
+
+      - name: Verify Image in Registry
+        run: |
+          gcloud artifacts docker images list \
+            ${{ env.ARTIFACT_REGISTRY }}/${{ env.GOOGLE_PROJECT }}/${{ env.ARTIFACT_FOLDER }} \
+            --filter="tag=${{ env.TAG }}"
 
       # Step 5: Build and Push Spring Boot Inventory Image
       - name: Build and Push Spring Boot Inventory Image
