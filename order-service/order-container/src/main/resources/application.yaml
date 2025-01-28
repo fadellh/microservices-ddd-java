@@ -62,33 +62,33 @@ kafka-config:
   replication-factor: 3
   security-protocol: PLAINTEXT
   sasl-mechanism: PLAIN
-  #  schema-registry-user-info-key: basic.auth.credentials.source
-  #  schema-registry-user-info: USER_INFO
-  #  schema-registry-basic-auth-user-info-key: schema.registry.basic.auth.user.info
-  #  schema-registry-basic-auth-user-info: "SR_KEY:SR_SECRET"
-  #  sasl-jaas-config: >
-  #    org.apache.kafka.common.security.plain.PlainLoginModule required
-  #    username
-  #  schema-registry-user-info-key: basic.auth.credentials.source
-  #  schema-registry-user-info: USER_INFO
-  #  schema-registry-basic-auth-user-info-key: schema.registry.basic.auth.user.info
-  #  schema-registry-basic-auth-user-info: "SR_KEY:SR_SECRET"
-  #  sasl-jaas-config: >
-  #    org.apache.kafka.common.security.plain.PlainLoginModule required
-  #    username
-  #  bootstrap-servers: pkc-ew3qg.asia-southeast2.gcp.confluent.cloud:9092
-  # schema-registry-url-key: schema.registry.url
-  #  schema-registry-url: https://psrc-epk8y.australia-southeast1.gcp.confluent.cloud
-  #  security-protocol: SASL_SSL
-  #  security-protocol: SSL
-  # sasl-mechanism: PLAIN
-  # schema-registry-user-info-key: basic.auth.credentials.source
-  # schema-registry-user-info: USER_INFO
-  # schema-registry-basic-auth-user-info-key: schema.registry.basic.auth.user.info
-  # schema-registry-basic-auth-user-info: "SR_KEY:SR_SECRET"
-  # sasl-jaas-config: >
-  #   org.apache.kafka.common.security.plain.PlainLoginModule required
-  #   username
+#  schema-registry-user-info-key: basic.auth.credentials.source
+#  schema-registry-user-info: USER_INFO
+#  schema-registry-basic-auth-user-info-key: schema.registry.basic.auth.user.info
+#  schema-registry-basic-auth-user-info: "SR_KEY:SR_SECRET"
+#  sasl-jaas-config: >
+#    org.apache.kafka.common.security.plain.PlainLoginModule required
+#    username
+#  schema-registry-user-info-key: basic.auth.credentials.source
+#  schema-registry-user-info: USER_INFO
+#  schema-registry-basic-auth-user-info-key: schema.registry.basic.auth.user.info
+#  schema-registry-basic-auth-user-info: "SR_KEY:SR_SECRET"
+#  sasl-jaas-config: >
+#    org.apache.kafka.common.security.plain.PlainLoginModule required
+#    username
+#  bootstrap-servers: pkc-ew3qg.asia-southeast2.gcp.confluent.cloud:9092
+# schema-registry-url-key: schema.registry.url
+#  schema-registry-url: https://psrc-epk8y.australia-southeast1.gcp.confluent.cloud
+#  security-protocol: SASL_SSL
+#  security-protocol: SSL
+# sasl-mechanism: PLAIN
+# schema-registry-user-info-key: basic.auth.credentials.source
+# schema-registry-user-info: USER_INFO
+# schema-registry-basic-auth-user-info-key: schema.registry.basic.auth.user.info
+# schema-registry-basic-auth-user-info: "SR_KEY:SR_SECRET"
+# sasl-jaas-config: >
+#   org.apache.kafka.common.security.plain.PlainLoginModule required
+#   username
 
 # Producer configs
 kafka-producer-config:

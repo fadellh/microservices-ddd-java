@@ -13,7 +13,7 @@ resource "google_api_gateway_api" "this" {
 resource "google_api_gateway_api_config" "this" {
   provider      = google-beta
   api           = google_api_gateway_api.this.api_id
-  api_config_id = "v9"
+  api_config_id = "v11"
 
   # File OpenAPI 2.0/Swagger 2.0
   openapi_documents {

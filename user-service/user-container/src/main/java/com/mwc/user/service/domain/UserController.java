@@ -13,7 +13,7 @@ import java.time.ZoneId;
 @Slf4j
 @RestController
 @RequestMapping("v1/users")
-@CrossOrigin(origins = "http://localhost:3000")
+//@CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
 
     private final CustomerJpaRepository customerJpaRepository;

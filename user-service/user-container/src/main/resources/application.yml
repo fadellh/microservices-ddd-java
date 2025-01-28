@@ -20,7 +20,8 @@ spring:
   datasource:
     username: user_user
     password: user_password
-    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=public&binaryTransfer=true&reWriteBatchedInserts=true&stringtype=unspecified
+#    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=public&binaryTransfer=true&reWriteBatchedInserts=true&stringtype=unspecified
+    url: jdbc:postgresql://34.50.85.51:5432/orderdb?currentSchema=public&binaryTransfer=true&reWriteBatchedInserts=true&stringtype=unspecified
     driver-class-name: org.postgresql.Driver
 
 

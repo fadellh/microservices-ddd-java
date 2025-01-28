@@ -1,0 +1,90 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: github-runner-secrets
+type: Opaque
+stringData:
+  GITHUB_TOKEN: AOOIZY7RQKHZCBSDMR6NJRDHSY24C
+  GOOGLE_CREDENTIALS: |
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: github-runner-deployment
+  labels:
+    app: github-runner
+spec:
+  replicas: 1 # Number of concurrent runners
+  selector:
+    matchLabels:
+      app: github-runner
+  template:
+    metadata:
+      labels:
+        app: github-runner
+    spec:
+      securityContext:
+        runAsUser: 0
+        fsGroup: 0
+      containers:
+        # Main GitHub Runner container
+        - name: github-runner
+          image: myoung34/github-runner:latest # Community maintained runner image
+          securityContext:
+            privileged: true
+          env:
+            - name: RUNNER_NAME_PREFIX
+              value: "gke-runner"
+            - name: ACCESS_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: github-runner-secrets
+                  key: GITHUB_TOKEN
+            - name: REPO_URL
+              value: "https://github.com/fadellh/microservices-ddd-java"
+            - name: RUNNER_WORKDIR
+              value: "/workspace"
+            - name: LABELS
+              value: "mwc-gke"
+            - name: DOCKER_HOST
+              value: "tcp://localhost:2375"
+            - name: GOOGLE_APPLICATION_CREDENTIALS
+              value: "/secrets/google-credentials.json"
+          volumeMounts:
+            - name: docker-socket
+              mountPath: /var/run/docker.sock
+            - name: google-credentials
+              mountPath: "/secrets"
+              readOnly: true
+          resources:
+            requests:
+              cpu: "1"
+              memory: "1Gi"
+            limits:
+              cpu: "2"
+              memory: "2Gi"
+
+        # Docker-in-Docker sidecar
+        - name: dind
+          image: docker:dind-rootless
+          securityContext:
+            privileged: false
+          volumeMounts:
+            - name: docker-socket
+              mountPath: /var/run/docker.sock
+          env:
+            - name: DOCKER_TLS_CERTDIR
+              value: ""
+
+      volumes:
+        - name: docker-socket
+          hostPath:
+            path: /var/run/docker.sock
+            type: Socket
+        - name: google-credentials
+          secret:
+            secretName: github-runner-secrets
+            items:
+              - key: GOOGLE_CREDENTIALS
+                path: google-credentials.json
