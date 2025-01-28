@@ -36,8 +36,8 @@ jobs:
 
       - name: Build and Push Order Image
         run: |
-          cd order-service
-          mvn clean package spring-boot:build-image \
+          cd order-service/order-container
+          mvn clean package spring-boot:build-image  \
             -Dspring-boot.build-image.imageName="${{ env.ARTIFACT_REGISTRY }}/${{ env.GOOGLE_PROJECT }}/${{ env.ARTIFACT_FOLDER }}/${{ env.ORDER_APP_NAME }}:${{ env.TAG }}" \
             -Dspring-boot.build-image.builder=paketobuildpacks/builder-jammy-base \
             -Dspring-boot.build-image.environment.BP_CACHE_TTL=0 \
