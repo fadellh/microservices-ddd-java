@@ -8,7 +8,8 @@ on:
 
 env:
   GOOGLE_PROJECT: "purwadika-441705"
-  TAG: "309209302"
+  # TAG: "309209302"
+  TAG: latest-${{ github.run_number }}
   ARTIFACT_REGISTRY: "asia-southeast2-docker.pkg.dev"
   ARTIFACT_FOLDER: "com-fns-wh-app-repository"
   INVENTORY_APP_NAME: "inventory-service"
@@ -95,4 +96,5 @@ jobs:
 
       - name: Apply Kubernetes Manifests
         run: |
+          sed -i "" "s|TAG_IMAGE|$TAG|g" infrastructure/kubernetes/microservices-deployment.yml
           kubectl apply -f infrastructure/kubernetes/microservices-deployment.yml

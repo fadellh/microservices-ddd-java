@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: order-service
-          image: asia-southeast2-docker.pkg.dev/purwadika-441705/com-fns-wh-app-repository/order-service:309209302
+          image: asia-southeast2-docker.pkg.dev/purwadika-441705/com-fns-wh-app-repository/order-service:TAG_IMAGE
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
@@ -122,7 +122,7 @@ spec:
     spec:
       containers:
         - name: inventory-service
-          image: asia-southeast2-docker.pkg.dev/purwadika-441705/com-fns-wh-app-repository/inventory-service:309209302
+          image: asia-southeast2-docker.pkg.dev/purwadika-441705/com-fns-wh-app-repository/inventory-service:TAG_IMAGE
           ports:
             - containerPort: 8081
           env:
