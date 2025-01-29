@@ -6,6 +6,8 @@ CREATE EXTENSION IF NOT EXISTS postgis;
 CREATE TABLE IF NOT EXISTS warehouses (
     id UUID PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
+    city VARCHAR(100),
+    district VARCHAR(100),
     latitude DOUBLE PRECISION NOT NULL,
     longitude DOUBLE PRECISION NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Auto-fill on creation
@@ -16,6 +18,8 @@ CREATE TABLE IF NOT EXISTS warehouses (
 
 CREATE TABLE IF NOT EXISTS inventory (
     id UUID PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    price BIGINT,
     product_id UUID NOT NULL,
     total_quantity INT,
     created_at TIMESTAMP,

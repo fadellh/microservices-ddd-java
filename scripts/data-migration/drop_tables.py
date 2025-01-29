@@ -55,6 +55,7 @@ order_drop_statements = [
     "DROP TABLE IF EXISTS order_address CASCADE;",
     "DROP TABLE IF EXISTS orders CASCADE;",
     "DROP TABLE IF EXISTS warehouses CASCADE;",
+    "DROP TABLE IF EXISTS payments CASCADE;",
 ]
 
 inventory_drop_statements = [

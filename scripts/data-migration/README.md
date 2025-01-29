@@ -53,6 +53,17 @@ Run the main data migration script to set up schemas and populate data into data
 python3 data-migration.py
 ```
 
+Drop collection
+```bash
+python3 drop_collection.py
+```
+
+Drop table
+```bash
+python3 drop_tables.py
+```
+
+
 ## **Troubleshooting**
 
 - **Database Connection Issues**: Ensure PostgreSQL and MongoDB are running and accessible.
