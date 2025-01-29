@@ -6,14 +6,30 @@ Explicitly calls out concurrency best practices and performance validations.
 """
 
 import uuid
+import hashlib
 import random
 from locust import HttpUser, TaskSet, task, between
 
 # Example: If you have a stable UUID generator from your data_injection, import or replicate it:
 # from your_data_injection_script import generate_static_uuid
-def generate_static_uuid(model_name: str, index: int) -> str:
-    # Stub or real logic. For demonstration, just return random.
-    return str(uuid.uuid4())
+# def generate_static_uuid(model_name: str, index: int) -> str:
+#     # Stub or real logic. For demonstration, just return random.
+#     return str(uuid.uuid4())
+
+def generate_static_uuid(model_name: str, unique_id: int) -> str:
+    """
+    Generate a static but unique UUID for each model based on the model name and a unique identifier.
+
+    Args:
+        model_name (str): The name of the model (e.g., "AdminUser", "Order", "Inventory").
+        unique_id (int): A unique integer used to differentiate the record.
+
+    Returns:
+        str: A UUID string derived from a stable MD5 hash of model_name + unique_id.
+    """
+    unique_string = f"{model_name}-{unique_id}"
+    hashed = hashlib.md5(unique_string.encode()).hexdigest()
+    return str(uuid.UUID(hashed))
 
 WAREHOUSE_IDS = [generate_static_uuid("Warehouse", i) for i in range(3)]
 CUSTOMER_IDS = [generate_static_uuid("CustomerUser", i) for i in range(5)]
