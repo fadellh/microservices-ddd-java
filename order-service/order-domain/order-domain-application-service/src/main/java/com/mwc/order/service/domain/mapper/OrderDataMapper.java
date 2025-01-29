@@ -40,11 +40,13 @@ public class OrderDataMapper {
                                 .build()).collect(Collectors.toList());
     }
 
-    public PreviewOrderResponse orderToPreviewOrderResponse(Order order, BigDecimal totalAmount, BigDecimal shippingCost, BigDecimal discount) {
+    public PreviewOrderResponse orderToPreviewOrderResponse(Order order, BigDecimal totalAmount, BigDecimal shippingCost, BigDecimal discount, List<Warehouse> nearestWarehouse) {
         return PreviewOrderResponse.builder()
                 .totalAmount(totalAmount)
                 .shippingCost(shippingCost)
                 .discount(discount)
+                .warehouseName(nearestWarehouse.get(0).getName())
+                .warehouseId(nearestWarehouse.get(0).getId().getValue())
                 .items(order.getItems().stream()
                         .map(item -> PreviewOrderResponse.OrderItemResponse.builder()
                                 .productName(item.getProduct().getName()) // Assuming Product has a getName() method
@@ -149,6 +151,32 @@ public class OrderDataMapper {
                                 .build())
                         .collect(Collectors.toList()))
                 .build();
+    }
+
+    public List<OrderItem> previewOrderCommandToOrderItems(@NotNull List<com.mwc.order.service.domain.dto.create.OrderItem> items) {
+        return items.stream()
+                .map(item -> OrderItem.builder()
+                        .product(new Product(new ProductId(item.getProductId())))
+                        .price(new Money(item.getPrice()))
+                        .quantity(item.getQuantity())
+                        .subTotal(new Money(item.getSubTotal()))
+                        .build())
+                .collect(Collectors.toList());
+    }
+
+    // Map products to OrderItem
+    public List<OrderItem> productsToOrderItems(List<Product> products, PreviewOrderCommand previewOrderCommand) {
+
+        List<com.mwc.order.service.domain.dto.create.OrderItem> items = previewOrderCommand.getItems();
+        //quantity using index
+        return products.stream()
+                .map(product -> OrderItem.builder()
+                        .product(product)
+                        .price(product.getPrice())
+                        .quantity(items.get(products.indexOf(product)).getQuantity())
+                        .subTotal(product.getPrice().multiply(items.get(products.indexOf(product)).getQuantity()))
+                        .build())
+                .collect(Collectors.toList());
     }
 
 }

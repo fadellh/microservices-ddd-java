@@ -93,8 +93,8 @@ public class OrderDataAccessMapper {
                 .street(orderAddress.getStreet())
                 .postalCode(orderAddress.getPostalCode())
                 .city(orderAddress.getCity())
-                .latitude(orderAddress.getLatitude() != null ? Double.valueOf(orderAddress.getLatitude()) : null)
-                .longitude(orderAddress.getLongitude() != null ? Double.valueOf(orderAddress.getLongitude()) : null)
+                .latitude(orderAddress.getLatitude())
+                .longitude(orderAddress.getLongitude())
                 .build();
     }
 
@@ -103,8 +103,8 @@ public class OrderDataAccessMapper {
                 orderAddressEntity.getStreet(),
                 orderAddressEntity.getPostalCode(),
                 orderAddressEntity.getCity(),
-                orderAddressEntity.getLatitude() != null ? orderAddressEntity.getLatitude().toString() : null,
-                orderAddressEntity.getLongitude() != null ? orderAddressEntity.getLongitude().toString() : null
+                orderAddressEntity.getLatitude(),
+                orderAddressEntity.getLongitude()
         );
     }
 

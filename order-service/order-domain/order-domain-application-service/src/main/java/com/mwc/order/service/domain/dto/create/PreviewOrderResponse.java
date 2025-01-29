@@ -15,7 +15,9 @@ public class PreviewOrderResponse {
     private final BigDecimal totalAmount; // Total amount of the order
     private final BigDecimal shippingCost; // Cost of shipping (if applicable)
     private final BigDecimal discount; // Discount applied (if applicable)
-    private final List<OrderItemResponse> items; // List of item details
+    private final List<OrderItemResponse> items;
+    private final String warehouseName;
+    private final UUID warehouseId;
 
     @Getter
     @AllArgsConstructor

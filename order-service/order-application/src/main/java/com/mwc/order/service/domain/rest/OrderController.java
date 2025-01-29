@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
@@ -64,7 +65,7 @@ public class OrderController {
     }
 
     @PostMapping("/preview")
-    public ResponseEntity<PreviewOrderResponse> previewOrder(@RequestBody PreviewOrderCommand previewOrderCommand) {
+    public ResponseEntity<PreviewOrderResponse> previewOrder(@Valid @RequestBody PreviewOrderCommand previewOrderCommand) {
         log.info("Previewing order for customer: {}", previewOrderCommand.getCustomerId());
         PreviewOrderResponse previewOrderResponse = orderApplicationService.previewOrder(previewOrderCommand);
         return ResponseEntity.ok(previewOrderResponse);
