@@ -54,7 +54,7 @@ public class Inventory extends AggregateRoot<InventoryId> {
     // check if sourceInventory has enough quantity to transfer
     public void checkIfEnoughQuantity(Quantity toTransfer) {
         if (this.quantity.isLessThan(toTransfer)) {
-            throw new NotEnoughInventoryException("Insufficient stock to transfer");
+            throw new NotEnoughInventoryException("Insufficient stock to transfer. Please use another warehouse");
         }
     }
 
