@@ -49,13 +49,19 @@ order-service:
   stock-decrement-request-topic-name: stock-decrement-request
   stock-decrement-response-topic-name: stock-decrement-response
 
+gcs:
+  oauth:
+    token: YOUR_API_KEY_HERE
+  bucket:
+    name: pay-file
+
 kafka:
   enable: false
 # ----------------------------------------------------------------
 # KAFKA CONFIG FOR CONFLUENT CLOUD (common or default)
 # ----------------------------------------------------------------
 kafka-config:
-  bootstrap-servers: 34.101.89.132:32100
+  bootstrap-servers: 34.50.80.186:32100
   schema-registry-url-key: schema.registry.url
   schema-registry-url: https://schema-registry.fadellh.com
   num-of-partitions: 3

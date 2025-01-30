@@ -87,6 +87,26 @@ Edge case:
 - manual add external ingress load balancer in cloudflare
 ---
 
+Redeploy or restart kafka
+- Delete current state
+```bash
+terraform state rm module.kafka.kubernetes_manifest.kafka_cr
+terraform state rm module.kafka.helm_release.strimzi_operator
+terraform state rm module.kafka.kubernetes_namespace.kafka_ns
+```
+- Delete namespace
+```bash
+kubectl delete namespace kafka
+```
+- Apply 
+```bash
+terraform apply -target=module.kafka.helm_release.strimzi_operator
+terraform apply -target=module.kafka
+kubectl apply -f schema-registry.yml
+kubectl apply -f akhq-deployment.yml
+```
+
+
 Mengatur cloudflare:
 - Gunakan worker & page 
 - Pakai code ini

@@ -51,13 +51,13 @@ inventory-service:
 # KAFKA CONFIG FOR CONFLUENT CLOUD (common or default)
 # ----------------------------------------------------------------
 kafka-config:
-  bootstrap-servers: 34.101.89.132:32100
+  bootstrap-servers: 34.50.80.186:32100
   schema-registry-url-key: schema.registry.url
   schema-registry-url: https://schema-registry.fadellh.com
   num-of-partitions: 3
   replication-factor: 3
   security-protocol: PLAINTEXT
-  sasl-mechanism: PLAIN
+#  sasl-mechanism: PLAIN
   # schema-registry-user-info-key: basic.auth.credentials.source
   # schema-registry-user-info: USER_INFO
   # schema-registry-basic-auth-user-info-key: schema.registry.basic.auth.user.info

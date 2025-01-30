@@ -1,5 +1,6 @@
 package com.mwc.kafka;
 
+import com.mwc.kafka.config.data.KafkaConfigData;
 import com.mwc.kafka.config.data.KafkaProducerConfigData;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.avro.specific.SpecificRecordBase;
@@ -23,9 +24,11 @@ public class KafkaProducerConfig<K extends Serializable, V extends SpecificRecor
      * you don't use SASL or a Confluent schema registry).
      */
     private final KafkaProducerConfigData kafkaProducerConfigData;
+    private final KafkaConfigData kafkaConfigData;
 
-    public KafkaProducerConfig(KafkaProducerConfigData kafkaProducerConfigData) {
+    public KafkaProducerConfig(KafkaProducerConfigData kafkaProducerConfigData, KafkaConfigData kafkaConfigData) {
         this.kafkaProducerConfigData = kafkaProducerConfigData;
+        this.kafkaConfigData = kafkaConfigData;
     }
 
     @Bean
@@ -53,7 +56,9 @@ public class KafkaProducerConfig<K extends Serializable, V extends SpecificRecor
 //        props.put(ProducerConfig.RETRIES_CONFIG, kafkaProducerConfigData.getRetryCount());
         System.out.println("Creating NEW DEPLOYMENT ProducerConfig");
 
-        putIfNotNull(props, ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "34.101.89.132:32100");
+//        putIfNotNull(props, ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "34.50.80.186:32100");
+        putIfNotNull(props, ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaConfigData.getBootstrapServers());
+        putIfNotNull(props, kafkaConfigData.getSchemaRegistryUrlKey(), kafkaConfigData.getSchemaRegistryUrl());
         putIfNotNull(props, ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,
                 kafkaProducerConfigData.getKeySerializerClass());
         putIfNotNull(props, ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,

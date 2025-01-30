@@ -43,7 +43,7 @@ public class OrderController {
             @RequestParam(value = "order_start_date", required = false) String orderStartDate,
             @RequestParam(value = "order_end_date", required = false) String orderEndDate
     ) {
-        log.info("Retrieving orders for user: {}", userId);
+        log.info("Retrieving the orders for user: {}", userId);
         // Build the query object including optional parameters
         RetrieveOrderQuery orderListQuery = RetrieveOrderQuery.builder()
                 .customerId(userId)

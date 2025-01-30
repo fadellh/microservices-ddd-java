@@ -25,8 +25,13 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.beans.factory.annotation.Value;
+
 
 import java.io.IOException;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -54,7 +59,11 @@ public class OrderCreateHelper {
 
     private final Storage storage = StorageOptions.getDefaultInstance().getService();
 
-    private static final String BUCKET_NAME = "pay-file";
+    @Value("${gcs.bucket.name}")
+    private String BUCKET_NAME;
+
+    @Value("${gcs.oauth.token}")
+    private String OAUTH_TOKEN;
 
 
     private final AtomicLong orderItemIdGenerator = new AtomicLong();
@@ -114,6 +123,10 @@ public class OrderCreateHelper {
             throw new OrderDomainException("Could not save order!");
         }
         log.info("Order is saved with id: {}", orderResult.getId().getValue());
+
+        queryOrderRepository.save(order);
+        log.info("Order is saved with id: {} to query repository", orderResult.getId().getValue());
+
         return orderResult;
     }
 
@@ -187,6 +200,57 @@ public class OrderCreateHelper {
                 .build();
     }
 
+    private Payment uploadFileToGCSWithBearerToken(CreatePaymentCommand createPaymentCommand, Order order) throws IOException {
+        MultipartFile paymentProofFile = createPaymentCommand.getPaymentProofFile();
+
+        // Generate unique filename
+        String fileName = UUID.randomUUID().toString() + "-" + paymentProofFile.getOriginalFilename();
+
+        // The GCS JSON API endpoint for direct uploads:
+        // https://storage.googleapis.com/upload/storage/v1/b/BUCKET_NAME/o?uploadType=media&name=FILENAME
+        String uploadUrl = String.format(
+                "https://storage.googleapis.com/upload/storage/v1/b/%s/o?uploadType=media&name=%s",
+                BUCKET_NAME, fileName
+        );
+
+        // Make HTTP connection
+        HttpURLConnection connection = (HttpURLConnection) new URL(uploadUrl).openConnection();
+        connection.setDoOutput(true);
+        connection.setRequestMethod("POST");
+
+        // Add "Authorization: Bearer YOUR_ACCESS_TOKEN"
+        connection.setRequestProperty("Authorization", "Bearer " + OAUTH_TOKEN);
+
+        // Set the Content-Type to the file's MIME type (e.g. "image/png")
+        connection.setRequestProperty("Content-Type", paymentProofFile.getContentType());
+
+        // Send file bytes
+        try (OutputStream outputStream = connection.getOutputStream()) {
+            outputStream.write(paymentProofFile.getBytes());
+        }
+
+        // Check response
+        int responseCode = connection.getResponseCode();
+        if (responseCode == 200 || responseCode == 201) {
+            log.info("Payment proof file uploaded successfully to GCS with Bearer token: {}", fileName);
+        } else {
+            String errorMessage = "Error uploading file to GCS. Response code: " + responseCode;
+            log.error(errorMessage);
+            throw new IOException(errorMessage);
+        }
+
+        // Build Payment object after successful upload
+        return Payment.builder()
+                .paymentId(new PaymentId(UUID.randomUUID()))
+                .orderId(order.getId())
+                .amount(order.getPrice())
+                .proofUrl(String.format("https://storage.googleapis.com/%s/%s", BUCKET_NAME, fileName))
+                .status(PaymentStatus.PENDING_VERIFICATION)
+                .paymentMethod(PaymentMethod.TRANSFER_UPLOAD)
+                .build();
+    }
+
+
     @Transactional
     public CreatePaymentResponse uploadPayment(CreatePaymentCommand createPaymentCommand) {
         try {
@@ -195,7 +259,7 @@ public class OrderCreateHelper {
                     .orElseThrow(() -> new OrderDomainException("Order not found for id: " + createPaymentCommand.getOrderId()));
 
             // Upload file to GCS
-            Payment payment = uploadFileToGCS(createPaymentCommand, order);
+            Payment payment = uploadFileToGCSWithBearerToken(createPaymentCommand, order);
             orderDomainService.initReviewPayment(order);
             // Save payment to repository
             paymentRepository.save(payment);
