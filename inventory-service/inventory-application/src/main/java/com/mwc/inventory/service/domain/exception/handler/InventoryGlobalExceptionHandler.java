@@ -34,4 +34,26 @@ public class InventoryGlobalExceptionHandler {
                 .message(inventoryNotFoundException.getMessage())
                 .build();
     }
+
+    @ResponseBody
+    @ExceptionHandler(value = {InsufficientStock.class})
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorDTO handleException(InsufficientStock insufficientStock) {
+        log.error(insufficientStock.getMessage(), insufficientStock);
+        return ErrorDTO.builder()
+                .code(HttpStatus.CONFLICT.getReasonPhrase())
+                .message(insufficientStock.getMessage())
+                .build();
+    }
+
+    @ResponseBody
+    @ExceptionHandler(value = {NotEnoughInventoryException.class})
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorDTO handleException(NotEnoughInventoryException notEnoughInventoryException) {
+        log.error(notEnoughInventoryException.getMessage(), notEnoughInventoryException);
+        return ErrorDTO.builder()
+                .code(HttpStatus.CONFLICT.getReasonPhrase())
+                .message(notEnoughInventoryException.getMessage())
+                .build();
+    }
 }
