@@ -140,7 +140,7 @@ public class OrderDataMapper {
                 .orderStatus(order.getOrderStatus())
                 .customerId(order.getCustomerId().getValue())
                 .customerAddress(order.getDeliveryAddress().getStreet())
-                .totalAmount(order.getPrice().getAmount())
+                .totalAmount(order.calculateItemsTotalAmount())
                 .shippingCost(order.getShippingCost().getAmount())
                 .items(order.getItems().stream()
                         .map(item -> OrderItemQuery.builder()

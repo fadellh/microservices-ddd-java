@@ -2,6 +2,7 @@ package com.mwc.order.service.dataaccess.order.query.adapter;
 
 import com.mwc.domain.valueobject.OrderStatus;
 import com.mwc.order.service.dataaccess.order.query.entity.OrderDocument;
+import com.mwc.order.service.dataaccess.order.query.entity.OrderItemDocument;
 import com.mwc.order.service.dataaccess.order.query.mapper.OrderQueryDataAccessMapper;
 import com.mwc.order.service.dataaccess.order.query.repository.OrderMongoRepository;
 import com.mwc.order.service.domain.entity.Order;
@@ -9,6 +10,7 @@ import com.mwc.order.service.domain.exception.OrderNotFoundException;
 import com.mwc.order.service.domain.ports.output.repository.OrderRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.stereotype.Component;
 
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -16,6 +18,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Update;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -37,20 +40,59 @@ public class OrderQueryRepositoryImpl implements OrderRepository {
 
     @Override
     public Order save(Order order) {
+        if (order.getOrderStatus() != OrderStatus.AWAITING_PAYMENT){
+            updateOrderStatus(order.getId().getValue().toString(), order.getOrderStatus());
+            return null;
+        }
+
         // Save domain entity to document and return domain entity
-//        Optional<OrderDocument> orderDocument = orderMongoRepository.findByOrderId(order.getId().getValue().toString());
-//
-//        if (orderDocument.isPresent()) {
-//            OrderDocument orderDoc = orderDocument.get();
-//            orderDoc.setOrderStatus(order.getOrderStatus());
-//            orderMongoRepository.save(orderDoc);
-//        }else {
-//            throw new OrderNotFoundException("Order not found for orderId: " + order.getId().getValue());
-//        }
+        String orderIdString = order.getId().getValue().toString();
 
-        updateOrderStatus(order.getId().getValue().toString(), order.getOrderStatus());
+        // Query to find document by ID
+        Query query = new Query();
+        query.addCriteria(Criteria.where("orderId").is(orderIdString));
 
-        return null;
+        // Convert BigDecimal to double for MongoDB
+        List<OrderItemDocument> items = order.getItems().stream()
+                .map(item -> new OrderItemDocument(
+                        item.getProduct().getName(),
+                        item.getPrice().getAmount(), // Convert BigDecimal to double
+                        item.getProduct().getId().getValue(),
+                        item.getProduct().getId().getValue(),
+                        item.getQuantity(),
+                        item.getSubTotal().getAmount() // Convert BigDecimal to double
+                ))
+                .collect(Collectors.toList());
+
+        // Update fields
+        BigDecimal total_amount = order.calculateItemsTotalAmount();
+        Update update = new Update()
+                .set("orderId", orderIdString)
+                .set("customerId", order.getCustomerId().getValue().toString())
+                .set("warehouseId", order.getWarehouseId().getValue().toString())
+                .set("orderStatus", order.getOrderStatus())
+                .set("customerAddress", order.getDeliveryAddress().getStreet())
+                .set("orderAddress", order.getDeliveryAddress().getStreet())
+                .set("failureMessages", order.getFailureMessages())
+                .set("items", items)
+                .set("total_amount", total_amount)
+                .set("shipping_cost", order.getShippingCost() != null ? order.getShippingCost().getAmount() : 0.0)
+                ;
+
+        // Options for findAndModify
+        FindAndModifyOptions options = FindAndModifyOptions.options().returnNew(true).upsert(true);
+
+        // Find and modify document
+        OrderDocument updatedDoc = mongoTemplate.findAndModify(query, update, options, OrderDocument.class);
+
+        if (updatedDoc == null) {
+            throw new RuntimeException("Failed to upsert order: " + orderIdString);
+        }
+
+        return order;
+
+//        updateOrderStatus(order.getId().getValue().toString(), order.getOrderStatus());
+
     }
 
 

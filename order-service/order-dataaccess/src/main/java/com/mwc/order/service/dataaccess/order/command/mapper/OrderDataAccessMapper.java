@@ -32,7 +32,7 @@ public class OrderDataAccessMapper {
                 .customerAddress(order.getDeliveryAddress().getStreet())
                 .warehouseId(order.getWarehouseId().getValue())
                 .totalAmount(order.calculateItemsTotalAmount())
-                .shippingCost(new BigDecimal(10))
+                .shippingCost(new BigDecimal(1))
                 .orderStatus(order.getOrderStatus())
                 .failureMessages(String.join(Order.FAILURE_MESSAGE_DELIMITER,
                         order.getFailureMessages() != null ? order.getFailureMessages() : List.of()))
