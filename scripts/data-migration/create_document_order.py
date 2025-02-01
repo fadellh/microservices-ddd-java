@@ -90,12 +90,37 @@ def add_geospatial_index():
     
     client.close()
 
+def reindex_orders_collection():
+    """
+    Drops all existing indexes in the 'orders' collection and recreates them.
+    """
+    client = get_order_mongo_client()
+    db = client[ORDER_MONGO_DB_NAME]
+    orders_coll = db["orders"]
+
+    # Drop all existing indexes
+    print("Dropping all indexes on 'orders' collection...")
+    orders_coll.drop_indexes()
+    print("Indexes dropped successfully.")
+
+    # Recreate necessary indexes
+    print("Recreating indexes...")
+    orders_coll.create_index([("orderId", ASCENDING)], name="idx_orderId")
+    orders_coll.create_index([("customerId", ASCENDING)], name="idx_customerId")
+    orders_coll.create_index([("items.productName", TEXT)], name="text_item_productName")
+    print("Indexes recreated successfully.")
+
+    client.close()
+
 def main():
     # create_order_collections()
     # print("Order Service Mongo collections and indexes created.")
 
-    add_geospatial_index()
-    print("Geospatial setup complete.")
+    # add_geospatial_index()
+    # print("Geospatial setup complete.")
+
+    reindex_orders_collection()
+    print("Order collection reindexed.")
 
 if __name__ == "__main__":
     main()
