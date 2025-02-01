@@ -40,14 +40,14 @@ spec:
             httpGet:
               path: /actuator/health/liveness
               port: 8080
-            initialDelaySeconds: 30
-            periodSeconds: 10
+            initialDelaySeconds: 120
+            periodSeconds: 30
           readinessProbe:
             httpGet:
               path: /actuator/health/readiness
               port: 8080
-            initialDelaySeconds: 10
-            periodSeconds: 5
+            initialDelaySeconds: 100
+            periodSeconds: 20
       # volumes:
       #   - name: order-secrets
       #     configMap:
@@ -151,14 +151,14 @@ spec:
             httpGet:
               path: /actuator/health/liveness
               port: 8081
-            initialDelaySeconds: 30
-            periodSeconds: 10
+            initialDelaySeconds: 121
+            periodSeconds: 30
           readinessProbe:
             httpGet:
               path: /actuator/health/readiness
               port: 8081
-            initialDelaySeconds: 10
-            periodSeconds: 5
+            initialDelaySeconds: 100
+            periodSeconds: 20
       # volumes:
       #   - name: inventory-config
       #     configMap:
