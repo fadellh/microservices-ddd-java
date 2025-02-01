@@ -20,3 +20,9 @@ docker push $ARTIFACTORY_URL/microservices-java
   docker images | grep inventory-service  
   docker push $ARTIFACTORY_URL/inventory-service
 ```
+
+
+gcloud auth print-access-token
+
+mvn spring-boot:build-image  
+docker images | grep inventory-service 
