@@ -118,21 +118,55 @@ public class OrderQueryRepositoryImpl implements OrderRepository {
     }
 
 
+//    @Override
+//    public List<Order> findByCustomerIdAndFilters(UUID customerId, UUID orderNumber, String startDate, String endDate) {
+//        return orderMongoRepository.findAll().stream()
+//                .filter(order -> order.getCustomerId().equals(customerId))
+//                .filter(order -> orderNumber == null || order.getOrderId().equals(orderNumber))
+////                .filter(order -> startDate == null || order.getOrderDate().compareTo(startDate) >= 0)
+////                .filter(order -> endDate == null || order.getOrderDate().compareTo(endDate) <= 0)
+//                .map(orderQueryDataAccessMapper::orderDocumentToOrder)
+//                .collect(Collectors.toList());
+//
+////        return orderMongoRepository.findByCustomerIdAndFilters(customerId, orderNumber, startDate, endDate).stream()
+////                .map(orderQueryDataAccessMapper::orderDocumentToOrder)
+////                .collect(Collectors.toList());
+//
+//    }
+
     @Override
-    public List<Order> findByCustomerIdAndFilters(UUID customerId, UUID orderNumber, String startDate, String endDate) {
-        return orderMongoRepository.findAll().stream()
-                .filter(order -> order.getCustomerId().equals(customerId))
-                .filter(order -> orderNumber == null || order.getOrderId().equals(orderNumber))
-//                .filter(order -> startDate == null || order.getOrderDate().compareTo(startDate) >= 0)
-//                .filter(order -> endDate == null || order.getOrderDate().compareTo(endDate) <= 0)
+    public List<Order> findByCustomerIdAndFilters(UUID customerId,
+                                                  UUID orderNumber,
+                                                  String startDate,
+                                                  String endDate) {
+        Criteria criteria = new Criteria();
+
+        if (customerId != null) {
+            criteria.and("customerId").is(customerId.toString());
+        }
+
+        if (orderNumber != null) {
+            criteria.and("orderId").is(orderNumber.toString());
+        }
+
+//        if (startDate != null) {
+//            Instant start = Instant.parse(startDate);
+//            criteria.and("orderDate").gte(start);
+//        }
+//
+//        if (endDate != null) {
+//            Instant end = Instant.parse(endDate);
+//            criteria.and("orderDate").lte(end);
+//        }
+
+        Query query = new Query(criteria);
+        List<OrderDocument> documents = mongoTemplate.find(query, OrderDocument.class);
+
+        return documents.stream()
                 .map(orderQueryDataAccessMapper::orderDocumentToOrder)
                 .collect(Collectors.toList());
-
-//        return orderMongoRepository.findByCustomerIdAndFilters(customerId, orderNumber, startDate, endDate).stream()
-//                .map(orderQueryDataAccessMapper::OrderDocumentToOrder)
-//                .collect(Collectors.toList());
-
     }
+
 
 
 }

@@ -30,3 +30,21 @@ springdoc:
     path: /api-docs
   swagger-ui:
     path: /swagger-ui.html
+
+
+# --- Actuator Health Endpoints Configuration ---
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      show-details: always
+      group:
+        liveness:
+          include: livenessState
+        readiness:
+          include: readinessState

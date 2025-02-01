@@ -16,6 +16,8 @@ CREATE TABLE IF NOT EXISTS orders (
     deleted_at TIMESTAMP
 );
 
+CREATE INDEX idx_order_id ON orders (id);
+
 CREATE TABLE IF NOT EXISTS order_address (
     id UUID PRIMARY KEY,
     city VARCHAR(100),

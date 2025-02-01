@@ -61,7 +61,7 @@ kafka:
 # KAFKA CONFIG FOR CONFLUENT CLOUD (common or default)
 # ----------------------------------------------------------------
 kafka-config:
-  bootstrap-servers: 34.50.80.186:32100
+  bootstrap-servers: 34.101.75.74:32100
   schema-registry-url-key: schema.registry.url
   schema-registry-url: https://schema-registry.fadellh.com
   num-of-partitions: 3
@@ -126,3 +126,20 @@ kafka-consumer-config:
   max-partition-fetch-bytes-default: 1048576
   max-partition-fetch-bytes-boost-factor: 1
   poll-timeout-ms: 150
+
+# --- Actuator Health Endpoints Configuration ---
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      show-details: always
+      group:
+        liveness:
+          include: livenessState
+        readiness:
+          include: readinessState
