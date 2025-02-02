@@ -38,6 +38,8 @@ public class UserController {
 
         // Build and return the response using default avatar, default banner, etc.
         VerifyCustomerResponse response =  VerifyCustomerResponse.builder()
+                .customerId(customer.getId())
+                .jwt_user_id(customer.getJwt_user_id())
                 .fullname(customer.getFullname())
                 .email(customer.getEmail())
                 .address("")  // or you can map from entity if it exists
@@ -75,6 +77,7 @@ public class UserController {
 
         return ResponseEntity.ok(CreateCustomerResponse.builder()
                 .id(savedCustomer.getId().toString())
+                .jwt_user_id(savedCustomer.getJwt_user_id())
                 .fullname(savedCustomer.getFullname())
                 .email(savedCustomer.getEmail())
                 .address("")

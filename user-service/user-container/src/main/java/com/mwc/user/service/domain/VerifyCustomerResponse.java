@@ -4,10 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.util.UUID;
+
 @Getter
 @AllArgsConstructor
 @Builder
 public class VerifyCustomerResponse {
+    private final UUID customerId;
+    private final String jwt_user_id;
     private final String fullname;
     private final String avatar = "https://cdn-icons-png.flaticon.com/512/147/147144.png";
     private final String banner = "https://salinaka-ecommerce.web.app/images/defaultBanner.accdc757f2c48d61f24c4fbcef2742fd.jpg";
