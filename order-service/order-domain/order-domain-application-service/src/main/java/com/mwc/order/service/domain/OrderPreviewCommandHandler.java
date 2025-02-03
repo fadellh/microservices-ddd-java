@@ -4,6 +4,8 @@ import com.mwc.order.service.domain.dto.create.OrderItem;
 import com.mwc.order.service.domain.dto.create.PreviewOrderCommand;
 import com.mwc.order.service.domain.dto.create.PreviewOrderResponse;
 import com.mwc.order.service.domain.entity.Order;
+import com.mwc.order.service.domain.entity.Product;
+import com.mwc.order.service.domain.entity.Warehouse;
 import com.mwc.order.service.domain.mapper.OrderDataMapper;
 import org.springframework.stereotype.Component;
 
@@ -35,12 +37,18 @@ public class OrderPreviewCommandHandler {
         List<UUID> productIds = previewOrderCommand.getItems().stream()
                 .map(OrderItem::getProductId)
                 .collect(Collectors.toList());
-        orderPreviewHelper.checkProduct(productIds);
+        List<Product> products = orderPreviewHelper.checkProduct(productIds);
+
+        // set products in order
+        order.setItems(orderDataMapper.productsToOrderItems(products, previewOrderCommand));
 
         // calculate total amount
         BigDecimal totalAmount = order.calculateItemsTotalAmount();
-        BigDecimal shippingCost = orderPreviewHelper.calculateShippingCost(order);
+        List<Warehouse> nearestWarehouse = orderPreviewHelper.findNearestWarehouse(previewOrderCommand.getAddress().getLatitude(), previewOrderCommand.getAddress().getLongitude());
+        BigDecimal shippingCost = orderPreviewHelper.calculateShippingCost(nearestWarehouse);
         BigDecimal discount = orderPreviewHelper.calculateDiscount(order);
-        return orderDataMapper.orderToPreviewOrderResponse(order, totalAmount, shippingCost, discount);
+
+        totalAmount = totalAmount.add(shippingCost).subtract(discount);
+        return orderDataMapper.orderToPreviewOrderResponse(order, totalAmount, shippingCost, discount, nearestWarehouse);
     }
 }

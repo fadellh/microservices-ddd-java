@@ -20,8 +20,8 @@ spring:
   datasource:
     username: order_user
     password: order_password
-    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=order,customer,product,warehouse,admin&binaryTransfer=true&reWriteBatchedInserts=true&stringtype=unspecified
-    #    url: jdbc:postgresql://34.50.85.51:5432/orderdb?currentSchema=public&binaryTransfer=true&reWriteBatchedInserts=true&stringtype=unspecified
+    #    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=order,customer,product,warehouse,admin&binaryTransfer=true&reWriteBatchedInserts=true&stringtype=unspecified
+    url: jdbc:postgresql://34.50.85.51:5432/orderdb?currentSchema=public&binaryTransfer=true&reWriteBatchedInserts=true&stringtype=unspecified
     driver-class-name: org.postgresql.Driver
     schema-locations: classpath:init-schema.sql,classpath:user-schema.sql,classpath:product-schema.sql,classpath:payment-schema.sql,classpath:admin-schema.sql
 
@@ -49,44 +49,52 @@ order-service:
   stock-decrement-request-topic-name: stock-decrement-request
   stock-decrement-response-topic-name: stock-decrement-response
 
+gcs:
+  oauth:
+    token: YOUR_API_KEY_HERE
+  bucket:
+    name: pay-file
+
+kafka:
+  enable: false
 # ----------------------------------------------------------------
 # KAFKA CONFIG FOR CONFLUENT CLOUD (common or default)
 # ----------------------------------------------------------------
 kafka-config:
-  #  schema-registry-user-info-key: basic.auth.credentials.source
-  #  schema-registry-user-info: USER_INFO
-  #  schema-registry-basic-auth-user-info-key: schema.registry.basic.auth.user.info
-  #  schema-registry-basic-auth-user-info: "SR_KEY:SR_SECRET"
-  #  sasl-jaas-config: >
-  #    org.apache.kafka.common.security.plain.PlainLoginModule required
-  #    username
-  #  schema-registry-user-info-key: basic.auth.credentials.source
-  #  schema-registry-user-info: USER_INFO
-  #  schema-registry-basic-auth-user-info-key: schema.registry.basic.auth.user.info
-  #  schema-registry-basic-auth-user-info: "SR_KEY:SR_SECRET"
-  #  sasl-jaas-config: >
-  #    org.apache.kafka.common.security.plain.PlainLoginModule required
-  #    username
-  #  bootstrap-servers: pkc-ew3qg.asia-southeast2.gcp.confluent.cloud:9092
-  # schema-registry-url-key: schema.registry.url
-  #  schema-registry-url: https://psrc-epk8y.australia-southeast1.gcp.confluent.cloud
-  #  security-protocol: SASL_SSL
-  #  security-protocol: SSL
-  # sasl-mechanism: PLAIN
-  # schema-registry-user-info-key: basic.auth.credentials.source
-  # schema-registry-user-info: USER_INFO
-  # schema-registry-basic-auth-user-info-key: schema.registry.basic.auth.user.info
-  # schema-registry-basic-auth-user-info: "SR_KEY:SR_SECRET"
-  # sasl-jaas-config: >
-  #   org.apache.kafka.common.security.plain.PlainLoginModule required
-  #   username
-  bootstrap-servers: 34.101.89.132:32100
+  bootstrap-servers: 34.101.75.74:32100
   schema-registry-url-key: schema.registry.url
   schema-registry-url: https://schema-registry.fadellh.com
   num-of-partitions: 3
   replication-factor: 3
   security-protocol: PLAINTEXT
   sasl-mechanism: PLAIN
+#  schema-registry-user-info-key: basic.auth.credentials.source
+#  schema-registry-user-info: USER_INFO
+#  schema-registry-basic-auth-user-info-key: schema.registry.basic.auth.user.info
+#  schema-registry-basic-auth-user-info: "SR_KEY:SR_SECRET"
+#  sasl-jaas-config: >
+#    org.apache.kafka.common.security.plain.PlainLoginModule required
+#    username
+#  schema-registry-user-info-key: basic.auth.credentials.source
+#  schema-registry-user-info: USER_INFO
+#  schema-registry-basic-auth-user-info-key: schema.registry.basic.auth.user.info
+#  schema-registry-basic-auth-user-info: "SR_KEY:SR_SECRET"
+#  sasl-jaas-config: >
+#    org.apache.kafka.common.security.plain.PlainLoginModule required
+#    username
+#  bootstrap-servers: pkc-ew3qg.asia-southeast2.gcp.confluent.cloud:9092
+# schema-registry-url-key: schema.registry.url
+#  schema-registry-url: https://psrc-epk8y.australia-southeast1.gcp.confluent.cloud
+#  security-protocol: SASL_SSL
+#  security-protocol: SSL
+# sasl-mechanism: PLAIN
+# schema-registry-user-info-key: basic.auth.credentials.source
+# schema-registry-user-info: USER_INFO
+# schema-registry-basic-auth-user-info-key: schema.registry.basic.auth.user.info
+# schema-registry-basic-auth-user-info: "SR_KEY:SR_SECRET"
+# sasl-jaas-config: >
+#   org.apache.kafka.common.security.plain.PlainLoginModule required
+#   username
 
 # Producer configs
 kafka-producer-config:
@@ -118,3 +126,20 @@ kafka-consumer-config:
   max-partition-fetch-bytes-default: 1048576
   max-partition-fetch-bytes-boost-factor: 1
   poll-timeout-ms: 150
+
+# --- Actuator Health Endpoints Configuration ---
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      show-details: always
+      group:
+        liveness:
+          include: livenessState
+        readiness:
+          include: readinessState

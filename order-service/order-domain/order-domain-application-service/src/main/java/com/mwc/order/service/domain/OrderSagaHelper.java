@@ -15,9 +15,14 @@ import java.util.UUID;
 @Component
 public class OrderSagaHelper {
     private final OrderRepository orderRepository;
+    private final OrderRepository orderQueryRepository;
 
-    public OrderSagaHelper(@Qualifier("commandRepository") OrderRepository orderRepository) {
+    public OrderSagaHelper(
+            @Qualifier("commandRepository") OrderRepository orderRepository,
+            @Qualifier("queryRepository") OrderRepository orderQueryRepository
+    ) {
         this.orderRepository = orderRepository;
+        this.orderQueryRepository = orderQueryRepository;
     }
 
     Order findOrder(UUID orderId) {
@@ -30,7 +35,14 @@ public class OrderSagaHelper {
     }
 
     void saveOrder(Order order) {
+        // Update DB write model
         orderRepository.save(order);
+        log.info("Successfully saved order with id: {}", order.getId().getValue());
+        // Update DB read model
+        orderQueryRepository.save(order);
+        log.info("Successfully saved order with id: {} to query repository", order.getId().getValue());
     }
+
+
 
 }

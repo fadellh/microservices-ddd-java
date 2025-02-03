@@ -71,6 +71,12 @@ class CustomerUser(BaseModel):
     id: str #UUID
     email: EmailStr
     fullname: str
+    jwt_user_id: str
+    address: Optional[str]
+    city: str
+    district: str
+    latitude: float
+    longitude: float
 
 # =================================================================================
 # ORDER SERVICE
@@ -175,6 +181,7 @@ class OrderItemEntity(BaseModel):
     Tabel order_items (Write side - Postgres).
     """
     id: int
+    productName: str
     orderId: str #UUID
     productId: str #UUID
     inventoryId: str #UUID
@@ -254,6 +261,8 @@ class InventoryEntity(BaseModel):
     """
     id: str #UUID
     productId: str #UUID
+    name: str
+    price: float
     totalQuantity: int
     createdAt: datetime
     updatedAt: datetime
@@ -267,5 +276,7 @@ class WarehouseEntity(BaseModel):
     """
     id: str #UUID
     name: str
+    city: str
+    district: str
     latitude: float
     longitude: float

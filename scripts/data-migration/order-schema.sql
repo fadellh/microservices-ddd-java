@@ -7,14 +7,16 @@ CREATE TABLE IF NOT EXISTS orders (
     customer_id UUID NOT NULL,
     customer_address TEXT,
     warehouse_id UUID NOT NULL,
-    total_amount NUMERIC,
-    shipping_cost NUMERIC,
+    total_amount BIGINT,
+    shipping_cost BIGINT,
     order_status VARCHAR(50),
     failure_messages TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP,
     deleted_at TIMESTAMP
 );
+
+CREATE INDEX idx_order_id ON orders (id);
 
 CREATE TABLE IF NOT EXISTS order_address (
     id UUID PRIMARY KEY,
@@ -33,7 +35,8 @@ CREATE TABLE IF NOT EXISTS order_items (
     order_id UUID NOT NULL,
     product_id UUID NOT NULL,
     inventory_id UUID NOT NULL,
-    price NUMERIC,
+    product_name VARCHAR(255),
+    price BIGINT,
     quantity INT,
     sub_total NUMERIC,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Auto-fill on creation

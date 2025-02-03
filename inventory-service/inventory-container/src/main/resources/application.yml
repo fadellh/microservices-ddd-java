@@ -23,8 +23,8 @@ spring:
   datasource:
     username: order_user
     password: order_password
-    url: jdbc:postgresql://localhost:5435/postgres?currentSchema=inventory,warehouse&binaryTransfer=true&reWriteBatchedInserts=true&stringtype=unspecified
-    #    url: jdbc:postgresql://34.50.77.24:5432/inventorydb?currentSchema=public&binaryTransfer=true&reWriteBatchedInserts=true&stringtype=unspecified
+#    url: jdbc:postgresql://localhost:5435/postgres?currentSchema=inventory,warehouse&binaryTransfer=true&reWriteBatchedInserts=true&stringtype=unspecified
+    url: jdbc:postgresql://34.50.77.24:5432/inventorydb?currentSchema=public&binaryTransfer=true&reWriteBatchedInserts=true&stringtype=unspecified
     driver-class-name: org.postgresql.Driver
     schema-locations: classpath:warehouse-schema.sql, classpath:init-schema.sql, classpath:inventory-data.sql, classpath:inventory-item-data.sql, classpath:warehouse-data.sql
 
@@ -51,6 +51,13 @@ inventory-service:
 # KAFKA CONFIG FOR CONFLUENT CLOUD (common or default)
 # ----------------------------------------------------------------
 kafka-config:
+  bootstrap-servers: 34.50.80.186:32100
+  schema-registry-url-key: schema.registry.url
+  schema-registry-url: https://schema-registry.fadellh.com
+  num-of-partitions: 3
+  replication-factor: 3
+  security-protocol: PLAINTEXT
+#  sasl-mechanism: PLAIN
   # schema-registry-user-info-key: basic.auth.credentials.source
   # schema-registry-user-info: USER_INFO
   # schema-registry-basic-auth-user-info-key: schema.registry.basic.auth.user.info
@@ -72,13 +79,7 @@ kafka-config:
   # sasl-jaas-config: >
   #   org.apache.kafka.common.security.plain.PlainLoginModule required
   #   username
-  bootstrap-servers: 34.101.89.132:32100
-  schema-registry-url-key: schema.registry.url
-  schema-registry-url: https://schema-registry.fadellh.com
-  num-of-partitions: 3
-  replication-factor: 3
-  security-protocol: PLAINTEXT
-  sasl-mechanism: PLAIN
+
 
 # Producer configs
 kafka-producer-config:
@@ -110,3 +111,20 @@ kafka-consumer-config:
   max-partition-fetch-bytes-default: 1048576
   max-partition-fetch-bytes-boost-factor: 1
   poll-timeout-ms: 150
+
+# --- Actuator Health Endpoints Configuration ---
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      show-details: always
+      group:
+        liveness:
+          include: livenessState
+        readiness:
+          include: readinessState

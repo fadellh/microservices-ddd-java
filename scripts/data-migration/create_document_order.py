@@ -53,9 +53,74 @@ def create_order_collections():
 
     client.close()
 
+def add_geospatial_index():
+    """
+    Adds a geospatial field to existing warehouse documents and creates a 2dsphere index.
+    """
+    client = get_order_mongo_client()
+    db = client[ORDER_MONGO_DB_NAME]
+    warehouses_coll = db["warehouses"]
+
+    # Fetch warehouses that do not have a 'location' field
+    warehouses = warehouses_coll.find({"location": {"$exists": False}})
+    
+    updates = []
+    for warehouse in warehouses:
+        if "latitude" in warehouse and "longitude" in warehouse:
+            location = {
+                "type": "Point",
+                "coordinates": [warehouse["longitude"], warehouse["latitude"]]
+            }
+            updates.append({
+                "filter": {"_id": warehouse["_id"]},
+                "update": {"$set": {"location": location}}
+            })
+    
+    # Perform bulk update
+    if updates:
+        for update in updates:
+            warehouses_coll.update_one(update["filter"], update["update"])
+        print(f"Updated {len(updates)} warehouse documents with location field.")
+    else:
+        print("No warehouses needed updating.")
+    
+    # Create 2dsphere index on location
+    warehouses_coll.create_index([("location", "2dsphere")], name="idx_location_2dsphere")
+    print("Geospatial index created on location field.")
+    
+    client.close()
+
+def reindex_orders_collection():
+    """
+    Drops all existing indexes in the 'orders' collection and recreates them.
+    """
+    client = get_order_mongo_client()
+    db = client[ORDER_MONGO_DB_NAME]
+    orders_coll = db["orders"]
+
+    # Drop all existing indexes
+    print("Dropping all indexes on 'orders' collection...")
+    orders_coll.drop_indexes()
+    print("Indexes dropped successfully.")
+
+    # Recreate necessary indexes
+    print("Recreating indexes...")
+    orders_coll.create_index([("orderId", ASCENDING)], name="idx_orderId")
+    orders_coll.create_index([("customerId", ASCENDING)], name="idx_customerId")
+    orders_coll.create_index([("items.productName", TEXT)], name="text_item_productName")
+    print("Indexes recreated successfully.")
+
+    client.close()
+
 def main():
-    create_order_collections()
-    print("Order Service Mongo collections and indexes created.")
+    # create_order_collections()
+    # print("Order Service Mongo collections and indexes created.")
+
+    # add_geospatial_index()
+    # print("Geospatial setup complete.")
+
+    reindex_orders_collection()
+    print("Order collection reindexed.")
 
 if __name__ == "__main__":
     main()

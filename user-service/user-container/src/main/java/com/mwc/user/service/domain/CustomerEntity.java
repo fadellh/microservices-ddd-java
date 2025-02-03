@@ -24,6 +24,8 @@ public class CustomerEntity {
     @Column(updatable = false, nullable = false)
     private UUID id;
 
+    private String jwt_user_id;
+
     @Column(nullable = false, unique = true)
     private String email;
 

@@ -8,6 +8,7 @@ import com.mwc.inventory.service.domain.entity.Inventory;
 import com.mwc.inventory.service.domain.entity.Warehouse;
 import com.mwc.inventory.service.domain.event.*;
 import com.mwc.inventory.service.domain.ports.output.message.publisher.*;
+import com.mwc.inventory.service.domain.ports.output.repository.InventoryQueryRepository;
 import com.mwc.inventory.service.domain.ports.output.repository.InventoryRepository;
 import com.mwc.inventory.service.domain.ports.output.repository.WarehouseRepository;
 import com.mwc.inventory.service.domain.valueobject.StockJournalReason;
@@ -29,6 +30,7 @@ public class InventoryHelper {
 
     private final InventoryRepository inventoryRepository;
     private final WarehouseRepository warehouseRepository;
+    private final InventoryQueryRepository inventoryQueryRepository;
 
     private final StockDecrementedMessagePublisher stockDecrementedMessagePublisher;
     private final StockIncrementedMessagePublisher stockIncrementedEventDomainEventPublisher;
@@ -41,7 +43,7 @@ public class InventoryHelper {
             @Qualifier("inventoryCommandRepository") InventoryRepository inventoryRepository,
             WarehouseRepository warehouseRepository,
             StockDecrementedMessagePublisher stockDecrementedMessagePublisher,
-            StockIncrementedMessagePublisher stockIncrementedEventDomainEventPublisher, StockUpdatedMessagePublisher stockUpdatedMessagePublisher, StockUpdatedMessagePublisher stockUpdatedEventDomainEventPublisher, OrderStockCompletedMessagePublisher orderStockDomainEventPublisher, OrderStockCompletedMessagePublisher orderStockCompletedDomainEventPublisher, OrderStockFailedMessagePublisher orderStockFailedDomainEventPublisher
+            StockIncrementedMessagePublisher stockIncrementedEventDomainEventPublisher, StockUpdatedMessagePublisher stockUpdatedMessagePublisher, StockUpdatedMessagePublisher stockUpdatedEventDomainEventPublisher, OrderStockCompletedMessagePublisher orderStockDomainEventPublisher, InventoryQueryRepository inventoryQueryRepository, OrderStockCompletedMessagePublisher orderStockCompletedDomainEventPublisher, OrderStockFailedMessagePublisher orderStockFailedDomainEventPublisher
     ) {
         this.inventoryDomainService = inventoryDomainService;
         this.inventoryRepository = inventoryRepository;
@@ -49,6 +51,7 @@ public class InventoryHelper {
         this.stockDecrementedMessagePublisher = stockDecrementedMessagePublisher;
         this.stockIncrementedEventDomainEventPublisher = stockIncrementedEventDomainEventPublisher;
         this.stockUpdatedEventDomainEventPublisher = stockUpdatedEventDomainEventPublisher;
+        this.inventoryQueryRepository = inventoryQueryRepository;
         this.orderStockCompletedDomainEventPublisher = orderStockCompletedDomainEventPublisher;
         this.orderStockFailedDomainEventPublisher = orderStockFailedDomainEventPublisher;
     }
@@ -58,7 +61,7 @@ public class InventoryHelper {
     public StockUpdatedEvent decreaseStock(UUID inventoryId, UUID warehouseId, StockJournalReason stockJournalReason ,int quantity) {
         Optional<Inventory> sourceInventory = inventoryRepository.findByIdAndWarehouseId(inventoryId, warehouseId);
         if (sourceInventory.isEmpty()) {
-            throw new IllegalArgumentException("Inventory not found");
+            throw new IllegalArgumentException("Inventory not found.");
         }
         StockUpdatedEvent domainEvent = inventoryDomainService.deductStock(sourceInventory.get(), quantity, stockJournalReason, stockUpdatedEventDomainEventPublisher);
         inventoryRepository.updateQuantityByInventoryIdAndWarehouseId(domainEvent.getInventory());
@@ -70,7 +73,7 @@ public class InventoryHelper {
     public StockUpdatedEvent increaseStock(UUID inventoryId, UUID warehouseId, StockJournalReason stockJournalReason, int quantity) {
         Optional<Inventory>  destinationInventory = inventoryRepository.findByIdAndWarehouseId(inventoryId, warehouseId);
         if (destinationInventory.isEmpty()) {
-            throw new IllegalArgumentException("Inventory not found");
+            throw new IllegalArgumentException("Inventory not found.");
         }
 
         StockUpdatedEvent domainEvent = inventoryDomainService.incrementStock(destinationInventory.get(), quantity, stockJournalReason ,stockUpdatedEventDomainEventPublisher);
@@ -158,6 +161,10 @@ public class InventoryHelper {
         }
 
         inventoryRepository.updateQuantityByInventoryIdAndWarehouseId(domainEvent.getInventory());
+        log.info("Order stock is completed for inventory id: {}", inventoryId);
+
+        inventoryQueryRepository.updateQuantityByInventoryIdAndWarehouseId(domainEvent.getInventory());
+        log.info("Order DB Read stock is completed for inventory id: {}", inventoryId);
 
         InventoryEvent finalDomainEvent = domainEvent;
         domainEvent.getInventory().getJournals().forEach(stockJournal -> {

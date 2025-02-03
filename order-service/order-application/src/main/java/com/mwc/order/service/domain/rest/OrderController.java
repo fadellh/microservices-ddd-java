@@ -14,13 +14,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
 @Slf4j
 @RestController
 @RequestMapping(value = "v1/orders", produces = "application/vnd.api.v1+json")
-@CrossOrigin(origins = "http://localhost:3000")
 public class OrderController {
 
     private final OrderApplicationService orderApplicationService;
@@ -43,7 +43,7 @@ public class OrderController {
             @RequestParam(value = "order_start_date", required = false) String orderStartDate,
             @RequestParam(value = "order_end_date", required = false) String orderEndDate
     ) {
-        log.info("Retrieving orders for user: {}", userId);
+        log.info("Retrieving the orders for user: {}", userId);
         // Build the query object including optional parameters
         RetrieveOrderQuery orderListQuery = RetrieveOrderQuery.builder()
                 .customerId(userId)
@@ -65,7 +65,7 @@ public class OrderController {
     }
 
     @PostMapping("/preview")
-    public ResponseEntity<PreviewOrderResponse> previewOrder(@RequestBody PreviewOrderCommand previewOrderCommand) {
+    public ResponseEntity<PreviewOrderResponse> previewOrder(@Valid @RequestBody PreviewOrderCommand previewOrderCommand) {
         log.info("Previewing order for customer: {}", previewOrderCommand.getCustomerId());
         PreviewOrderResponse previewOrderResponse = orderApplicationService.previewOrder(previewOrderCommand);
         return ResponseEntity.ok(previewOrderResponse);

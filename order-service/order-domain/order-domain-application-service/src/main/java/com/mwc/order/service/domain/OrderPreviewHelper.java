@@ -6,10 +6,12 @@ import com.mwc.order.service.domain.dto.external.InventoryResponse;
 import com.mwc.order.service.domain.entity.Customer;
 import com.mwc.order.service.domain.entity.Order;
 import com.mwc.order.service.domain.entity.Product;
+import com.mwc.order.service.domain.entity.Warehouse;
 import com.mwc.order.service.domain.exception.OrderDomainException;
 import com.mwc.order.service.domain.mapper.OrderDataMapper;
 import com.mwc.order.service.domain.ports.output.repository.CustomerRepository;
 import com.mwc.order.service.domain.ports.output.repository.ProductRepository;
+import com.mwc.order.service.domain.ports.output.repository.WarehouseRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,14 +31,19 @@ public class OrderPreviewHelper {
 
     private final ProductRepository productRepository;
 
+    private final WarehouseRepository warehouseRepository;
+
+    private final BigDecimal PRICE_PER_KM = BigDecimal.valueOf(1);
+
 
     public OrderPreviewHelper(OrderDataMapper orderDataMapper,
                               CustomerRepository customerRepository,
-                              ProductRepository productRepository
+                              ProductRepository productRepository, WarehouseRepository warehouseRepository
     ) {
         this.orderDataMapper = orderDataMapper;
         this.customerRepository = customerRepository;
         this.productRepository = productRepository;
+        this.warehouseRepository = warehouseRepository;
     }
 
 //    @Transactional
@@ -65,12 +72,13 @@ public class OrderPreviewHelper {
 //        }
     }
 
-    public void checkProduct(List<UUID> productIds) {
+    public List<Product> checkProduct(List<UUID> productIds) {
         List<Product> products = productRepository.findProductsByIds(productIds);
         if (products.size() != productIds.size()) {
             log.warn("Some products could not be found for product ids: {}", productIds);
             throw new OrderDomainException("Some products could not be found for product ids: " + productIds);
         }
+        return products;
     }
 
     public BigDecimal calculateTotalAmount(Order order) {
@@ -78,10 +86,23 @@ public class OrderPreviewHelper {
         return BigDecimal.ZERO;
     }
 
-    public BigDecimal calculateShippingCost(Order order) {
+    public BigDecimal calculateShippingCost(List<Warehouse> nearestWarehouses) {
         // Implement shipping cost calculation logic
-        return BigDecimal.ZERO;
+        if (nearestWarehouses.isEmpty()) {
+            return BigDecimal.ZERO;
+        }
+        double distanceInMeters = nearestWarehouses.get(0).getDistance();
+        double distanceInKm = distanceInMeters / 1000.0;
+
+        int cost = BigDecimal.valueOf(distanceInKm).multiply(PRICE_PER_KM).intValue();
+
+        return BigDecimal.valueOf(cost);
     }
+
+    public List<Warehouse> findNearestWarehouse(double latitude, double longitude) {
+        return warehouseRepository.findNearestWarehouse(latitude, longitude);
+    }
+
 
     public BigDecimal calculateDiscount(Order order) {
         // Implement discount calculation logic

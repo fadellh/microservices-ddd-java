@@ -21,7 +21,7 @@ public class OrderAddress {
     @Max(value = 50)
     private final String city;
     @NotNull
-    private final String latitude;
+    private final Double latitude;
     @NotNull
-    private final String longitude;
+    private final Double longitude;
 }

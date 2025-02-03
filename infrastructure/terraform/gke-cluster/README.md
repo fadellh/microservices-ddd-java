@@ -87,6 +87,49 @@ Edge case:
 - manual add external ingress load balancer in cloudflare
 ---
 
+Redeploy or restart kafka
+- Delete current state
+```bash
+terraform state rm module.kafka.kubernetes_manifest.kafka_cr
+terraform state rm module.kafka.helm_release.strimzi_operator
+terraform state rm module.kafka.kubernetes_namespace.kafka_ns
+```
+- Delete namespace
+```bash
+kubectl delete namespace kafka
+```
+- Apply 
+```bash
+terraform apply -target=module.kafka.helm_release.strimzi_operator
+terraform apply -target=module.kafka
+kubectl apply -f schema-registry.yml
+kubectl apply -f akhq-deployment.yml
+```
+
+
+
+
+Mengatur cloudflare:
+- Gunakan worker & page 
+- Pakai code ini
+  ```
+  export default {
+    async fetch(request) {
+      const targetUrl = "https://mwc-gateway-ysw27pj.an.gateway.dev";
+    
+      const newRequest = new Request(request);
+      newRequest.headers.set("Host", "mwc-gateway-ysw27pj.an.gateway.dev");
+    
+      const url = new URL(request.url);
+      const path = url.pathname + url.search;
+      const target = targetUrl + path;
+    
+      // Teruskan request ke Google API Gateway
+      return fetch(target, newRequest);
+    }
+    };
+  ```
+- Pilih worker. Atur custom domain
 
 # API Gateway Configuration Guide
 
@@ -99,6 +142,11 @@ The `openapi.yaml` file defines:
 - Backend routing
 - Security mechanisms (e.g., API keys, JWT authentication)
 - Rate-limiting rules
+
+mengatur API gateway api key https://cloud.google.com/api-gateway/docs/authenticate-api-keys
+```
+gcloud services enable mwc-api-g-1rvo4g3euji6h.apigateway.purwadika-441705.cloud.goog
+```
 
 ### Steps to Configure `openapi.yaml`
 

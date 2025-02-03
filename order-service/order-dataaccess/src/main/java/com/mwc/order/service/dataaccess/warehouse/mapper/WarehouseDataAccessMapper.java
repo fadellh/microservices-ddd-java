@@ -27,6 +27,10 @@ public class WarehouseDataAccessMapper {
         return Warehouse.builder()
                 .warehouseId(new WarehouseId(warehouseDocument.getId()))
                 .name(warehouseDocument.getName())
+                .latitude(warehouseDocument.getLatitude())
+                .longitude(warehouseDocument.getLongitude())
+                // using safety if distance is null because it is transient
+                .distance(warehouseDocument.getDistance())
                 .build();
     }
 }
