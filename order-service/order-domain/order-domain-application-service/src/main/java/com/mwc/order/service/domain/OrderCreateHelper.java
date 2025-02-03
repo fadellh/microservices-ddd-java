@@ -264,6 +264,7 @@ public class OrderCreateHelper {
             // Save payment to repository
             paymentRepository.save(payment);
             commandOrderRepository.save(order);
+            queryOrderRepository.save(order);
 
             return orderDataMapper.paymentToCreatePaymentResponse(payment);
         } catch (IOException e) {

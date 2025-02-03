@@ -129,7 +129,7 @@ public class OrderDataMapper {
                 .map(order -> RetrieveOrderQueryResponse.builder()
                         .orderNumber(order.getId().getValue())
                         .orderStatus(order.getOrderStatus())
-                        .totalPrice(order.getPrice().getAmount())
+                        .totalPrice(order.calculateItemsTotalAmount())
                         .build())
                 .collect(Collectors.toList());
     }

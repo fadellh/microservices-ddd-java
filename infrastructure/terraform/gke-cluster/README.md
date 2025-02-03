@@ -107,6 +107,8 @@ kubectl apply -f akhq-deployment.yml
 ```
 
 
+
+
 Mengatur cloudflare:
 - Gunakan worker & page 
 - Pakai code ini
@@ -140,6 +142,11 @@ The `openapi.yaml` file defines:
 - Backend routing
 - Security mechanisms (e.g., API keys, JWT authentication)
 - Rate-limiting rules
+
+mengatur API gateway api key https://cloud.google.com/api-gateway/docs/authenticate-api-keys
+```
+gcloud services enable mwc-api-g-1rvo4g3euji6h.apigateway.purwadika-441705.cloud.goog
+```
 
 ### Steps to Configure `openapi.yaml`
 

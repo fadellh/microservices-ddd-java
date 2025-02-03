@@ -3,8 +3,28 @@ info:
   title: MWC Microservice API
   version: "1.0"
 host: "api.fadellh.com"
+x-google-endpoints:
+  - name: "api.fadellh.com"
+    allowCors: true
 schemes:
   - https
+
+x-google-management:
+  metrics:
+    # Define a metric for read requests.
+    - name: "read-requests"
+      displayName: "Read requests"
+      valueType: INT64
+      metricKind: DELTA
+  quota:
+    limits:
+      # Define the limit or the read-requests metric.
+      - name: "read-limit"
+        metric: "read-requests"
+        unit: "1/min/{project}"
+        values:
+          STANDARD: 1000
+
 paths:
   ############################################################
   #  ORDER ENDPOINTS
@@ -500,6 +520,9 @@ paths:
           description: "User created (or returned if already exists)"
         "400":
           description: "Bad Request"
+      x-google-quota:
+        metricCosts:
+          "read-requests": 1
       security:
         - api_key: []
       x-google-backend:
@@ -513,8 +536,8 @@ paths:
 securityDefinitions:
   api_key:
     type: apiKey
-    name: key
-    in: query
+    name: X-API-Key
+    in: header
   firebase_jwt:
     type: "oauth2"
     flow: "implicit"
