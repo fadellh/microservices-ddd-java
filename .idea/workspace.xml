@@ -4,25 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d293844d-7748-4a4e-b711-0613d207449e" name="Changes" comment="resolve catalog list #71">
-      <change afterPath="$PROJECT_DIR$/user-service/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user-service/user-container/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user-service/user-container/src/main/java/com/mwc/user/service/domain/AdminEntity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user-service/user-container/src/main/java/com/mwc/user/service/domain/BeanConfiguration.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user-service/user-container/src/main/java/com/mwc/user/service/domain/CreateCustomerCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user-service/user-container/src/main/java/com/mwc/user/service/domain/CreateCustomerResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user-service/user-container/src/main/java/com/mwc/user/service/domain/CustomerEntity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user-service/user-container/src/main/java/com/mwc/user/service/domain/CustomerJpaRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user-service/user-container/src/main/java/com/mwc/user/service/domain/UserController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user-service/user-container/src/main/java/com/mwc/user/service/domain/UserServiceApplication.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user-service/user-container/src/main/java/com/mwc/user/service/domain/VerifyCustomerCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user-service/user-container/src/main/java/com/mwc/user/service/domain/VerifyCustomerResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user-service/user-container/src/main/resources/application.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user-service/user-container/src/main/resources/banner.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="d293844d-7748-4a4e-b711-0613d207449e" name="Changes" comment="Create User Service #77">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/infrastructure/terraform/gke-cluster/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/infrastructure/terraform/gke-cluster/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/infrastructure/terraform/gke-cluster/modules/api_gateway/main.tf" beforeDir="false" afterPath="$PROJECT_DIR$/infrastructure/terraform/gke-cluster/modules/api_gateway/main.tf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/infrastructure/terraform/gke-cluster/openapi-copy-2.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/inventory-service/inventory-container/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/inventory-container/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order-service/order-container/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/order-service/order-container/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order-service/order-domain/order-domain-application-service/src/main/java/com/mwc/order/service/domain/OrderCreateHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/order-service/order-domain/order-domain-application-service/src/main/java/com/mwc/order/service/domain/OrderCreateHelper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order-service/order-domain/order-domain-application-service/src/main/java/com/mwc/order/service/domain/mapper/OrderDataMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/order-service/order-domain/order-domain-application-service/src/main/java/com/mwc/order/service/domain/mapper/OrderDataMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/user-container/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/user-container/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,7 +63,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "Application.InventoryServiceApplication.executor": "Run",
+    "Application.InventoryServiceApplication.executor": "Debug",
     "Application.OrderServiceApplication.executor": "Run",
     "Application.UserServiceApplication.executor": "Run",
     "Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor": "Run",
@@ -103,7 +94,7 @@
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "com.github.copilot.settings.ApplicationConfigurable"
+    "settings.editor.selected.configurable": "preferences.pluginManager"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -114,7 +105,7 @@
       <recent name="com.mwc.order.service.domain" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.UserServiceApplication">
+  <component name="RunManager" selected="Application.InventoryServiceApplication">
     <configuration name="InventoryServiceApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.mwc.inventory.service.domain.InventoryServiceApplication" />
       <module name="inventory-container" />
@@ -156,9 +147,9 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.UserServiceApplication" />
         <item itemvalue="Application.InventoryServiceApplication" />
         <item itemvalue="Application.OrderServiceApplication" />
+        <item itemvalue="Application.UserServiceApplication" />
       </list>
     </recent_temporary>
   </component>
@@ -291,7 +282,15 @@
       <option name="project" value="LOCAL" />
       <updated>1737858878460</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="Create User Service #77">
+      <option name="closed" value="true" />
+      <created>1737880314854</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1737880314854</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -310,7 +309,8 @@
     <MESSAGE value="Build &amp; Push Docker" />
     <MESSAGE value="Build &amp; Push Docker 2" />
     <MESSAGE value="resolve catalog list #71" />
-    <option name="LAST_COMMIT_MESSAGE" value="resolve catalog list #71" />
+    <MESSAGE value="Create User Service #77" />
+    <option name="LAST_COMMIT_MESSAGE" value="Create User Service #77" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -326,16 +326,6 @@
           <option name="timeStamp" value="23" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/order-service/order-domain/order-domain-application-service/src/main/java/com/mwc/order/service/domain/OrderQueryHandler.java</url>
-          <line>48</line>
-          <option name="timeStamp" value="25" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/order-service/order-domain/order-domain-application-service/src/main/java/com/mwc/order/service/domain/OrderQueryHandler.java</url>
-          <line>49</line>
-          <option name="timeStamp" value="26" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/order-service/order-dataaccess/src/main/java/com/mwc/order/service/dataaccess/product/entity/ProductDocument.java</url>
           <line>17</line>
           <option name="timeStamp" value="27" />
@@ -345,6 +335,126 @@
           <line>24</line>
           <option name="timeStamp" value="28" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/infrastructure/kafka/kafka-producer/src/main/java/com/mwc/kafka/KafkaProducerConfig.java</url>
+          <line>109</line>
+          <option name="timeStamp" value="31" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/infrastructure/kafka/kafka-consumer/src/main/java/com/mwc/kafka/consumer/config/KafkaConsumerConfig.java</url>
+          <line>65</line>
+          <option name="timeStamp" value="37" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/order-service/order-domain/order-domain-application-service/src/main/java/com/mwc/order/service/domain/OrderPreviewHelper.java</url>
+          <line>90</line>
+          <option name="timeStamp" value="38" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/order-service/order-domain/order-domain-application-service/src/main/java/com/mwc/order/service/domain/OrderPreviewHelper.java</url>
+          <line>93</line>
+          <option name="timeStamp" value="39" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/order-service/order-domain/order-domain-application-service/src/main/java/com/mwc/order/service/domain/OrderCreateHelper.java</url>
+          <line>216</line>
+          <option name="timeStamp" value="41" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/order-service/order-messaging/src/main/java/com/mwc/order/service/messaging/publisher/kafka/ApproveOrderKafkaMessagePublisher.java</url>
+          <line>54</line>
+          <option name="timeStamp" value="43" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/order-service/order-dataaccess/src/main/java/com/mwc/order/service/dataaccess/order/query/adapter/OrderQueryRepositoryImpl.java</url>
+          <line>102</line>
+          <option name="timeStamp" value="48" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/order-service/order-dataaccess/src/main/java/com/mwc/order/service/dataaccess/order/query/adapter/OrderQueryRepositoryImpl.java</url>
+          <line>106</line>
+          <option name="timeStamp" value="49" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/order-service/order-dataaccess/src/main/java/com/mwc/order/service/dataaccess/order/query/adapter/OrderQueryRepositoryImpl.java</url>
+          <line>107</line>
+          <option name="timeStamp" value="50" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/order-service/order-dataaccess/src/main/java/com/mwc/order/service/dataaccess/order/query/adapter/OrderQueryRepositoryImpl.java</url>
+          <line>78</line>
+          <option name="timeStamp" value="52" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/order-service/order-dataaccess/src/main/java/com/mwc/order/service/dataaccess/order/query/adapter/OrderQueryRepositoryImpl.java</url>
+          <line>68</line>
+          <option name="timeStamp" value="53" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/order-service/order-dataaccess/src/main/java/com/mwc/order/service/dataaccess/order/query/adapter/OrderQueryRepositoryImpl.java</url>
+          <line>122</line>
+          <option name="timeStamp" value="56" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/order-service/order-dataaccess/src/main/java/com/mwc/order/service/dataaccess/order/query/adapter/OrderQueryRepositoryImpl.java</url>
+          <line>165</line>
+          <option name="timeStamp" value="57" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/order-service/order-dataaccess/src/main/java/com/mwc/order/service/dataaccess/order/query/adapter/OrderQueryRepositoryImpl.java</url>
+          <line>164</line>
+          <option name="timeStamp" value="58" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/order-service/order-domain/order-domain-application-service/src/main/java/com/mwc/order/service/domain/OrderCreateHelper.java</url>
+          <line>236</line>
+          <option name="timeStamp" value="61" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/order-service/order-domain/order-domain-application-service/src/main/java/com/mwc/order/service/domain/OrderCreateHelper.java</url>
+          <line>237</line>
+          <option name="timeStamp" value="62" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/order-service/order-domain/order-domain-application-service/src/main/java/com/mwc/order/service/domain/OrderCreateHelper.java</url>
+          <line>228</line>
+          <option name="timeStamp" value="63" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/order-service/order-domain/order-domain-application-service/src/main/java/com/mwc/order/service/domain/OrderCreateHelper.java</url>
+          <line>232</line>
+          <option name="timeStamp" value="64" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/order-service/order-domain/order-domain-application-service/src/main/java/com/mwc/order/service/domain/OrderCreateHelper.java</url>
+          <line>270</line>
+          <option name="timeStamp" value="65" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/order-service/order-domain/order-domain-application-service/src/main/java/com/mwc/order/service/domain/OrderCreateHelper.java</url>
+          <line>233</line>
+          <option name="timeStamp" value="66" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/inventory-service/inventory-application/src/main/java/com/mwc/inventory/service/domain/rest/InventoryController.java</url>
+          <line>30</line>
+          <option name="timeStamp" value="67" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-field">
+          <url>jar://$MAVEN_REPOSITORY$/org/apache/kafka/kafka-clients/3.7.1/kafka-clients-3.7.1.jar!/org/apache/kafka/common/telemetry/internals/ClientTelemetryReporter.class</url>
+          <line>52</line>
+          <properties field="DEFAULT_PUSH_INTERVAL_MS" class="org.apache.kafka.common.telemetry.internals.ClientTelemetryReporter" />
+          <option name="timeStamp" value="59" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/order-service/order-domain/order-domain-application-service/src/main/java/com/mwc/order/service/domain/ports/output/repository/OrderRepository.java</url>
+          <line>11</line>
+          <properties class="com.mwc.order.service.domain.ports.output.repository.OrderRepository" method="findByCustomerIdAndFilters">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="60" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <pin-to-top-manager>
@@ -352,6 +462,12 @@
         <PinnedItemInfo parentTag="com.mwc.inventory.service.domain.entity.Inventory" memberName="id" />
       </pinned-members>
     </pin-to-top-manager>
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="e" />
+        <watch expression="e" language="JAVA" />
+      </configuration>
+    </watches-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/mwc_java$OrderServiceApplication.ic" NAME="OrderServiceApplication Coverage Results" MODIFIED="1734664478864" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
