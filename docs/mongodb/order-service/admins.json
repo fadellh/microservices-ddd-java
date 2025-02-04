@@ -1,0 +1,10 @@
+{
+    "_id": {
+      "$oid": "6799e3f2160f979b79c34237"
+    },
+    "id": "b95b525f-a75f-85e2-7c1a-49bcbe0f4747",
+    "email": "admin_9424@example.com",
+    "fullname": "Admin Example",
+    "adminRole": "SUPER_ADMIN",
+    "active": true
+  }

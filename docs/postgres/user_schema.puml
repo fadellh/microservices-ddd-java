@@ -1,0 +1,30 @@
+@startuml
+!define TABLE(x) class x << (T,#FFAAAA) >>
+
+TABLE(admin_users) {
+  + id : UUID <<PK>>
+  + email : VARCHAR(255) <<UNIQUE>>
+  + fullname : VARCHAR(255)
+  + admin_role : VARCHAR(50)
+  + active : BOOLEAN
+  + created_at : TIMESTAMP
+  + updated_at : TIMESTAMP
+  + deleted_at : TIMESTAMP
+}
+
+TABLE(customer_users) {
+  + id : UUID <<PK>>
+  + jwt_user_id : VARCHAR(100)
+  + email : VARCHAR(255) <<UNIQUE>>
+  + fullname : VARCHAR(255)
+  + address : TEXT
+  + city : VARCHAR(100)
+  + district : VARCHAR(100)
+  + latitude : DOUBLE PRECISION
+  + longitude : DOUBLE PRECISION
+  + created_at : TIMESTAMP
+  + updated_at : TIMESTAMP
+  + deleted_at : TIMESTAMP
+}
+
+@enduml
