@@ -30,7 +30,7 @@ This repository showcases a microservices-based application written in Java, fea
 
 Below is the high-level architecture diagram illustrating how the services interact:
 
-![High-level Architecture](docs/high-level-arc.svg)
+![High-level Architecture](docs/high-level-arc.png)
 
 Each microservice is autonomous and communicates with others through REST or messaging (e.g., Kafka). A central API Gateway may be employed for routing external requests.
 
