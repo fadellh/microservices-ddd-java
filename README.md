@@ -1,4 +1,3 @@
-```markdown
 # microservices-java
 
 This repository showcases a microservices-based application written in Java, featuring multiple services (Order, Inventory, User, Payment) and supporting infrastructure (Kubernetes, Terraform, CI/CD, etc.).
@@ -19,7 +18,8 @@ This repository showcases a microservices-based application written in Java, fea
     - [1. Build the Docker Image](#1-build-the-docker-image)
     - [2. Push the Image to a Registry](#2-push-the-image-to-a-registry)
     - [3. Deploy to GKE (Example)](#3-deploy-to-gke-example)
-    - [4. Data Migration & Load Testing](#4-data-migration--load-testing)
+    - [4. Data Migration \& Load Testing](#4-data-migration--load-testing)
+      - [Load Testing Results](#load-testing-results)
     - [5. Terraform Setup](#5-terraform-setup)
   - [Additional Resources](#additional-resources)
   - [License](#license)
