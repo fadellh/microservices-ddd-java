@@ -1,0 +1,17 @@
+{
+    "_id": {
+      "$oid": "6799e3ff160f979b79c3424b"
+    },
+    "id": "137fd382-0381-c2cc-e1b2-33a7187b8cb1",
+    "jwt_user_id": "75f4a3df-4982-4d39-ae78-4b58eea1ae61",
+    "latitude": {
+      "$numberDouble": "11.5564"
+    },
+    "longitude": {
+      "$numberDouble": "104.9282"
+    },
+    "city": "Phnom Penh",
+    "address": "163 Jl. Diponegoro",
+    "email": "somchai.suthamma1@example.com",
+    "fullname": "Somchai Suthamma"
+  }

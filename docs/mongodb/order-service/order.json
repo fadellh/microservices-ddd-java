@@ -1,0 +1,88 @@
+{
+    "_id": {
+      "$oid": "6799e58a160f979b79c343f1"
+    },
+    "orderId": "d9f96b9a-7a7c-5c21-b218-32e155af2bf8",
+    "customerId": "37d3da5a-2cfd-20db-a558-49d687fd4700",
+    "warehouseId": "af4d4678-6ee4-a76a-44cc-398b9bcc7f89",
+    "orderStatus": "APPROVED_PENDING",
+    "failureMessages": null,
+    "totalAmount": "6306.0",
+    "shippingCost": "6.0",
+    "customerAddress": "Malang",
+    "admin": {
+      "id": "a3da790b-4a47-32b5-a182-690f26396450",
+      "email": "admin_1554@example.com",
+      "fullname": "Admin Example",
+      "adminRole": "SUPER_ADMIN",
+      "active": true
+    },
+    "customer": {
+      "id": "37d3da5a-2cfd-20db-a558-49d687fd4700",
+      "email": "fadel.lukman.dev@gmail.com",
+      "fullname": "Fadel"
+    },
+    "warehouse": {
+      "id": "af4d4678-6ee4-a76a-44cc-398b9bcc7f89",
+      "name": "Warehouse_Balikpapan_6061",
+      "city": "Balikpapan",
+      "district": "Balikpapan Utara",
+      "latitude": {
+        "$numberDouble": "-1.2379"
+      },
+      "longitude": {
+        "$numberDouble": "116.8529"
+      }
+    },
+    "items": [
+      {
+        "productId": "ad24c510-9e0a-c857-3704-0bc9bf0e82f1",
+        "name": "Asics Triple S 87",
+        "inventoryId": "ad24c510-9e0a-c857-3704-0bc9bf0e82f1",
+        "price": "109.0",
+        "quantity": {
+          "$numberInt": "2"
+        },
+        "subTotal": "218.0"
+      },
+      {
+        "productId": "53fe15ed-9089-ff13-2d7f-7553e92d21dd",
+        "name": "Dr. Martens Classic Leather 28",
+        "inventoryId": "53fe15ed-9089-ff13-2d7f-7553e92d21dd",
+        "price": "109.0",
+        "quantity": {
+          "$numberInt": "2"
+        },
+        "subTotal": "218.0"
+      },
+      {
+        "productId": "bde60554-e5c4-0c73-4b8f-819353e1a69e",
+        "name": "Under Armour Old Skool 20",
+        "inventoryId": "bde60554-e5c4-0c73-4b8f-819353e1a69e",
+        "price": "596.0",
+        "quantity": {
+          "$numberInt": "5"
+        },
+        "subTotal": "2980.0"
+      },
+      {
+        "productId": "8083be2d-f4b8-be9a-2c1c-4f9bce4961a6",
+        "name": "Under Armour Gel-Kayano 74",
+        "inventoryId": "8083be2d-f4b8-be9a-2c1c-4f9bce4961a6",
+        "price": "578.0",
+        "quantity": {
+          "$numberInt": "5"
+        },
+        "subTotal": "2890.0"
+      }
+    ],
+    "address": "Malang, Malang, 12345",
+    "payment": {
+      "paymentMethod": "CREDIT_CARD",
+      "paymentStatus": "FAILED",
+      "paymentAmount": "222",
+      "paymentReference": "REF-189352",
+      "paymentDate": "2025-01-29T15:23:37.723354",
+      "paymentProofUrl": "http://example.com/proof/6837"
+    }
+  }

@@ -1,0 +1,26 @@
+{
+    "_id": {
+      "$oid": "6799e44d160f979b79c342b3"
+    },
+    "id": "d0f89305-8cfe-dc69-a0b5-7ce8e37a99d3",
+    "name": "Warehouse_Palembang_1094",
+    "city": "Palembang",
+    "district": "Ilir Barat",
+    "latitude": {
+      "$numberDouble": "-2.9761"
+    },
+    "longitude": {
+      "$numberDouble": "104.7754"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        {
+          "$numberDouble": "104.7754"
+        },
+        {
+          "$numberDouble": "-2.9761"
+        }
+      ]
+    }
+  }

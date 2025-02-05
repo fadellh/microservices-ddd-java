@@ -1,0 +1,31 @@
+{
+    "_id": {
+      "$oid": "6799e49f160f979b79c3431c"
+    },
+    "id": "08d35643-2c6c-b37b-f161-69af40d6fec3",
+    "name": "Mizuno Phantom GT 97",
+    "brand": "Brooks",
+    "price": {
+      "$numberDouble": "290.0"
+    },
+    "image": null,
+    "size": "US 9",
+    "availableColors": [
+      "Red",
+      "Blue",
+      "Green",
+      "Yellow",
+      "Black",
+      "White",
+      "Grey",
+      "Navy",
+      "Beige",
+      "Brown"
+    ],
+    "maxQuantity": {
+      "$numberInt": "100"
+    },
+    "quantity": {
+      "$numberInt": "1"
+    }
+  }

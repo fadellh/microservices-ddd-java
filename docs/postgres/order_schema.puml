@@ -1,0 +1,61 @@
+@startuml
+!define TABLE(x) class x << (T,#FFAAAA) >>
+
+TABLE(orders) {
+  + id : UUID <<PK, IDX>>
+  + customer_id : UUID
+  + customer_address : TEXT
+  + warehouse_id : UUID
+  + total_amount : BIGINT
+  + shipping_cost : BIGINT
+  + order_status : VARCHAR(50)
+  + failure_messages : TEXT
+  + created_at : TIMESTAMP
+  + updated_at : TIMESTAMP
+  + deleted_at : TIMESTAMP
+}
+
+TABLE(order_address) {
+  + id : UUID <<PK>>
+  + city : VARCHAR(100)
+  + latitude : DOUBLE PRECISION
+  + longitude : DOUBLE PRECISION
+  + postal_code : VARCHAR(20)
+  + street : VARCHAR(255)
+  + order_id : UUID
+}
+
+TABLE(order_items) {
+  + id : BIGINT <<PK>>
+  + order_id : UUID <<PK>>
+  + product_id : UUID
+  + inventory_id : UUID
+  + product_name : VARCHAR(255)
+  + price : BIGINT
+  + quantity : INT
+  + sub_total : NUMERIC
+  + created_at : TIMESTAMP
+  + updated_at : TIMESTAMP
+  + deleted_at : TIMESTAMP
+}
+
+TABLE(payments) {
+  + id : UUID <<PK>>
+  + order_id : UUID
+  + payment_method : VARCHAR(50)
+  + payment_status : VARCHAR(50)
+  + payment_date : TIMESTAMP
+  + payment_amount : NUMERIC
+  + payment_reference : TEXT
+  + payment_proof_url : TEXT
+  + created_at : TIMESTAMP
+  + updated_at : TIMESTAMP
+  + deleted_at : TIMESTAMP
+}
+
+' Define relationships (Foreign Key associations)
+orders "1" <-- "0..*" order_address : order_id FK
+orders "1" <-- "0..*" order_items : order_id FK
+orders "1" <-- "0..*" payments : order_id FK
+
+@enduml
