@@ -1,15 +1,17 @@
-# microservices-java
+# Microservices-java
 
 This repository showcases a microservices-based application written in Java, featuring multiple services (Order, Inventory, User, Payment) and supporting infrastructure (Kubernetes, Terraform, CI/CD, etc.).
 
-[![Build Status](https://travis-ci.com/wuyichen24/microservices-patterns.svg?branch=master)](https://travis-ci.com/wuyichen24/microservices-patterns)
+
+> **Quick Start:** For an easy-to-read overview and detailed guides, please visit our documentation site at [https://doc.fadellh.com/](https://doc.fadellh.com/).
+
 [![License](https://img.shields.io/badge/License-Apache%202.0-green.svg)](https://opensource.org/licenses/Apache-2.0)
 
 ---
 
 ## Table of Contents
 
-- [microservices-java](#microservices-java)
+- [Microservices-java](#microservices-java)
   - [Table of Contents](#table-of-contents)
   - [High-level Architecture](#high-level-architecture)
   - [Service Responsibilities](#service-responsibilities)

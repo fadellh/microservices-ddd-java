@@ -131,9 +131,9 @@ You can also export metrics to HTML by using Locust’s built-in capabilities or
 
 In the `result/` directory, you’ll find example test runs in HTML format:
 
-- **[Baseline Testing (50 CCU)](result/baseline-testing-50-ccu.html)**  
-- **[Performance Testing (300 CCU)](result/perfomace-ccu-300.html)**  
-- **[Performance Testing (600 CCU)](result/perfomance-600-ccu.html)**  
+- **[Baseline Testing (50 CCU)](/docs/load-test-result/baseline-testing-50-ccu.html)**  
+- **[Performance Testing (300 CCU)](/docs/load-test-result/perfomace-ccu-300.html)**  
+- **[Performance Testing (600 CCU)](/docs/load-test-result/perfomance-600-ccu.html)**  
 
 Open these files in your web browser to review test metrics such as:
 
