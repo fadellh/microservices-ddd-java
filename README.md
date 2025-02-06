@@ -118,9 +118,9 @@ kubectl apply -f infrastructure/kubernetes/microservices-deployment.yml
 
 The following load testing results are available in the repository:
 
-- [Baseline Testing (50 CCU)](scripts/load-testing/result/baseline-testing-50-ccu.html)
-- [Performance Testing (300 CCU)](scripts/load-testing/result/perfomace-ccu-300.html)
-- [Performance Testing (600 CCU)](scripts/load-testing/result/perfomance-600-ccu.html)
+- [Baseline Testing (50 CCU)](docs/load-test-result/baseline-testing-50-ccu.html)
+- [Performance Testing (300 CCU)](docs/load-test-result/perfomace-ccu-300.html)
+- [Performance Testing (600 CCU)](docs/load-test-result/perfomance-600-ccu.html)
 
 ### 5. Terraform Setup
 
