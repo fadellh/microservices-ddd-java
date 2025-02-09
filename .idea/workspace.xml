@@ -4,7 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d293844d-7748-4a4e-b711-0613d207449e" name="Changes" comment="Create User Service #77" />
+    <list default="true" id="d293844d-7748-4a4e-b711-0613d207449e" name="Changes" comment="Create User Service #77">
+      <change afterPath="$PROJECT_DIR$/sonar-project.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inventory-service/inventory-container/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/inventory-container/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inventory-service/inventory-container/src/main/java/com/mwc/inventory/service/domain/BeanConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/inventory-container/src/main/java/com/mwc/inventory/service/domain/BeanConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inventory-service/inventory-dataaccess/src/main/java/com/mwc/inventory/service/dataaccess/warehouse/query/mapper/WarehouseDataAccessMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/inventory-dataaccess/src/main/java/com/mwc/inventory/service/dataaccess/warehouse/query/mapper/WarehouseDataAccessMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order-service/order-container/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/order-service/order-container/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order-service/order-container/src/main/java/com/mwc/order/service/domain/BeanConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/order-service/order-container/src/main/java/com/mwc/order/service/domain/BeanConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/user-container/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/user-container/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/user-container/src/main/java/com/mwc/user/service/domain/BeanConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/user-container/src/main/java/com/mwc/user/service/domain/BeanConfiguration.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

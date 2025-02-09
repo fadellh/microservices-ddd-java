@@ -31,6 +31,9 @@
     <spring.boot.maven.plugin.version>3.3.5</spring.boot.maven.plugin.version>
     <spring.boot.dependecies.version>3.3.5</spring.boot.dependecies.version>
     <avro.version>1.12.0</avro.version>
+<!--    <sonar.host.url>http://localhost:9000</sonar.host.url>-->
+<!--    <sonar.projectKey>java</sonar.projectKey>-->
+
 
     <!-- Centralized Docker Image Properties -->
     <artifact.repo.region>asia-southeast2-docker.pkg.dev</artifact.repo.region>
@@ -116,7 +119,11 @@
           <artifactId>spring-boot-maven-plugin</artifactId>
           <version>${spring.boot.maven.plugin.version}</version>
         </plugin>
-
+        <plugin>
+          <groupId>org.sonarsource.scanner.maven</groupId>
+          <artifactId>sonar-maven-plugin</artifactId>
+          <version>3.9.1.2184</version>
+        </plugin>
       </plugins>
     </pluginManagement>
   </build>
