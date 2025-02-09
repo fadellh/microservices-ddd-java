@@ -200,7 +200,7 @@ public class OrderCreateHelper {
                 .build();
     }
 
-    private Payment uploadFileToGCSWithBearerToken(CreatePaymentCommand createPaymentCommand, Order order) throws IOException {
+    public Payment uploadFileToGCSWithBearerToken(CreatePaymentCommand createPaymentCommand, Order order) throws IOException {
         MultipartFile paymentProofFile = createPaymentCommand.getPaymentProofFile();
 
         // Generate unique filename
