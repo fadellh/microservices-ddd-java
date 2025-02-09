@@ -825,13 +825,9 @@ def main():
     print("[INFO] All Catalog Data Inserted into Inventory (read) and Product Data inserted into Order (read).")
 
     # 2.e) Inventory + Items
-    # We tie each Inventory to the same ID as the Catalog's ID for productId
-    # (So that Orders can reference them consistently)
     inventory_list = []
     inv_index = 0
     for cat in catalog_list:
-        # For demonstration, create 2 inventories (2 different warehouses) per catalog
-        # for wh in wh_list:
             invoice_id_set = set()
             # wh = random.choice(wh_list)
             inv : InventoryEntity = generate_inventory(inv_index, cat, wh_list)

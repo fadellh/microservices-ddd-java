@@ -1,0 +1,262 @@
+direction: right
+
+# 1) Domain Model (UML-Like) -------------------------------
+InventoryDomainModel: {
+  label: "Inventory Service Domain Model"
+  direction: down
+
+  # The Inventory aggregate root
+  Inventory: "Inventory (Aggregate Root)" {
+    shape: class
+    +productId: "ProductId"
+    +warehouseId: "WarehouseId"
+    +orderId: "OrderId"
+    +inventoryItemId: "UUID"
+    +quantity: "Quantity"
+    +journals: "List<StockJournal>"
+    +needAutoTransfer: boolean
+    +failureMessages: "List<String>"
+
+    # Key domain methods
+    +addStock(toAdd Quantity, reason StockJournalReason, status StockJournalStatus)
+    +checkIfEnoughQuantity(toTransfer Quantity)
+    +reduceStock(toReduce Quantity, reason StockJournalReason, status StockJournalStatus)
+    +order(quantity Quantity)
+  }
+
+  # Product entity
+  Product: "Product (Entity)" {
+    shape: class
+    +name: "String"
+    +price: "Money"
+
+    # Constructors or relevant domain logic
+    # ...
+  }
+
+  # StockJournal entity
+  StockJournal: "StockJournal (Entity)" {
+    shape: class
+    +inventoryId: "InventoryId"
+    +quantityChanged: "Quantity"
+    +reason: "StockJournalReason"
+    +type: "StockJournalType"
+    +status: "StockJournalStatus"
+    +createdAt: "Instant"
+
+    # static factory
+    +create(inventoryId InventoryId, qty Quantity, reason StockJournalReason, type StockJournalType, status StockJournalStatus): StockJournal
+  }
+
+  # Warehouse entity
+  Warehouse: "Warehouse (Entity)" {
+    shape: class
+    +name: "String"
+    +location: "Location"
+    +latitude: "Double"
+    +longitude: "Double"
+    +status: "WarehouseStatus"
+    +failureMessages: "List<String>"
+
+    # Some domain methods
+    +deactivateWarehouse()
+    +updateName(newName String)
+    +updateLocation(newLocation Location)
+  }
+
+  # Show a few relationships
+  Inventory -> StockJournal: "contains multiple (journals)"
+  Inventory -> Product: "refers to productId"
+  Inventory -> Warehouse: "refers to warehouseId"
+}
+
+# 2) Value Objects --------------------------------------------
+InventoryValueObjects: {
+  label: "Value Objects"
+  direction: down
+
+  InventoryId: "InventoryId <<ValueObject>>" {
+    shape: class
+    # Typically a UUID wrapper
+  }
+
+  Quantity: "Quantity <<ValueObject>>" {
+    shape: class
+    +getValue(): int
+    +isLessThan(other Quantity): boolean
+    +add(other Quantity): Quantity
+    +subtract(other Quantity): Quantity
+  }
+
+  StockJournalReason: "StockJournalReason <<ValueObject>>" {
+    shape: class
+    # e.g. ORDER, MANUAL, etc.
+  }
+
+  StockJournalStatus: "StockJournalStatus <<ValueObject>>" {
+    shape: class
+    # e.g. APPROVED, REQUEST, etc.
+  }
+
+  StockJournalType: "StockJournalType <<ValueObject>>" {
+    shape: class
+    # INCREASE or DECREASE
+  }
+
+  WarehouseStatus: "WarehouseStatus <<ValueObject>>" {
+    shape: class
+    # ACTIVE, DEACTIVE
+  }
+
+  Location: "Location <<ValueObject>>" {
+    shape: class
+    +latitude: "Double"
+    +longitude: "Double"
+  }
+
+  # Reused from domain wide or other modules
+  OrderId: "OrderId <<ValueObject>>" {
+    shape: class
+  }
+  ProductId: "ProductId <<ValueObject>>" {
+    shape: class
+  }
+  WarehouseId: "WarehouseId <<ValueObject>>" {
+    shape: class
+  }
+  Money: "Money <<ValueObject>>" {
+    shape: class
+    +amount: "BigDecimal"
+  }
+}
+
+# 3) Domain Events ---------------------------------------------
+InventoryEvents: {
+  label: "Domain Events"
+  direction: down
+
+  InventoryEvent: "InventoryEvent (base)" {
+    shape: class
+    +inventory: "Inventory"
+    +createdAt: "ZonedDateTime"
+    +fire()
+  }
+
+  StockUpdatedEvent: "StockUpdatedEvent" {
+    shape: class
+    +StockUpdatedEvent(inventory Inventory, createdAt ZonedDateTime, publisher)
+    +fire()
+  }
+
+  OrderStockCompletedEvent: "OrderStockCompletedEvent" {
+    shape: class
+    +OrderStockCompletedEvent(inventory Inventory, createdAt ZonedDateTime, publisher)
+    +fire()
+  }
+
+  OrderStockFailedEvent: "OrderStockFailedEvent" {
+    shape: class
+    +OrderStockFailedEvent(inventory Inventory, createdAt ZonedDateTime, publisher)
+    +fire()
+  }
+
+  # Possibly others: StockIncrementedEvent, StockDecrementedEvent, etc.
+
+  # Show inheritance
+  InventoryEvent -> StockUpdatedEvent: "Inheritance"
+  InventoryEvent -> OrderStockCompletedEvent: "Inheritance"
+  InventoryEvent -> OrderStockFailedEvent: "Inheritance"
+}
+
+# 4) Domain Service --------------------------------------------
+InventoryDomainService: {
+  label: "InventoryDomainService"
+  direction: down
+
+  InventoryDomainServiceImpl: "InventoryDomainServiceImpl" {
+    shape: class
+    +deductStock(inventory Inventory, quantity int, reason StockJournalReason, publisher)
+    +incrementStock(inventory Inventory, quantity int, reason StockJournalReason, publisher)
+    +orderStock(inventory Inventory, quantity int, successPublisher, failedPublisher)
+  }
+}
+
+# Optional references across containers
+InventoryDomainModel.Inventory -> InventoryDomainService.InventoryDomainServiceImpl: "used by"
+InventoryDomainModel.Inventory -> InventoryEvents.InventoryEvent: "fires events"
+
+direction: right
+
+InventoryDBSchema: {
+  label: "Inventory Service DB Schema"
+  direction: down
+
+  # warehouses table
+  warehouses: {
+    shape: sql_table
+    label: "warehouses"
+    id: "UUID {PK}"
+    name: "VARCHAR(255)"
+    city: "VARCHAR(100)"
+    district: "VARCHAR(100)"
+    latitude: "DOUBLE PRECISION"
+    longitude: "DOUBLE PRECISION"
+    created_at: "TIMESTAMP"
+    updated_at: "TIMESTAMP"
+    deleted_at: "TIMESTAMP"
+  }
+
+  # inventory table
+  inventory: {
+    shape: sql_table
+    label: "inventory"
+    id: "UUID {PK}"
+    name: "VARCHAR(255)"
+    price: "BIGINT"
+    product_id: "UUID"
+    total_quantity: "INT"
+    created_at: "TIMESTAMP"
+    updated_at: "TIMESTAMP"
+    deleted_at: "TIMESTAMP"
+  }
+
+  # inventory_items table
+  inventory_items: {
+    shape: sql_table
+    label: "inventory_items"
+    id: "UUID {PK}"
+    inventory_id: "UUID"
+    warehouse_id: "UUID"
+    quantity: "INT"
+    created_at: "TIMESTAMP"
+    updated_at: "TIMESTAMP"
+    deleted_at: "TIMESTAMP"
+  }
+
+  # stock_journal table
+  stock_journal: {
+    shape: sql_table
+    label: "stock_journal"
+    id: "UUID {PK}"
+    inventory_item_id: "UUID"
+    total_quantity_changed: "INT"
+    quantity_changed: "INT"
+    reason: "VARCHAR(50)"
+    type: "VARCHAR(50)"
+    status: "VARCHAR(50)"
+    created_at: "TIMESTAMP"
+    updated_at: "TIMESTAMP"
+    deleted_at: "TIMESTAMP"
+  }
+
+  # Relationships (Foreign Key associations)
+  inventory -> inventory_items: "1 -> 0..*" {
+    label: "inventory_id FK"
+  }
+  warehouses -> inventory_items: "1 -> 0..*" {
+    label: "warehouse_id FK"
+  }
+  inventory_items -> stock_journal: "1 -> 0..*" {
+    label: "inventory_item_id FK"
+  }
+}

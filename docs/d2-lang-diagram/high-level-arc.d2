@@ -1,0 +1,411 @@
+direction: right
+
+# ##########################################################################
+# VARIABLES
+# ##########################################################################
+vars: {
+  pg-db: {
+    # PostgreSQL (WriteDB)
+    label: "PostgreSQL"
+    shape: image
+    icon: "https://icons.terrastruct.com/dev%2Fpostgresql.svg"
+    style: {
+      fill: "#F0F8FF" # AliceBlue
+      stroke: "#4682B4" # SteelBlue
+    }
+    height: 75
+    width: 75
+  }
+  mongodb: {
+    # MongoDB (ReadDB)
+    label: "MongoDB"
+    shape: image
+    icon: "https://icons.terrastruct.com/dev%2Fmongodb.svg"
+    style: {
+      fill: "#F0F8FF" # AliceBlue
+      stroke: "#4682B4" # SteelBlue
+    }
+    height: 75
+    width: 75
+  }
+  dynamodb: {
+    label: "DynamoDB"
+    shape: cylinder
+    icon: "https://icons.terrastruct.com/aws%2FDatabase%2FAmazon-DynamoDB.svg"
+    style: {
+      fill: "#F5F5F5" # WhiteSmoke
+      stroke: "#FF4500" # OrangeRed
+    }
+  }
+  queue: {
+    shape: queue
+    style: {
+      fill: "#E6E6FA" # Lavender
+      stroke: "#6A5ACD" # SlateBlue
+    }
+  }
+  component-colors: {
+    rest-controller: {
+      fill: "#ADD8E6" # LightBlue
+      stroke: "#4682B4" # SteelBlue
+    }
+    grpc-service: {
+      fill: "#FFD700" # Gold
+      stroke: "#B8860B" # DarkGoldenRod
+    }
+    saga-dispatcher: {
+      fill: "#E6E6FA" # Beige
+      stroke: "#8B4513" # SaddleBrown
+    }
+    command-handler: {
+      fill: "#E6E6FA" # Lavender
+      stroke: "#6A5ACD" # SlateBlue
+    }
+    query-handler: {
+      fill: "#F0E68C" # Khaki
+      stroke: "#000000" # Black
+    }
+    event-publisher: {
+      fill: "#FFA07A" # LightSalmon
+      stroke: "#FF4500" # OrangeRed
+    }
+    event-consumer: {
+      fill: "#FFDEAD" # NavajoWhite
+      stroke: "#DAA520" # GoldenRod
+    }
+  }
+}
+
+# ##########################################################################
+# CLIENT & API GATEWAY
+# ##########################################################################
+Client: {
+  label: "Web Client"
+  shape: person
+  icon: "https://icons.terrastruct.com/dev%2Freact.svg"
+  width: 100
+  height: 100
+  style: {
+    fill: "#F5F5DC" # Beige
+    stroke: "#8B4513" # SaddleBrown
+    multiple: true
+  }
+}
+
+APIGateway: {
+  label: "Google API Gateway"
+  shape: image
+  icon: "https://icons.terrastruct.com/gcp%2FProducts%20and%20services%2FAPI%20Management%2FCloud%20Endpoints.svg"
+  style: {
+    fill: "#FFF8DC" # Cornsilk
+    stroke: "#D2691E" # Chocolate
+    shadow: true
+  }
+  width: 250
+  height: 250
+  # near: Client # Positioned near the client node
+}
+
+# ##########################################################################
+# SERVICES
+# ##########################################################################
+
+# --- Order Service ---
+OrderService: {
+  label: "Order Service"
+  icon: "https://icons.terrastruct.com/dev%2Fjava.svg"
+
+  RESTController: "REST Controller" {
+    style: ${component-colors.rest-controller} # LightBlue / SteelBlue
+  }
+  CommandHandler: "Command Handler" {
+    style: ${component-colors.command-handler} # Lavender / SlateBlue
+  }
+  QueryHandler: "Query Handler" {
+    style: ${component-colors.query-handler} # Khaki / Black
+  }
+  SagaDispatcher: "Saga Dispatcher" {
+    style: ${component-colors.saga-dispatcher} # Beige / SaddleBrown
+  }
+  EventPublisher: "Event Publisher" {
+    style: ${component-colors.event-publisher} # LightSalmon / OrangeRed
+  }
+  EventConsumer: "Event Consumer" {
+    style: ${component-colors.event-consumer} # NavajoWhite / GoldenRod
+  }
+}
+OrderServiceWriteDB: ${pg-db}
+OrderServiceReadDB: ${mongodb}
+
+# --- Inventory Service ---
+InventoryService: {
+  label: "Inventory Service"
+  icon: "https://icons.terrastruct.com/dev%2Fjava.svg"
+
+  RESTController: "REST Controller" {
+    style: ${component-colors.rest-controller}
+  }
+  CommandHandler: "Command Handler" {
+    style: ${component-colors.command-handler}
+  }
+  QueryHandler: "Query Handler" {
+    style: ${component-colors.query-handler}
+  }
+  EventPublisher: "Event Publisher" {
+    style: ${component-colors.event-publisher}
+  }
+  EventConsumer: "Event Consumer" {
+    style: ${component-colors.event-consumer}
+  }
+}
+InventoryServiceWriteDB: ${pg-db}
+InventoryServiceReadDB: ${mongodb}
+
+# --- Payment Service ---
+PaymentService: {
+  label: "Payment Service"
+  icon: "https://icons.terrastruct.com/dev%2Fjava.svg"
+
+  RESTController: "REST Controller" {
+    style: ${component-colors.rest-controller}
+  }
+  CommandHandler: "Command Handler" {
+    style: ${component-colors.command-handler}
+  }
+  QueryHandler: "Query Handler" {
+    style: ${component-colors.query-handler}
+  }
+  EventPublisher: "Event Publisher" {
+    style: ${component-colors.event-publisher}
+  }
+  EventConsumer: "Event Consumer" {
+    style: ${component-colors.event-consumer}
+  }
+}
+PaymentServiceWriteDB: ${pg-db}
+PaymentServiceReadDB: ${mongodb}
+
+# --- User Service ---
+UserService: {
+  label: "User Service"
+  icon: "https://icons.terrastruct.com/dev%2Fjava.svg"
+
+  RESTController: "REST Controller" {
+    style: ${component-colors.rest-controller}
+  }
+  CommandHandler: "Command Handler" {
+    style: ${component-colors.command-handler}
+  }
+  QueryHandler: "Query Handler" {
+    style: ${component-colors.query-handler}
+  }
+  EventPublisher: "Event Publisher" {
+    style: ${component-colors.event-publisher}
+  }
+  EventConsumer: "Event Consumer" {
+    style: ${component-colors.event-consumer}
+  }
+}
+UserServiceWriteDB: ${pg-db}
+UserServiceReadDB: ${mongodb}
+
+# ##########################################################################
+# GOOGLE CLOUD STORAGE
+# ##########################################################################
+
+GoogleCloudStorage: {
+  label: "Google Cloud Storage (GCS)"
+  shape: image
+  icon: "https://icons.terrastruct.com/gcp%2FProducts%20and%20services%2FStorage%2FCloud%20Storage.svg"
+  style: {
+    fill: "#FFFFFF" # White
+    stroke: "#4682B4" # SteelBlue
+  }
+  width: 200
+  height: 200
+  # near: PaymentService
+}
+
+# ##########################################################################
+# CHANNELS
+# ##########################################################################
+
+# Command Channels (for SAGA)
+InventoryCommandChannel: {
+  label: "Inventory Command Channel"
+  shape: queue
+  style: {
+    fill: "#D8BFD8" # Thistle
+    stroke: "#8B008B" # DarkMagenta
+  }
+  # near: InventoryService # Positioned near Inventory Service
+}
+
+PaymentCommandChannel: {
+  label: "Payment Command Channel"
+  shape: queue
+  style: {
+    fill: "#D8BFD8" # Thistle
+    stroke: "#8B008B" # DarkMagenta
+  }
+  # near: PaymentService # Positioned near Payment Service
+}
+
+# Saga Reply Channel
+SagaReplyChannel: {
+  label: "Saga Reply Channel"
+  shape: queue
+  style: {
+    fill: "#FAEBD7" # AntiqueWhite
+    stroke: "#8B4513" # SaddleBrown
+  }
+  # near: OrderService
+}
+
+# Kafka (Unified Event Bus)
+Kafka: {
+  label: "Kafka (Message Broker)"
+  shape: queue
+  style: {
+    fill: "#E0FFFF" # LightCyan
+    stroke: "#4682B4" # SteelBlue
+  }
+  # near: OrderService # Positioned near Order Service
+}
+
+# Event Channels for Publishing events
+OrderEventChannel: {
+  label: "Order Event Channel"
+  shape: queue
+  style: {
+    fill: "#FFFACD" # LemonChiffon
+    stroke: "#FFD700" # Gold
+  }
+  # near: OrderService
+}
+
+PaymentEventChannel: {
+  label: "Payment Event Channel"
+  shape: queue
+  style: {
+    fill: "#E0FFFF" # LightCyan
+    stroke: "#4682B4" # SteelBlue
+  }
+  # near: PaymentService
+}
+
+InventoryEventChannel: {
+  label: "Inventory Event Channel"
+  shape: queue
+  style: {
+    fill: "#E0FFFF" # LightCyan
+    stroke: "#4682B4" # SteelBlue
+  }
+  # near: InventoryService
+}
+
+UserEventChannel: {
+  label: "User Event Channel"
+  shape: queue
+  style: {
+    fill: "#E0FFFF" # LightCyan
+    stroke: "#4682B4" # SteelBlue
+  }
+  # near: UserService
+}
+
+# ##########################################################################
+# CONNECTIONS
+# ##########################################################################
+
+# ----------------------------
+# 1) CLIENT & API GATEWAY
+# ----------------------------
+Client -> APIGateway
+
+APIGateway -> OrderService.RESTController
+APIGateway -> InventoryService.RESTController
+APIGateway -> PaymentService.RESTController
+APIGateway -> UserService.RESTController
+
+# ----------------------------
+# 2) ORDER SERVICE FLOW
+# ----------------------------
+OrderService.CommandHandler -> OrderServiceWriteDB: {label: "Write DB"}
+OrderService.QueryHandler -> OrderServiceReadDB: {label: "Read DB"}
+
+OrderService.EventPublisher -> OrderEventChannel: {label: "Publish Order Event"}
+
+# The Order service also subscribes to events from Kafka
+Kafka -> OrderService.EventConsumer: {label: "Subscribe from Kafka"}
+
+# SagaReplyChannel -> SagaDispatcher
+SagaReplyChannel -> OrderService.SagaDispatcher: {
+  label: "Saga Reply -> Order"
+  style: {stroke: "#FFD700"}
+}
+
+# ----------------------------
+# 3) INVENTORY SERVICE FLOW
+# ----------------------------
+InventoryService.CommandHandler -> InventoryServiceWriteDB: {label: "Write DB"}
+InventoryService.QueryHandler -> InventoryServiceReadDB: {label: "Read DB"}
+
+# SAGA command flow for Inventory
+OrderService.SagaDispatcher -> InventoryCommandChannel: {label: "Cmd to Inventory"}
+InventoryCommandChannel -> InventoryService.CommandHandler: {label: "Process Cmd"}
+InventoryService.CommandHandler -> SagaReplyChannel: {
+  label: "Reply to Saga"
+  style: {stroke: "#FFD700"} # Gold
+}
+
+# Inventory events
+InventoryService.EventPublisher -> InventoryEventChannel: {label: "Publish Inventory Event"}
+InventoryEventChannel -> Kafka: {label: "Merge into Kafka"}
+
+# Connect Inventory Service to GCS
+InventoryService -> GoogleCloudStorage: {label: "Store Data"}
+
+# ----------------------------
+# 4) PAYMENT SERVICE FLOW
+# ----------------------------
+PaymentService.CommandHandler -> PaymentServiceWriteDB: {label: "Write DB"}
+PaymentService.QueryHandler -> PaymentServiceReadDB: {label: "Read DB"}
+
+# SAGA command flow for Payment
+OrderService.SagaDispatcher -> PaymentCommandChannel: {label: "Cmd to Payment"}
+PaymentCommandChannel -> PaymentService.CommandHandler: {label: "Process Cmd"}
+PaymentService.CommandHandler -> SagaReplyChannel: {
+  label: "Reply to Saga"
+  style: {stroke: "#FFD700"} # Gold
+}
+
+# Payment events
+PaymentService.EventPublisher -> PaymentEventChannel: {label: "Publish Payment Event"}
+PaymentEventChannel -> Kafka: {label: "Merge into Kafka"}
+
+# Connect Payment Service to GCS
+PaymentService -> GoogleCloudStorage: {label: "Store Data"}
+
+# ----------------------------
+# 5) USER SERVICE FLOW
+# ----------------------------
+UserService.CommandHandler -> UserServiceWriteDB: {label: "Write DB"}
+UserService.QueryHandler -> UserServiceReadDB: {label: "Read DB"}
+
+# Publish user events -> Kafka
+UserService.EventPublisher -> UserEventChannel: {label: "Publish User Event"}
+UserEventChannel -> Kafka: {label: "Merge into Kafka"}
+
+# ----------------------------
+# 6) EVENT FLOW (Merger + Additional Subscriptions)
+# ----------------------------
+
+# Merge order events into Kafka
+OrderEventChannel -> Kafka: {label: "Merge into Kafka"}
+
+# For Payment, Inventory, and User events, we rely on the merges above
+
+# If PaymentService wants Order events, or Inventory wants User events, etc.:
+OrderEventChannel -> PaymentService.EventConsumer: {label: "Order -> Payment"}
+UserEventChannel -> InventoryService.EventConsumer: {label: "User -> Inventory"}

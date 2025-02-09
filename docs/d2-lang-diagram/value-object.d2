@@ -1,0 +1,60 @@
+direction: right
+
+# ----------------------------------------
+# 0) Shared Kernel (Common Value Objects)
+# ----------------------------------------
+ValueObject: {
+  label: "Shared Kernel"
+  direction: down
+
+  Money: "Money <<ValueObject>>" {
+    shape: class
+    +amount: "BigDecimal"
+  }
+
+  PaymentInfo: "PaymentInfo <<ValueObject>>" {
+    shape: class
+    +method: "String"
+    +cardNumber: "String"
+  }
+
+  DeliveryInfo: "DeliveryInfo <<ValueObject>>" {
+    shape: class
+    +address: "String"
+  }
+
+  OrderId: "OrderId <<ValueObject>>" {
+    shape: class
+  }
+
+  WarehouseId: "WarehouseId <<ValueObject>>" {
+    shape: class
+  }
+
+  UserId: "UserId <<ValueObject>>" {
+    shape: class
+  }
+
+  PaymentId: "PaymentId <<ValueObject>>" {
+    shape: class
+  }
+
+  InventoryId: "InventoryId <<ValueObject>>" {
+    shape: class
+  }
+
+  OrderStatus: "OrderStatus <<ValueObject>>" {
+    shape: class
+    AWAITING_PAYMENT 
+    REVIEW_PAYMENT
+    APPROVED_PENDING
+    APPROVED
+    CANCEL_PENDING 
+    CANCELLED
+  }
+
+  PaymentStatus: "PaymentStatus <<ValueObject>>" {
+    shape: class
+    value: "PENDING, CONFIRMED, CANCELLED"
+  }
+}
