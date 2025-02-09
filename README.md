@@ -14,6 +14,7 @@ This repository showcases a microservices-based application written in Java, fea
 - [Microservices-java](#microservices-java)
   - [Table of Contents](#table-of-contents)
   - [High-level Architecture](#high-level-architecture)
+  - [Low-level Domain Architecture](#low-level-domain-architecture)
   - [Service Responsibilities](#service-responsibilities)
   - [Setup Local](#setup-local)
   - [Deploy to Kubernetes](#deploy-to-kubernetes)
@@ -35,6 +36,17 @@ Below is the high-level architecture diagram illustrating how the services inter
 ![High-level Architecture](docs/high-level-arc.png)
 
 Each microservice is autonomous and communicates with others through REST or messaging (e.g., Kafka). A central API Gateway may be employed for routing external requests.
+
+---
+## Low-level Domain Architecture
+
+Below is the low-level architecture diagram illustrating how the aggregate domain interact in Domain Driven Design:
+
+![Low-level Architecture](docs/aggregate-domain.png)
+
+
+<!-- ### Value Object
+![Value Object Architecture](docs/value-object.png) -->
 
 ---
 
@@ -149,8 +161,9 @@ See [**Terraform Project**](infrastructure/terraform/gke-cluster/README.md) for 
   - [Terraform Project](infrastructure/terraform/gke-cluster/README.md)
 
 - **Low-level Diagrams**  
+  - [Aggregate Domain Diagram](docs/aggregate-domain.png)  
   - [Low-level Inventory Diagram](docs/low-level-inventory-service.svg)  
-  - [Low-level Order Diagram](docs/low-level-order-service.svg)
+  - [Low-level Order Diagram](docs/low-level-order-service.png)
 
 ---
 

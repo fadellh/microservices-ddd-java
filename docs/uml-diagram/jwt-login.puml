@@ -1,0 +1,28 @@
+@startuml
+title Authentication and Authorization Flow
+
+participant "Frontend (React)" as FE
+participant "Firebase Authentication" as Firebase
+participant "API Gateway" as Gateway
+participant "Backend (User Service)" as BE
+database "Database" as DB
+
+== Login and JWT Generation ==
+FE -> Firebase: Authenticate email and password with Firebase
+Firebase --> FE: Return JWT (ID Token)
+
+== API Request with JWT ==
+FE -> Gateway: Send JWT in Authorization header
+Gateway -> Firebase: Validate JWT via JWKS URI
+Firebase --> Gateway: JWT is valid
+
+== Backend Processing ==
+Gateway -> BE: Forward request with JWT claims
+BE -> DB: Fetch user data (if needed)
+DB --> BE: Return user data
+BE --> Gateway: Return response
+
+== Response to User ==
+Gateway --> FE: Forward response
+
+@enduml

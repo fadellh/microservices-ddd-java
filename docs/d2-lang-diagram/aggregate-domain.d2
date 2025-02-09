@@ -1,0 +1,190 @@
+direction: right
+
+# -----------------------------
+# 1) USER Aggregate
+# -----------------------------
+UserAggregate: {
+  label: "User Aggregate"
+  direction: down
+
+  User: "User (Aggregate Root)" {
+    shape: class
+    +userId: "UserId"
+    +name: "String"
+    +email: "String"
+
+    +updateProfile()
+  }
+
+  # Connect User to Shared Kernel because it uses shared value objects
+  User -> ValueObject: "uses UserId" {
+    style: {stroke-dash: 4}
+  }
+}
+
+# -----------------------------
+# 2) ORDER Aggregate
+# -----------------------------
+OrderAggregate: {
+  label: "Order Aggregate"
+  direction: down
+
+  Order: "Order (Aggregate Root)" {
+    shape: class
+    +orderId: "OrderId"
+    +userId: "UserId"
+    +warehouseId: "WarehouseId"
+    +deliveryInfo: "DeliveryInfo"
+    +paymentInfo: "PaymentInfo"
+    +totalAmount: "Money"
+    +status: "OrderStatus"
+
+    +initiateOrder()
+    +cancelOrder()
+    +approve()
+    +cancelApprove()
+    +pay()
+  }
+
+  OrderLineItem: "OrderLineItem (Entity)" {
+    shape: class
+    +inventoryId: "InventoryId"
+    +quantity: int
+    +price: "Money"
+    +subTotal: "Money"
+
+    +initializeOrderItem()
+  }
+
+  Order -> OrderLineItem: "contains 1..*"
+
+  # Connect Order and OrderLineItem to Shared Kernel (they use shared VOs)
+  Order -> ValueObject: "uses OrderId, DeliveryInfo, PaymentInfo, Money, OrderStatus" {
+    style: {stroke-dash: 4}
+  }
+  OrderLineItem -> ValueObject: "uses InventoryId, Money" {
+    style: {stroke-dash: 4}
+  }
+
+  # Domain Events for Order Aggregate
+  OrderCreatedEvent: "OrderCreatedEvent" {
+    shape: class
+    +orderId: "OrderId"
+    +timestamp: "Instant"
+    +fire()
+  }
+
+  OrderApprovedEvent: "OrderApprovedEvent" {
+    shape: class
+    +orderId: "OrderId"
+    +timestamp: "Instant"
+    +fire()
+  }
+
+  OrderCancelledEvent: "OrderCancelledEvent" {
+    shape: class
+    +orderId: "OrderId"
+    +timestamp: "Instant"
+    +fire()
+  }
+
+  # Connect Order events to Shared Kernel
+  OrderCreatedEvent -> ValueObject: "uses OrderId" {
+    style: {stroke-dash: 4}
+  }
+  OrderApprovedEvent -> ValueObject: "uses OrderId" {
+    style: {stroke-dash: 4}
+  }
+  OrderCancelledEvent -> ValueObject: "uses OrderId" {
+    style: {stroke-dash: 4}
+  }
+}
+
+# -----------------------------
+# 3) INVENTORY Aggregate
+# -----------------------------
+InventoryAggregate: {
+  label: "Inventory Aggregate"
+  direction: down
+
+  Inventory: "Inventory (Aggregate Root)" {
+    shape: class
+    +inventoryId: "InventoryId"
+    +productId: "String"
+    +quantity: int
+    +warehouse: "String"
+    # Domain methods
+    +reduceStock()
+    +addStock()
+  }
+
+  # Connect Inventory to Shared Kernel (uses InventoryId)
+  Inventory -> ValueObject: "uses InventoryId" {
+    style: {stroke-dash: 4}
+  }
+
+  # Domain Events for Inventory Aggregate
+  StockDecrementedEvent: "StockDecrementedEvent" {
+    shape: class
+    +inventoryId: "InventoryId"
+    +quantityReduced: int
+    +timestamp: "Instant"
+    +fire()
+  }
+
+  StockIncrementedEvent: "StockIncrementedEvent" {
+    shape: class
+    +inventoryId: "InventoryId"
+    +quantityAdded: int
+    +timestamp: "Instant"
+    +fire()
+  }
+
+  # Connect Inventory domain events to Shared Kernel
+  StockDecrementedEvent -> ValueObject: "uses InventoryId" {
+    style: {stroke-dash: 4}
+  }
+  StockIncrementedEvent -> ValueObject: "uses InventoryId" {
+    style: {stroke-dash: 4}
+  }
+}
+
+# -----------------------------
+# 4) PAYMENT Aggregate
+# -----------------------------
+PaymentAggregate: {
+  label: "Payment Aggregate"
+  direction: down
+
+  Payment: "Payment (Aggregate Root)" {
+    shape: class
+    +paymentId: "PaymentId"
+    +orderId: "OrderId"
+    +amount: "Money"
+    +status: "PaymentStatus"
+
+    +initiatePayment()
+    +confirmPayment()
+    +cancelPayment()
+  }
+
+  # Connect Payment to Shared Kernel (uses PaymentId, OrderId, Money, PaymentStatus)
+  Payment -> ValueObject: "uses PaymentId, OrderId, Money, PaymentStatus" {
+    style: {stroke-dash: 4}
+  }
+}
+
+# ---------------------------------------
+# Cross-Aggregate Relationships (dashed)
+# ---------------------------------------
+OrderAggregate.Order -> UserAggregate.User: "placed by" {
+  style: {stroke-dash: 4}
+}
+
+OrderAggregate.OrderLineItem -> InventoryAggregate.Inventory: "refers to" {
+  style: {stroke-dash: 4}
+}
+
+PaymentAggregate.Payment -> OrderAggregate.Order: "for order" {
+  style: {stroke-dash: 4}
+}

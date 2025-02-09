@@ -1,0 +1,21 @@
+@startuml
+title Signup Flow
+
+participant "Frontend (React)" as FE
+participant "Firebase Authentication" as Firebase
+participant "API Gateway" as Gateway
+participant "Backend (User Service)" as BE
+database "Database" as DB
+
+== User Signup ==
+FE -> Firebase: Create account with email and password
+Firebase --> FE: Return JWT (ID Token)
+
+== Send Additional User Data to Backend ==
+FE -> Gateway: Send API Gateway Key and user data
+BE -> DB: Store user data (e.g., UID, name, phone)
+DB --> BE: Confirm data saved
+BE --> Gateway: Return success response
+Gateway --> FE: Forward success response
+
+@enduml
