@@ -14,3 +14,12 @@ d2 -w --layout=elk --sketch docs/d2-lang-diagram/aggregate-domain.d2 docs/aggreg
 
 d2 -w --layout=elk --sketch docs/d2-lang-diagram/value-object.d2 docs/value-object.svg
 d2 -w --layout=elk --sketch docs/d2-lang-diagram/value-object.d2 docs/value-object.png
+
+
+
+SonarQube
+
+mwc-java % mvn clean verify sonar:sonar \
+-Dsonar.projectKey=mwc-java \
+-Dsonar.host.url=http://localhost:9000 \
+-Dsonar.login=sqp_92183067deef7ab5d07a6a99501a306820fad200

@@ -11,11 +11,14 @@ import java.util.Optional;
 public class WarehouseDataAccessMapper {
 
     public Warehouse warehouseEntityToWarehouse(Optional<WarehouseEntity> warehouseEntity) {
+        WarehouseEntity entity = warehouseEntity.orElseThrow(() ->
+                new IllegalArgumentException("WarehouseEntity must not be empty")
+        );
         return Warehouse.builder()
-                .id(new WarehouseId(warehouseEntity.get().getId()))
-                .name(warehouseEntity.get().getName())
-                .latitude(warehouseEntity.get().getLatitude())
-                .longitude(warehouseEntity.get().getLongitude())
+                .id(new WarehouseId(entity.getId()))
+                .name(entity.getName())
+                .latitude(entity.getLatitude())
+                .longitude(entity.getLongitude())
                 .build();
     }
 
