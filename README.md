@@ -1,9 +1,16 @@
-# Microservices-java
+# Multi-Warehouse Commerce on Java Microservices
 
-This repository showcases a microservices-based application written in Java, featuring multiple services (Order, Inventory, User, Payment) and supporting infrastructure (Kubernetes, Terraform, CI/CD, etc.).
+**An online shop where every order ships from the warehouse nearest the customer, built as four services with DDD, CQRS and sagas.**
 
+One business rule, "ship from the closest warehouse that has the stock", touches inventory, geography, payment and consistency across services at once. This project takes the heavy route on purpose, to practise each trade-off:
 
-> **Quick Start:** For an easy-to-read overview and detailed guides, please visit our documentation site at [https://doc.fadellh.com/](https://doc.fadellh.com/).
+- **Nearest warehouse in one query**: Inventory keeps warehouses in PostGIS, so routing is a geospatial query, not distance math in Java.
+- **CQRS**: writes go to Postgres and PostGIS; events update MongoDB read models shaped for reading.
+- **Saga with compensations**: order, stock reservation and payment each have an undo step if a later step fails. No global transaction.
+- **Auth kept outside the services**: Firebase handles passwords and the API gateway checks tokens.
+- **Infrastructure as code**: GKE through Terraform, Kafka on the cluster, Locust load tests at 50, 300 and 600 concurrent users (results in [`docs/load-test-result/`](docs/load-test-result/)).
+
+Final project of a six-month senior software engineer programme, graded 99/100. Write-up with the trade-offs and what I would change: [A multi-warehouse shop built to practise every trade-off](https://fadellh.pages.dev/posts/a-multi-warehouse-shop-built-to-practise-every-trade-off/). Frontend: [mwc-react](https://github.com/fadellh/mwc-react).
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-green.svg)](https://opensource.org/licenses/Apache-2.0)
 
@@ -11,8 +18,6 @@ This repository showcases a microservices-based application written in Java, fea
 
 ## Table of Contents
 
-- [Microservices-java](#microservices-java)
-  - [Table of Contents](#table-of-contents)
   - [High-level Architecture](#high-level-architecture)
   - [Low-level Domain Architecture](#low-level-domain-architecture)
   - [Service Responsibilities](#service-responsibilities)
